@@ -6,7 +6,96 @@
     </head>
     <body ng-app="ManaDex" ng-controller="CardForm">
         <form ng-submit="addCard()">
-            <input type="submit"/>
+            <fieldset>
+                <div class="part name">
+                    <label>Name</label>
+                    <input type="text"/>
+                </div>
+                <div class="part cost">
+                    <label>Cost</label>
+                    <select name="red">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{ value }}</option>
+                    </select>
+                    <select name="black">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{ value }}</option>
+                    </select>
+                    <select name="blue">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{ value }}</option>
+                    </select>
+                    <select name="green">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{ value }}</option>
+                    </select>
+                    <select name="white">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{ value }}</option>
+                    </select>
+                    <select name="colorless">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{ value }}</option>
+                    </select>
+                    <select name="any">
+                        <option value="0">0</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{ value }}</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="part type">
+                    <label>Type</label>
+                    <select name="type" ng-model="type">
+                        <option ng-repeat="type in cardTypes">{{ type }}</option>
+                    </select>
+                </div>
+                <div class="part subtype">
+                    <label>Sub-Type</label>
+                    <input type="text" ng-model="subtype"/>
+                </div>
+                <div class="part expansion">
+                    <label>Expansion</label>
+                    <select name="expansion" ng-model="expansion">
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <textarea ng-model="description"></textarea>
+                <textarea ng-model="flavorText"></textarea>
+            </fieldset>
+            <fieldset>
+                <div class="part evergreen-keywords">
+                    <label>Evergreen keywords</label>
+                    <select name="keywords"></select>
+                </div>
+                <div class="part stats">
+                    <label>Power &amp; Toughness</label>
+                    <input type="text" ng-model="power"/>/
+                    <input type="text" ng-model="toughness"/>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="part collector-number">
+                    <label>Collector #</label>
+                    <input type="text" ng-model="collectorNumber"/>/{{ cardsInSet }}
+                </div>
+                <div class="part rarity">
+                    <label>Rarity</label>
+                    <select ng-model="rarity">
+                        <option ng-repeat="r in ['common', 'uncommon', 'rare', 'mythicRare']">{{ r }}</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <input type="submit"/>
+            </fieldset>
         </form>
         <script src="assets/js/angular.min.js"></script>
         <script src="assets/js/manadex.js"></script>
