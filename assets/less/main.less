@@ -1,5 +1,10 @@
-form {
+form.card-form {
+
+    border: 5px solid black;
+    border-radius: 5px;
     width: 650px;
+    background-color: #A4A4A4;
+
     label {
         display: block;
         font-family: sans-serif;
@@ -9,6 +14,18 @@ form {
 
     fieldset {
         border: none;
+        &.name-line,
+        &.type-line {
+            border: 1px solid #CCC;
+            border-radius: 15px;
+            margin: 5px;
+            background-color: #F2F2F2;
+        }
+        &.text-box {
+            border: 1px solid #CCC;
+            margin: 5px;
+            background-color: #FAFAFA;
+        }
     }
 
     input,
@@ -20,6 +37,27 @@ form {
     textarea {
         display: block;
         width: 100%;
+    }
+
+    .keywords {
+        margin: 5px;
+        label {
+            display: inline;
+        }
+    }
+
+    .stats {
+        padding: 10px;
+        margin-top: -35px;
+        border: 1px solid #CCC;
+        border-radius: 15px;
+        background-color: #F2F2F2;
+
+        input[type="number"] {
+            width: 30px;
+            border: none;
+            text-align: right;
+        }
     }
 
     .part {
@@ -34,6 +72,9 @@ form {
             float: right;
         }
         &.rarity {
+            float: right;
+        }
+        &.submit {
             float: right;
         }
     }

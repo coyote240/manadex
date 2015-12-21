@@ -5,11 +5,12 @@
         <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
     </head>
     <body ng-app="ManaDex" ng-controller="CardForm">
-        <form ng-submit="addCard()">
-            <fieldset>
+        <form class="card-form" ng-submit="addCard()">
+            <fieldset class="name-line">
                 <div class="part name">
+                    <!-- Put type-ahead on name field to prevent duplicate entry. -->
                     <label>Name</label>
-                    <input type="text"/>
+                    <input type="text" ng-model="card.name"/>
                 </div>
                 <div class="part cost">
                     <label>Cost</label>
@@ -49,16 +50,16 @@
                     </select>
                 </div>
             </fieldset>
-            <fieldset>
+            <fieldset class="type-line">
                 <div class="part type">
                     <label>Type</label>
-                    <select name="type" ng-model="type">
+                    <select name="type" ng-model="card.type">
                         <option ng-repeat="type in cardTypes">{{ type }}</option>
                     </select>
                 </div>
                 <div class="part subtype">
                     <label>Sub-Type</label>
-                    <input type="text" ng-model="subtype"/>
+                    <input type="text" ng-model="card.subtype"/>
                 </div>
                 <div class="part expansion">
                     <label>Expansion</label>
@@ -66,35 +67,38 @@
                     </select>
                 </div>
             </fieldset>
-            <fieldset>
-                <textarea ng-model="description"></textarea>
-                <textarea ng-model="flavorText"></textarea>
-            </fieldset>
-            <fieldset>
-                <div class="part evergreen-keywords">
-                    <label>Evergreen keywords</label>
-                    <select name="keywords"></select>
+            <fieldset class="text-box">
+                <textarea ng-model="card.description" rows="4" placeholder="Description..."></textarea>
+                <textarea ng-model="card.flavorText" rows="4" placeholder="Flavor text..."></textarea>
+                <div class="part keywords" ng-if="card.type === 'creature'">
+                    <label>Keywords</label>
+                    <select name="keywords" ng-model="card.keywords"></select>
                 </div>
+            </fieldset>
+            <fieldset ng-if="card.type === 'creature'">
                 <div class="part stats">
                     <label>Power &amp; Toughness</label>
-                    <input type="text" ng-model="power"/>/
-                    <input type="text" ng-model="toughness"/>
+                    <input type="number" min="0" ng-model="card.power"/>
+                    /
+                    <input type="number" max="20" ng-model="card.toughness"/>
                 </div>
             </fieldset>
             <fieldset>
                 <div class="part collector-number">
                     <label>Collector #</label>
-                    <input type="text" ng-model="collectorNumber"/>/{{ cardsInSet }}
+                    <input type="number" ng-model="card.collectorNumber"/>/{{ cardsInSet }}
                 </div>
                 <div class="part rarity">
                     <label>Rarity</label>
-                    <select ng-model="rarity">
-                        <option ng-repeat="r in ['common', 'uncommon', 'rare', 'mythicRare']">{{ r }}</option>
+                    <select ng-model="card.rarity">
+                        <option ng-repeat="rarity in ['common', 'uncommon', 'rare', 'mythicRare']">{{ rarity }}</option>
                     </select>
                 </div>
             </fieldset>
             <fieldset>
-                <input type="submit"/>
+                <div class="part submit">
+                    <input type="submit" value="Add to My Collection"/>
+                </div>
             </fieldset>
         </form>
         <script src="assets/js/angular.min.js"></script>
