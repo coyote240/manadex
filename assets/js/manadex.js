@@ -1,5 +1,5 @@
 angular.module('ManaDex', [])
-    .controller('CardForm', ['$scope', function ($scope) {
+    .controller('CardForm', ['$scope', 'CardService', function ($scope, CardService) {
         $scope.card = {
             power: 0,
             toughness: 0,
@@ -12,7 +12,21 @@ angular.module('ManaDex', [])
 
         $scope.addCard = function () {
             console.log('Adding Card');
-            console.log($scope.card);
+            console.log('$scope', $scope);
+            CardService.createCard($scope.card);
+        };
+    }])
+    .factory('CardService', ['$http', function ($http) {
+        return {
+            createCard: function (card) {
+                $http({
+                    method: 'POST',
+                    url: '/card',
+                    data: card
+                }).then(function (response) {
+                    console.log(response);
+                });
+            }
         };
     }])
     .factory('PartLookupService', ['$http', function ($http) {
@@ -22,11 +36,13 @@ angular.module('ManaDex', [])
              */
             nameTypeahead: function () {
             },
+
             /*
              *  Typeahead for known subtypes
              */
             subtypeTypeahead: function () {
             },
+
             /*
              *  Expansions is a big bit of info with a lot of attributes.
              *  Will put into DB

@@ -1,3 +1,4 @@
 *.css
 *.pyc
+data
 node_modules
