@@ -13,3 +13,15 @@ Magic: The Gathering card collections.
 
 There are likely plenty of programs out there for this, but this is fun
 for me to build and replaces my buddies' spreadsheets.
+
+## Running Manadex
+Make sure you have pip and virtualenv.  Also, manadex currently
+depends on mongodb, though this is likely to change once I've arrived
+at a stable schema.
+
+    virtualenv manadex
+    activate manadex
+    pip install -r requirements.txt
+    honcho start
+
+Then visit http://localhost:8888
