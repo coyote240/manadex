@@ -24,7 +24,23 @@ angular.module('ManaDex', [])
                     url: '/card',
                     data: card
                 }).then(function (response) {
-                    console.log(response);
+                    console.log('success', response);
+                }, function (response) {
+                    console.log('error', response);
+                });
+            },
+
+            deleteCard: function (id) {
+                $http({
+                    method: 'DELETE',
+                    url: '/card',
+                    data: {
+                        id: id
+                    }
+                }).then(function (response) {
+                    console.log('success', response);
+                }, function () {
+                    console.log('error', response);
                 });
             }
         };

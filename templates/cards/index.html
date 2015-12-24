@@ -83,7 +83,7 @@
                     <input type="number" max="20" ng-model="card.toughness"/>
                 </div>
             </fieldset>
-            <fieldset>
+            <fieldset class="collection-info">
                 <div class="part collector-number">
                     <label>Collector #</label>
                     <input type="number" ng-model="card.collectorNumber"/>/{{! cardsInSet }}
@@ -95,9 +95,13 @@
                     </select>
                 </div>
             </fieldset>
-            <fieldset>
+            <fieldset class="control">
+                <div class="part add-to-collection">
+                    <input type="checkbox" name="addToCollection" ng-model="addToCollection"/>
+                    <label>Add to my collection</label>
+                </div>
                 <div class="part submit">
-                    <input type="submit" value="Add to My Collection"/>
+                    <input type="submit" value="Add to Manadex"/>
                 </div>
             </fieldset>
         </form>

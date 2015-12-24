@@ -30,6 +30,7 @@ class Application(tornado.web.Application):
                help='The port on which this app will listen.')
         define('static_path', help='Location of static assets.')
         define('template_path', help='Location of template files.')
+        define('db_name', help='Name of database.')
         define('db_path', help='Path to mongodb instance.')
         define('cookie_secret', help='Cookie secret key')
         define('xsrf_cookies', default=True)
@@ -40,7 +41,7 @@ class Application(tornado.web.Application):
 
     def init_settings(self):
         db_client = motor.MotorClient(options.db_path)
-        db_ref = db_client['manadex']
+        db_ref = db_client[options.db_name]
 
         settings = {
             'debug': True,
