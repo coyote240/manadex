@@ -4,8 +4,9 @@
         <meta charset="utf-8"/>
         <link rel="stylesheet" type="text/css" href="/static/css/app.css"/>
     </head>
-    <body ng-app="ManaDex" ng-controller="CardForm">
-        <form name="cardForm" class="card-form" ng-submit="addCard()" novalidate>
+    <body ng-app="ManaDex">
+        <form name="cardForm" class="card-form" card-form="{{ card }}"
+            ng-submit="addCard()" novalidate>
             <input type="hidden" ng-model="card.id" value="{{! card.id }}"/>
             <fieldset class="name-line">
                 <div class="part name">
@@ -111,7 +112,7 @@
                 </div>
             </fieldset>
         </form>
-        <pre>{{ card }}</pre>
+        <a href="/cards">Back to list</a>
         <script src="/static/js/angular.min.js"></script>
         <script src="/static/js/manadex.js"></script>
     </body>

@@ -1,34 +1,50 @@
 angular.module('ManaDex', [])
     .controller('CardList', ['$scope', 'CardService', function ($scope, CardService) {
     }])
-    .controller('CardForm', ['$scope', 'CardService', 'PartLookupService', '$window',
-    function ($scope, CardService, PartLookupService, $window) {
-        $scope.card = {
-            _id: 0,
-            power: 0,
-            toughness: 0,
-            type: 'creature',
-            rarity: 'common',
-            collectorNumber: 0
-        };
+    .directive('cardForm', ['CardService', 'PartLookupService', '$window', function (CardService, PartLookupService, $window) {
 
-        $scope.cardsInSet = 0;
-        $scope.cardTypes = ['creature', 'enchantment', 'sorcery', 'instant',
-                            'artifact', 'planeswalker', 'land'];
+        /* TODO:
+         * If _id is zero, create
+         * else update.
+         *
+         * Setting the expansion doesn't update cards in set count.
+         */
 
-        $scope.expansions = PartLookupService.getExpansions();
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                var card = JSON.parse(attrs.cardForm, '{}');
+                angular.extend(scope.card, card);
+            },
+            controller: function ($scope, $element, $attrs) {
+                $scope.card = {
+                    _id: 0,
+                    power: 0,
+                    toughness: 0,
+                    type: 'creature',
+                    rarity: 'common',
+                    collectorNumber: 0
+                };
 
-        $scope.updateCardsInSet = function () {
-            $scope.cardsInSet = $scope.expansions[$scope.card.expansion].cardsInSet;
-        };
+                $scope.cardsInSet = 0;
+                $scope.cardTypes = ['creature', 'enchantment', 'sorcery', 'instant',
+                                    'artifact', 'planeswalker', 'land'];
 
-        $scope.addCard = function () {
-            if($scope.cardForm.$invalid) {
-                return false;
+                $scope.expansions = PartLookupService.getExpansions();
+
+                $scope.updateCardsInSet = function () {
+                    $scope.cardsInSet = $scope.expansions[$scope.card.expansion].cardsInSet;
+                };
+
+                $scope.addCard = function () {
+                    if($scope.cardForm.$invalid) {
+                        return false;
+                    }
+                    CardService.createCard($scope.card).then(function () {
+                        $window.location.href = '/cards';
+                    });
+                };
             }
-            CardService.createCard($scope.card).then(function () {
-                $window.location.href = '/cards';
-            });
         };
     }])
     .factory('CardService', ['$http', function ($http) {
