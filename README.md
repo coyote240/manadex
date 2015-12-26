@@ -25,3 +25,15 @@ at a stable schema.
     honcho start
 
 Then visit http://localhost:8888
+
+/index.html     - latest cards, decks, etc.
+
+/cards          - latest cards, search
+/cards/{id}     - single card display
+/cards/new      - create card form
+/api/cards      - RESTful card api, CRUD
+
+/decks          - latest decks, search
+/decks/{id}     - single deck display
+/decks/new      - create deck form
+/api/decks      - RESTful deck api, CRUD

@@ -59,7 +59,10 @@ class Application(tornado.web.Application):
     def init_handlers(self):
         self.handlers = [
             (r'/', handlers.IndexHandler),
-            (r'/card', handlers.CardHandler)]
+            (r'/cards/new', handlers.CardFormHandler),
+            (r'/cards/edit/([a-zA-Z0-9]*)', handlers.CardFormHandler),
+            (r'/cards(/?[a-zA-Z0-9]*)', handlers.CardHandler),
+            (r'/api/cards', handlers.CardAPIHandler)]
 
     def init_signal_handlers(self):
         signal.signal(signal.SIGINT, self.interrupt_handler)

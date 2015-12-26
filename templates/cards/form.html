@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/app.css"/>
+    </head>
+    <body ng-app="ManaDex" ng-controller="CardForm">
+        <form name="cardForm" class="card-form" ng-submit="addCard()" novalidate>
+            <input type="hidden" ng-model="card.id" value="{{! card.id }}"/>
+            <fieldset class="name-line">
+                <div class="part name">
+                    <!-- Put type-ahead on name field to prevent duplicate entry. -->
+                    <label>Name</label>
+                    <input type="text" ng-model="card.name" required/>
+                </div>
+                <div class="part cost">
+                    <label>Cost</label>
+                    <select name="red">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
+                    </select>
+                    <select name="black">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                    </select>
+                    <select name="blue">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                    </select>
+                    <select name="green">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                    </select>
+                    <select name="white">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                    </select>
+                    <select name="colorless">
+                        <option value="0">0</option>
+                        <option value="X">X</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                    </select>
+                    <select name="any">
+                        <option value="0">0</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset class="type-line">
+                <div class="part type">
+                    <label>Type</label>
+                    <select name="type" ng-model="card.type">
+                        <option ng-repeat="type in cardTypes">{{! type }}</option>
+                    </select>
+                </div>
+                <div class="part subtype">
+                    <label>Sub-Type</label>
+                    <input type="text" ng-model="card.subtype" required/>
+                </div>
+                <div class="part expansion">
+                    <label>Expansion</label>
+                    <select name="expansion" ng-model="card.expansion" ng-change="updateCardsInSet()">
+                        <option ng-repeat="(code, expansion) in expansions" value="{{! code }}">
+                        {{! expansion.name }}
+                        </option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset class="text-box">
+                <textarea ng-model="card.description" rows="4" placeholder="Description..."></textarea>
+                <textarea ng-model="card.flavorText" rows="4" placeholder="Flavor text..."></textarea>
+                <div class="part keywords" ng-if="card.type === 'creature'">
+                    <label>Keywords</label>
+                    <select name="keywords" ng-model="card.keywords"></select>
+                </div>
+            </fieldset>
+            <fieldset ng-if="card.type === 'creature'">
+                <div class="part stats">
+                    <label>Power &amp; Toughness</label>
+                    <input type="number" min="0" ng-model="card.power"/>
+                    /
+                    <input type="number" max="20" ng-model="card.toughness"/>
+                </div>
+            </fieldset>
+            <fieldset class="collection-info">
+                <div class="part collector-number">
+                    <label>Collector #</label>
+                    <input type="number" ng-model="card.collectorNumber" min="0" max="{{! cardsInSet }}"/>
+                    /
+                    {{! cardsInSet }}
+                </div>
+                <div class="part rarity">
+                    <label>Rarity</label>
+                    <select ng-model="card.rarity">
+                        <option ng-repeat="rarity in ['common', 'uncommon', 'rare', 'mythicRare']">{{! rarity }}</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset class="control">
+                <div class="part add-to-collection">
+                    <input type="checkbox" name="addToCollection" ng-model="addToCollection"/>
+                    <label>Add to my collection</label>
+                </div>
+                <div class="part submit">
+                    <input type="submit" value="Add to Manadex"/>
+                </div>
+            </fieldset>
+        </form>
+        <pre>{{ card }}</pre>
+        <script src="/static/js/angular.min.js"></script>
+        <script src="/static/js/manadex.js"></script>
+    </body>
+</html>

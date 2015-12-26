@@ -1,27 +1,56 @@
 angular.module('ManaDex', [])
-    .controller('CardForm', ['$scope', 'CardService', function ($scope, CardService) {
+    .controller('CardList', ['$scope', 'CardService', function ($scope, CardService) {
+    }])
+    .controller('CardForm', ['$scope', 'CardService', 'PartLookupService', '$window',
+    function ($scope, CardService, PartLookupService, $window) {
         $scope.card = {
+            _id: 0,
             power: 0,
             toughness: 0,
             type: 'creature',
-            rarity: 'common'
+            rarity: 'common',
+            collectorNumber: 0
         };
+
         $scope.cardsInSet = 0;
         $scope.cardTypes = ['creature', 'enchantment', 'sorcery', 'instant',
                             'artifact', 'planeswalker', 'land'];
 
+        $scope.expansions = PartLookupService.getExpansions();
+
+        $scope.updateCardsInSet = function () {
+            $scope.cardsInSet = $scope.expansions[$scope.card.expansion].cardsInSet;
+        };
+
         $scope.addCard = function () {
-            console.log('Adding Card');
-            console.log('$scope', $scope);
-            CardService.createCard($scope.card);
+            if($scope.cardForm.$invalid) {
+                return false;
+            }
+            CardService.createCard($scope.card).then(function () {
+                $window.location.href = '/cards';
+            });
         };
     }])
     .factory('CardService', ['$http', function ($http) {
         return {
             createCard: function (card) {
-                $http({
+                return $http({
                     method: 'POST',
-                    url: '/card',
+                    url: '/api/cards',
+                    data: card
+                }).then(function (response) {
+                    console.log('success', response);
+                    return response;
+                }, function (response) {
+                    console.log('error', response);
+                    return response;
+                });
+            },
+
+            updateCard: function (card) {
+                return $http({
+                    method: 'PUT',
+                    url: '/api/cards',
                     data: card
                 }).then(function (response) {
                     console.log('success', response);
@@ -31,9 +60,9 @@ angular.module('ManaDex', [])
             },
 
             deleteCard: function (id) {
-                $http({
+                return $http({
                     method: 'DELETE',
-                    url: '/card',
+                    url: '/api/cards',
                     data: {
                         id: id
                     }
@@ -46,6 +75,17 @@ angular.module('ManaDex', [])
         };
     }])
     .factory('PartLookupService', ['$http', function ($http) {
+        var expansions = {
+            ORI: {
+                name: 'Magic Origins',
+                code: 'ORI',
+                cardsInSet: 272
+            },
+            BFZ: {
+                name: 'Battle for Zendikar',
+                code: 'BFZ',
+                cardsInSet: 274
+            }};
         return {
             /*
              *  Needs planning, typeahead search on name field
@@ -65,6 +105,7 @@ angular.module('ManaDex', [])
              *  http://mtgsalvation.gamepedia.com/Expansion#List_of_Magic_expansions_and_sets
              */
             getExpansions: function () {
+                return expansions;
             },
 
             /*

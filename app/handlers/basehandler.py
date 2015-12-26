@@ -1,5 +1,8 @@
+import json
 import httplib
 import tornado.web
+
+from bson.objectid import ObjectId
 
 
 def server_settings(handler):
@@ -26,3 +29,10 @@ class BaseHandler(tornado.web.RequestHandler):
 class BaseStaticHandler(tornado.web.StaticFileHandler):
     def set_default_headers(self):
         server_settings(self)
+
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.Encoder.default(self, o)
