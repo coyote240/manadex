@@ -1,3 +1,4 @@
+import re
 import json
 import logging
 
@@ -5,6 +6,16 @@ from tornado import gen
 from bson.objectid import ObjectId
 
 import handlers
+
+
+gen_delims = r'[:\/\?#\[\]@\s+]'
+sub_delims = r'[!\$&\'\(\)\*\+,;=]'
+
+
+def sanitize_name(name):
+    name = re.sub(gen_delims, '-', name)
+    name = re.sub(sub_delims, '', name)
+    return name
 
 
 class CardHandler(handlers.BaseHandler):
@@ -37,8 +48,9 @@ class CardFormHandler(handlers.BaseHandler):
             card = yield self.collection.find_one(ObjectId(id))
             if card is None:
                 self.redirect('/cards')
+                return
 
-        card_json = handlers.JSONEncoder().encode(card)
+        card_json = self.encode_json(card)
         self.render('cards/form.html',
                     card=card_json)
 
@@ -62,11 +74,21 @@ class CardAPIHandler(handlers.BaseHandler):
 
     @gen.coroutine
     def put(self):
-        logging.warning(self.request.body)
         card = json.loads(self.request.body)
+        logging.warning(type(card))
+        id = card.get('_id')
+        del card['_id']
+        logging.warning(card)
 
-        result = yield self.collection.update({'_id': card['id']}, card)
+        result = yield self.collection.update({'_id': ObjectId(id)}, card)
         self.write(result)
 
+    @gen.coroutine
     def delete(self):
-        pass
+        logging.warning(self.request.body)
+        card = json.loads(self.request.body)
+        id = card.get('_id')
+        del card['_id']
+
+        result = yield self.collection.remove({'_id': ObjectId(id)})
+        self.write(result)

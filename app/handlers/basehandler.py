@@ -25,6 +25,9 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         return self.get_secure_cookie('user')
 
+    def encode_json(self, record):
+        return JSONEncoder().encode(record)
+
 
 class BaseStaticHandler(tornado.web.StaticFileHandler):
     def set_default_headers(self):

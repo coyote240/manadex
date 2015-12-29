@@ -1,5 +1,15 @@
 angular.module('ManaDex', [])
-    .controller('CardList', ['$scope', 'CardService', function ($scope, CardService) {
+    .controller('CardList', ['$scope', 'CardService', '$document', function ($scope, CardService, $document) {
+        $scope.removeItem = function (id) {
+            var element = document.getElementById(id);
+            element.parentElement.removeChild(element);
+        };
+
+        $scope.deleteCard = function (id) {
+            CardService.deleteCard(id).then(function () {
+                $scope.removeItem(id);
+            });
+        };
     }])
     .directive('cardForm', ['CardService', 'PartLookupService', '$window', function (CardService, PartLookupService, $window) {
 
@@ -8,6 +18,11 @@ angular.module('ManaDex', [])
          * else update.
          *
          * Setting the expansion doesn't update cards in set count.
+         *
+         * Get the mana selectors under control
+         * Perhaps a directive?  How to show color?
+         *
+         * Should only show validation on submit
          */
 
         return {
@@ -18,7 +33,6 @@ angular.module('ManaDex', [])
             },
             controller: function ($scope, $element, $attrs) {
                 $scope.card = {
-                    _id: 0,
                     power: 0,
                     toughness: 0,
                     type: 'creature',
@@ -40,7 +54,7 @@ angular.module('ManaDex', [])
                     if($scope.cardForm.$invalid) {
                         return false;
                     }
-                    CardService.createCard($scope.card).then(function () {
+                    CardService.createOrUpdateCard($scope.card).then(function () {
                         $window.location.href = '/cards';
                     });
                 };
@@ -49,6 +63,12 @@ angular.module('ManaDex', [])
     }])
     .factory('CardService', ['$http', function ($http) {
         return {
+            createOrUpdateCard: function (card) {
+                console.log('create or update', card);
+                var promise = card._id ? this.createCard(card) : this.updateCard(card);
+                return promise;
+            },
+
             createCard: function (card) {
                 return $http({
                     method: 'POST',
@@ -80,7 +100,7 @@ angular.module('ManaDex', [])
                     method: 'DELETE',
                     url: '/api/cards',
                     data: {
-                        id: id
+                        _id: id
                     }
                 }).then(function (response) {
                     console.log('success', response);

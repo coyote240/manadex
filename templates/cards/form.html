@@ -7,7 +7,7 @@
     <body ng-app="ManaDex">
         <form name="cardForm" class="card-form" card-form="{{ card }}"
             ng-submit="addCard()" novalidate>
-            <input type="hidden" ng-model="card.id" value="{{! card.id }}"/>
+            <input type="hidden" ng-model="card._id" value="{{! card._id }}"/>
             <fieldset class="name-line">
                 <div class="part name">
                     <!-- Put type-ahead on name field to prevent duplicate entry. -->
@@ -24,31 +24,31 @@
                     <select name="black">
                         <option value="0">0</option>
                         <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
                     </select>
                     <select name="blue">
                         <option value="0">0</option>
                         <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
                     </select>
                     <select name="green">
                         <option value="0">0</option>
                         <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
                     </select>
                     <select name="white">
                         <option value="0">0</option>
                         <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
                     </select>
                     <select name="colorless">
                         <option value="0">0</option>
                         <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
                     </select>
                     <select name="any">
                         <option value="0">0</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{! value }}</option>
+                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
                     </select>
                 </div>
             </fieldset>
@@ -73,8 +73,10 @@
                 </div>
             </fieldset>
             <fieldset class="text-box">
-                <textarea ng-model="card.description" rows="4" placeholder="Description..."></textarea>
-                <textarea ng-model="card.flavorText" rows="4" placeholder="Flavor text..."></textarea>
+                <textarea name="description" ng-model="card.description"
+                    rows="4" placeholder="Description..."></textarea>
+                <textarea name="flavorText" ng-model="card.flavorText"
+                    rows="4" placeholder="Flavor text..."></textarea>
                 <div class="part keywords" ng-if="card.type === 'creature'">
                     <label>Keywords</label>
                     <select name="keywords" ng-model="card.keywords"></select>

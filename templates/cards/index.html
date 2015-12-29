@@ -6,14 +6,36 @@
     </head>
     <body ng-app="ManaDex" ng-controller="CardList">
         <a href="/cards/new">Create Card</a>
-        <ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Rarity</th>
+                    <th>Mana Cost</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
             {% for card in cards %}
-            <li>{{ card.get('name') }}
-                <a href="/cards/edit/{{ card.get('_id') }}">Edit</a>
-                |
-                <a href="">Delete</a>
-            </li>
+                <tr id="{{ card.get('_id') }}">
+                    <td>{{ card.get('name') }}</td>
+                    <td>{{ card.get('type') }}</td>
+                    <td>{{ card.get('rarity') }}</td>
+                    <td>{{ card.get('cost') }}</td>
+                    <td>
+                        <a href="/cards/edit/{{ card.get('_id') }}">Edit</a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);"
+                            ng-click="deleteCard('{{ card.get('_id') }}')">Delete</a>
+                    </td>
+                </tr>
             {% end %}
-        </ul>
+            </tbody>
+        </table>
+        <script src="/static/js/angular.min.js"></script>
+        <script src="/static/js/manadex.js"></script>
     </body>
 </html>
