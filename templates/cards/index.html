@@ -19,17 +19,17 @@
             </thead>
             <tbody>
             {% for card in cards %}
-                <tr id="{{ card.get('_id') }}">
+                <tr id="{{ card.get('sanitized_name') }}">
                     <td>{{ card.get('name') }}</td>
                     <td>{{ card.get('type') }}</td>
                     <td>{{ card.get('rarity') }}</td>
                     <td>{{ card.get('cost') }}</td>
                     <td>
-                        <a href="/cards/edit/{{ card.get('_id') }}">Edit</a>
+                        <a href="/cards/edit/{{ card.get('sanitized_name') }}">Edit</a>
                     </td>
                     <td>
                         <a href="javascript:void(0);"
-                            ng-click="deleteCard('{{ card.get('_id') }}')">Delete</a>
+                            ng-click="deleteCard('{{ card.get('sanitized_name') }}')">Delete</a>
                     </td>
                 </tr>
             {% end %}

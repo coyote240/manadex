@@ -8,22 +8,17 @@ from bson.objectid import ObjectId
 import handlers
 
 
-gen_delims = r'[:\/\?#\[\]@\s+]'
-sub_delims = r'[!\$&\'\(\)\*\+,;=]'
+gen_delims = r'[:\/\?#\[\]@\s]+'
+sub_delims = r'[!\$&\'\(\)\*\+,;=]+'
 
 
 def sanitize_name(name):
     name = re.sub(gen_delims, '-', name)
     name = re.sub(sub_delims, '', name)
-    return name
+    return name.lower()
 
 
 class CardHandler(handlers.BaseHandler):
-    '''
-    Card display handler
-
-    Return a 404 when id is not found.
-    '''
 
     def prepare(self):
         self.collection = self.settings['db_ref']['cards']
@@ -42,10 +37,10 @@ class CardFormHandler(handlers.BaseHandler):
         self.collection = self.settings['db_ref']['cards']
 
     @gen.coroutine
-    def get(self, id=None):
+    def get(self, name=None):
         card = None
-        if id is not None:
-            card = yield self.collection.find_one(ObjectId(id))
+        if name is not None:
+            card = yield self.collection.find_one({'sanitized_name': name})
             if card is None:
                 self.redirect('/cards')
                 return
@@ -67,6 +62,8 @@ class CardAPIHandler(handlers.BaseHandler):
     def post(self):
         logging.warning(self.request.body)
         card = json.loads(self.request.body)
+
+        card['sanitized_name'] = sanitize_name(card.get('name'))
 
         future = self.collection.insert(card)
         id = yield future

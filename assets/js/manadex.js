@@ -54,7 +54,7 @@ angular.module('ManaDex', [])
                     if($scope.cardForm.$invalid) {
                         return false;
                     }
-                    CardService.createOrUpdateCard($scope.card).then(function () {
+                    CardService.createCard($scope.card).then(function () {
                         $window.location.href = '/cards';
                     });
                 };
