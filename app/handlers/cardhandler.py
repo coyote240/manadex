@@ -3,7 +3,6 @@ import json
 import logging
 
 from tornado import gen
-from bson.objectid import ObjectId
 
 import handlers
 
@@ -40,7 +39,8 @@ class CardFormHandler(handlers.BaseHandler):
     def get(self, name=None):
         card = None
         if name is not None:
-            card = yield self.collection.find_one({'sanitized_name': name})
+            card = yield self.collection.find_one(
+                {'sanitized_name': name}, {'_id': 0})
             if card is None:
                 self.redirect('/cards')
                 return
@@ -54,38 +54,27 @@ class CardAPIHandler(handlers.BaseHandler):
 
     def prepare(self):
         self.collection = self.settings['db_ref']['cards']
+        logging.warning(self.request.body)
+        self.card = json.loads(self.request.body)
 
     def get(self):
         self.render('cards/form.html', xsrf_token=self.xsrf_token)
 
     @gen.coroutine
     def post(self):
-        logging.warning(self.request.body)
-        card = json.loads(self.request.body)
-
-        card['sanitized_name'] = sanitize_name(card.get('name'))
-
-        future = self.collection.insert(card)
+        self.card['sanitized_name'] = sanitize_name(self.card.get('name'))
+        future = self.collection.insert(self.card)
         id = yield future
         self.write(str(id))
 
     @gen.coroutine
     def put(self):
-        card = json.loads(self.request.body)
-        logging.warning(type(card))
-        id = card.get('_id')
-        del card['_id']
-        logging.warning(card)
-
-        result = yield self.collection.update({'_id': ObjectId(id)}, card)
+        result = yield self.collection.update(
+            {'santized_name': self.card.get('sanitized_name')}, self.card)
         self.write(result)
 
     @gen.coroutine
     def delete(self):
-        logging.warning(self.request.body)
-        card = json.loads(self.request.body)
-        id = card.get('_id')
-        del card['_id']
-
-        result = yield self.collection.remove({'_id': ObjectId(id)})
+        result = yield self.collection.remove(
+            {'sanitized_name': self.card.get('sanitized_name')})
         self.write(result)

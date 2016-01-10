@@ -45,6 +45,12 @@ form.card-form {
         width: 100%;
     }
 
+    .cost {
+        input[type="number"] {
+            width: 30px;
+        }
+    }
+
     .keywords {
         margin: 5px;
         label {
@@ -84,9 +90,15 @@ form.card-form {
         display: inline-block;
         &.cost {
             float: right;
+            label {
+                text-align: right;
+            }
         }
         &.expansion {
             float: right;
+            label {
+                text-align: right;
+            }
         }
         &.stats {
             float: right;

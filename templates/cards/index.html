@@ -1,41 +1,39 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" type="text/css" href="static/css/app.css"/>
-    </head>
-    <body ng-app="ManaDex" ng-controller="CardList">
-        <a href="/cards/new">Create Card</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Rarity</th>
-                    <th>Mana Cost</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for card in cards %}
-                <tr id="{{ card.get('sanitized_name') }}">
-                    <td>{{ card.get('name') }}</td>
-                    <td>{{ card.get('type') }}</td>
-                    <td>{{ card.get('rarity') }}</td>
-                    <td>{{ card.get('cost') }}</td>
-                    <td>
-                        <a href="/cards/edit/{{ card.get('sanitized_name') }}">Edit</a>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0);"
-                            ng-click="deleteCard('{{ card.get('sanitized_name') }}')">Delete</a>
-                    </td>
-                </tr>
-            {% end %}
-            </tbody>
-        </table>
-        <script src="/static/js/angular.min.js"></script>
-        <script src="/static/js/manadex.js"></script>
-    </body>
-</html>
+{% extends "../base.html" %}
+
+{% block content %}
+<section ng-controller="CardList">
+    <a href="/cards/new">Create Card</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Rarity</th>
+                <th>Mana Cost</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for card in cards %}
+            <tr id="{{ card.get('sanitized_name') }}">
+                <td>{{ card.get('name') }}</td>
+                <td>{{ card.get('type') }}</td>
+                <td>{{ card.get('rarity') }}</td>
+                <td>{{ card.get('cost') }}</td>
+                <td>
+                    <a href="/cards/edit/{{ card.get('sanitized_name') }}">Edit</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0);"
+                        ng-click="deleteCard('{{ card.get('sanitized_name') }}')">Delete</a>
+                </td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+</section>
+<script src="/static/js/angular.min.js"></script>
+<script src="/static/js/manadex.js"></script>
+<script src="/static/js/mana-selector/mana-selector.js"></script>
+{% end %}

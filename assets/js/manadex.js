@@ -1,4 +1,4 @@
-angular.module('ManaDex', [])
+angular.module('ManaDex', ['ManaSelectorModule'])
     .controller('CardList', ['$scope', 'CardService', '$document', function ($scope, CardService, $document) {
         $scope.removeItem = function (id) {
             var element = document.getElementById(id);
@@ -14,15 +14,10 @@ angular.module('ManaDex', [])
     .directive('cardForm', ['CardService', 'PartLookupService', '$window', function (CardService, PartLookupService, $window) {
 
         /* TODO:
-         * If _id is zero, create
-         * else update.
-         *
          * Setting the expansion doesn't update cards in set count.
          *
          * Get the mana selectors under control
          * Perhaps a directive?  How to show color?
-         *
-         * Should only show validation on submit
          */
 
         return {
@@ -58,6 +53,10 @@ angular.module('ManaDex', [])
                         $window.location.href = '/cards';
                     });
                 };
+
+                $scope.$watch('manaCost', function (newVal) {
+                    console.log('manaCost', newVal);
+                });
             }
         };
     }])
@@ -95,16 +94,16 @@ angular.module('ManaDex', [])
                 });
             },
 
-            deleteCard: function (id) {
+            deleteCard: function (sanitized_name) {
                 return $http({
                     method: 'DELETE',
                     url: '/api/cards',
                     data: {
-                        _id: id
+                        sanitized_name: sanitized_name 
                     }
                 }).then(function (response) {
                     console.log('success', response);
-                }, function () {
+                }, function (response) {
                     console.log('error', response);
                 });
             }
