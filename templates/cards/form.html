@@ -7,7 +7,6 @@
     <body ng-app="ManaDex">
         <form name="cardForm" class="card-form" card-form="{{ card }}"
             ng-submit="addCard()" novalidate>
-            <input type="hidden" ng-model="card._id" value="{{! card._id }}"/>
             <fieldset class="name-line">
                 <div class="part name">
                     <!-- Put type-ahead on name field to prevent duplicate entry. -->
@@ -16,40 +15,7 @@
                 </div>
                 <div class="part cost">
                     <label>Cost</label>
-                    <select name="red">
-                        <option value="0">0</option>
-                        <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
-                    </select>
-                    <select name="black">
-                        <option value="0">0</option>
-                        <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
-                    </select>
-                    <select name="blue">
-                        <option value="0">0</option>
-                        <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
-                    </select>
-                    <select name="green">
-                        <option value="0">0</option>
-                        <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
-                    </select>
-                    <select name="white">
-                        <option value="0">0</option>
-                        <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
-                    </select>
-                    <select name="colorless">
-                        <option value="0">0</option>
-                        <option value="X">X</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
-                    </select>
-                    <select name="any">
-                        <option value="0">0</option>
-                        <option ng-repeat="value in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-bind="value"/>
-                    </select>
+                    <div mana-selector ng-model="card.manaCost"></div>
                 </div>
             </fieldset>
             <fieldset class="type-line">
@@ -65,7 +31,7 @@
                 </div>
                 <div class="part expansion">
                     <label>Expansion</label>
-                    <select name="expansion" ng-model="card.expansion" ng-change="updateCardsInSet()">
+                    <select name="expansion" ng-model="card.expansion" required>
                         <option ng-repeat="(code, expansion) in expansions" value="{{! code }}">
                         {{! expansion.name }}
                         </option>
@@ -95,7 +61,7 @@
                     <label>Collector #</label>
                     <input type="number" ng-model="card.collectorNumber" min="0" max="{{! cardsInSet }}"/>
                     /
-                    {{! cardsInSet }}
+                    {{! cardsInSet() }}
                 </div>
                 <div class="part rarity">
                     <label>Rarity</label>
@@ -110,12 +76,14 @@
                     <label>Add to my collection</label>
                 </div>
                 <div class="part submit">
-                    <input type="submit" value="Add to Manadex"/>
+                    <input type="submit" ng-if="!card.sanitized_name" value="Add Card"/>
+                    <input type="submit" ng-if="card.sanitized_name" value="Update Card"/>
                 </div>
             </fieldset>
         </form>
         <a href="/cards">Back to list</a>
         <script src="/static/js/angular.min.js"></script>
         <script src="/static/js/manadex.js"></script>
+        <script src="/static/js/mana-selector/mana-selector.js"></script>
     </body>
 </html>

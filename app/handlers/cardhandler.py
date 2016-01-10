@@ -63,6 +63,15 @@ class CardAPIHandler(handlers.BaseHandler):
     @gen.coroutine
     def post(self):
         self.card['sanitized_name'] = sanitize_name(self.card.get('name'))
+
+        existing = yield self.collection.find_one(
+            {'sanitized_name': self.card.get('sanitized_name'),
+             'expansion': self.card.get('expansion')})
+        logging.warning(existing)
+        if existing is not None:
+            self.send_error(status_code=409, reason='Card already exists')
+            return
+
         future = self.collection.insert(self.card)
         id = yield future
         self.write(str(id))
@@ -70,7 +79,8 @@ class CardAPIHandler(handlers.BaseHandler):
     @gen.coroutine
     def put(self):
         result = yield self.collection.update(
-            {'santized_name': self.card.get('sanitized_name')}, self.card)
+            {'sanitized_name': self.card.get('sanitized_name'),
+             'expansion': self.card.get('expansion')}, self.card)
         self.write(result)
 
     @gen.coroutine

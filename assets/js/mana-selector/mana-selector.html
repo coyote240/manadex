@@ -1,0 +1,9 @@
+<a ng-href="#" ng-click="addMana($event)">+</a>
+<div class="part color" ng-repeat="color in mana">
+    <select>
+        <option ng-repeat="c in colors" 
+                value="{{ c }}"
+                ng-selected="color.color == c">{{ c }}</option>
+    </select>
+    <input type="number" min="0" max="10" value="{{ color.value }}"/>
+</div>

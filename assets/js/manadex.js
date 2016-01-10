@@ -13,13 +13,6 @@ angular.module('ManaDex', ['ManaSelectorModule'])
     }])
     .directive('cardForm', ['CardService', 'PartLookupService', '$window', function (CardService, PartLookupService, $window) {
 
-        /* TODO:
-         * Setting the expansion doesn't update cards in set count.
-         *
-         * Get the mana selectors under control
-         * Perhaps a directive?  How to show color?
-         */
-
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -30,6 +23,7 @@ angular.module('ManaDex', ['ManaSelectorModule'])
                 $scope.card = {
                     power: 0,
                     toughness: 0,
+                    expansion: null,
                     type: 'creature',
                     rarity: 'common',
                     collectorNumber: 0
@@ -41,20 +35,27 @@ angular.module('ManaDex', ['ManaSelectorModule'])
 
                 $scope.expansions = PartLookupService.getExpansions();
 
-                $scope.updateCardsInSet = function () {
-                    $scope.cardsInSet = $scope.expansions[$scope.card.expansion].cardsInSet;
+                $scope.cardsInSet = function () {
+                    var expansion = $scope.expansions[$scope.card.expansion];
+                    if(expansion) {
+                        return expansion.cardsInSet;
+                    } else {
+                        return 0;
+                    }
                 };
 
                 $scope.addCard = function () {
                     if($scope.cardForm.$invalid) {
                         return false;
                     }
-                    CardService.createCard($scope.card).then(function () {
+                    CardService.createOrUpdateCard($scope.card).then(function () {
                         $window.location.href = '/cards';
+                    }, function (response) {
+                        console.log(response);
                     });
                 };
 
-                $scope.$watch('manaCost', function (newVal) {
+                $scope.$watch('card.manaCost', function (newVal) {
                     console.log('manaCost', newVal);
                 });
             }
@@ -64,7 +65,7 @@ angular.module('ManaDex', ['ManaSelectorModule'])
         return {
             createOrUpdateCard: function (card) {
                 console.log('create or update', card);
-                var promise = card._id ? this.createCard(card) : this.updateCard(card);
+                var promise = card.sanitized_name ? this.updateCard(card) : this.createCard(card);
                 return promise;
             },
 
