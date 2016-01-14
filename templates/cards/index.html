@@ -20,7 +20,17 @@
                 <td>{{ card.get('name') }}</td>
                 <td>{{ card.get('type') }}</td>
                 <td>{{ card.get('rarity') }}</td>
-                <td>{{ card.get('cost') }}</td>
+                <td>
+                    {% for item in card.get('manaCost', []) %}
+                        {% if item['color'] == 'generic' %}
+                        <span class="mana {{ item['color'] }}">{{ item['value'] }}</span>
+                        {% else %}
+                            {% for i in range(0, item['value']) %}
+                            <span class="mana {{ item['color'] }}"></span>
+                            {% end %}
+                        {% end %}
+                    {% end %}
+                </td>
                 <td>
                     <a href="/cards/edit/{{ card.get('sanitized_name') }}">Edit</a>
                 </td>
