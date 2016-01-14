@@ -54,17 +54,12 @@ angular.module('ManaDex', ['ManaSelectorModule'])
                         console.log(response);
                     });
                 };
-
-                $scope.$watch('card.manaCost', function (newVal) {
-                    console.log('manaCost', newVal);
-                });
             }
         };
     }])
     .factory('CardService', ['$http', function ($http) {
         return {
             createOrUpdateCard: function (card) {
-                console.log('create or update', card);
                 var promise = card.sanitized_name ? this.updateCard(card) : this.createCard(card);
                 return promise;
             },
