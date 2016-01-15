@@ -55,13 +55,19 @@ class CardAPIHandler(handlers.BaseHandler):
     def prepare(self):
         self.collection = self.settings['db_ref']['cards']
         logging.warning(self.request.body)
-        self.card = json.loads(self.request.body)
 
+    @gen.coroutine
     def get(self):
-        self.render('cards/form.html', xsrf_token=self.xsrf_token)
+        query = self.get_argument('q')
+        cursor = self.collection.find(
+            {'name': {'$regex': r'^{0}'.format(query), '$options': 'i'}},
+            {'_id': 0})
+        found = yield cursor.to_list(length=None)
+        self.write(self.encode_json(found))
 
     @gen.coroutine
     def post(self):
+        self.card = json.loads(self.request.body)
         self.card['sanitized_name'] = sanitize_name(self.card.get('name'))
 
         existing = yield self.collection.find_one(
@@ -78,6 +84,7 @@ class CardAPIHandler(handlers.BaseHandler):
 
     @gen.coroutine
     def put(self):
+        self.card = json.loads(self.request.body)
         result = yield self.collection.update(
             {'sanitized_name': self.card.get('sanitized_name'),
              'expansion': self.card.get('expansion')}, self.card)

@@ -30,10 +30,23 @@ angular.module('ManaDex', ['ManaSelectorModule'])
                 };
 
                 $scope.cardsInSet = 0;
-                $scope.cardTypes = ['creature', 'enchantment', 'sorcery', 'instant',
-                                    'artifact', 'planeswalker', 'land'];
+                $scope.cardTypes = {
+                    'creature': null,
+                    'legendary creature': null,
+                    'artifact creature': null,
+                    'enchantment': ['aura', 'curse', 'shrine'],
+                    'sorcery': ['arcane', 'trap'],
+                    'instant': ['arcane', 'trap'],
+                    'artifact': ['contraption', 'equipment', 'fortification'],
+                    'planeswalker': null,
+                    'land': null
+                };
 
                 $scope.expansions = PartLookupService.getExpansions();
+
+                $scope.isCreatureType = function (type) {
+                    return /creature/i.test(type);
+                };
 
                 $scope.cardsInSet = function () {
                     var expansion = $scope.expansions[$scope.card.expansion];
@@ -53,6 +66,10 @@ angular.module('ManaDex', ['ManaSelectorModule'])
                     }, function (response) {
                         console.log(response);
                     });
+                };
+
+                $scope.getTypeahead = function (current) {
+                    PartLookupService.nameTypeahead(current);
                 };
             }
         };
@@ -116,12 +133,31 @@ angular.module('ManaDex', ['ManaSelectorModule'])
                 name: 'Battle for Zendikar',
                 code: 'BFZ',
                 cardsInSet: 274
-            }};
+            },
+            FRF: {
+                name: 'Fate Reforged',
+                code: 'FRF',
+                cardsInSet: 185
+            }
+        };
         return {
             /*
              *  Needs planning, typeahead search on name field
              */
-            nameTypeahead: function () {
+            nameTypeahead: function (query) {
+                return $http.get(
+                    '/api/cards',
+                    { 
+                        params: {
+                            q: query
+                        }
+                    }).then(function (response) {
+                        console.log('success', response);
+                        return response;
+                    }, function (response) {
+                        console.log('error', response);
+                        return response;
+                    });
             },
 
             /*

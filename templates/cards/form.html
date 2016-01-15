@@ -11,7 +11,7 @@
                 <div class="part name">
                     <!-- Put type-ahead on name field to prevent duplicate entry. -->
                     <label>Name</label>
-                    <input type="text" ng-model="card.name" required/>
+                    <input type="text" ng-model="card.name" required ng-change="getTypeahead(card.name)"/>
                 </div>
                 <div class="part cost">
                     <label>Cost</label>
@@ -22,16 +22,19 @@
                 <div class="part type">
                     <label>Type</label>
                     <select name="type" ng-model="card.type">
-                        <option ng-repeat="type in cardTypes">{{! type }}</option>
+                        <option ng-repeat="(type, subtype) in cardTypes">{{! type }}</option>
                     </select>
                 </div>
                 <div class="part subtype">
                     <label>Sub-Type</label>
-                    <input type="text" ng-model="card.subtype"/>
+                    <input ng-if="!cardTypes[card.type]" type="text" ng-model="card.subtype" required/>
+                    <select ng-if="cardTypes[card.type]" ng-model="card.subtype"
+                        ng-options="subtype for subtype in cardTypes[card.type]"></select>
                 </div>
                 <div class="part expansion">
                     <label>Expansion</label>
                     <select name="expansion" ng-model="card.expansion" required>
+                        <!-- TODO: Convert to ng-options -->
                         <option ng-repeat="(code, expansion) in expansions" value="{{! code }}">
                         {{! expansion.name }}
                         </option>
@@ -43,12 +46,12 @@
                     rows="4" placeholder="Description..."></textarea>
                 <textarea name="flavorText" ng-model="card.flavorText"
                     rows="4" placeholder="Flavor text..."></textarea>
-                <div class="part keywords" ng-if="card.type === 'creature'">
+                <div class="part keywords" ng-if="isCreatureType(card.type)">
                     <label>Keywords</label>
                     <select name="keywords" ng-model="card.keywords"></select>
                 </div>
             </fieldset>
-            <fieldset ng-if="card.type === 'creature'">
+            <fieldset ng-if="isCreatureType(card.type)">
                 <div class="part stats">
                     <label>Power &amp; Toughness</label>
                     <input type="number" min="0" ng-model="card.power"/>
