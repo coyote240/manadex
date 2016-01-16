@@ -1,9 +1,51 @@
+body {
+    font-family: sans-serif;
+}
+
+header {
+    position: relative;
+    border-bottom: 3px solid black;
+    margin: 0px 0px 15px;
+
+    h1 {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav {
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                display: inline;
+            }
+        }
+    }
+}
+
+a {
+    color: #666666;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 .mana {
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 15px 15px;
     vertical-align: middle;
     font-size: 90%;
+    font-family: serif;
     width: 15px;
     height: 15px;
 
@@ -33,8 +75,23 @@
     }
 }
 
+.type-ahead {
+    .type-ahead-results {
+        position: absolute;
+        .ul {
+            position: absolute;
+            margin: 0;
+        }
+    }
+}
+
 table.card-list {
     width: 100%;
+
+    th {
+        text-align: left;
+        vertical-align: bottom;
+    }
 
     td {
         border: 1px solid #EEEEEE;

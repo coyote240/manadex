@@ -1,4 +1,4 @@
-angular.module('ManaDex', ['ManaSelectorModule'])
+angular.module('ManaDex', ['ManaSelectorModule', 'TypeAheadModule'])
     .controller('CardList', ['$scope', 'CardService', '$document', function ($scope, CardService, $document) {
         $scope.removeItem = function (id) {
             var element = document.getElementById(id);
