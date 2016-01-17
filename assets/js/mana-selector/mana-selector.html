@@ -1,5 +1,6 @@
 <a ng-href="#" ng-click="addMana($event)">+</a>
 <div class="part color" ng-repeat="item in mana">
     <select ng-options="value for value in colors" ng-model="item.color"></select>
-    <input type="number" min="0" max="10" ng-model="item.value"/>
+    <input ng-if="item.color != 'generic'" type="number" min="0" max="10" ng-model="item.value"/>
+    <input ng-if="item.color == 'generic'" class="with-x" pattern="[0-9X]+" ng-model="item.value"/>
 </div>

@@ -1,92 +1,103 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <link rel="stylesheet" type="text/css" href="/static/css/app.css"/>
-    </head>
-    <body ng-app="ManaDex">
-        <form name="cardForm" class="card-form" card-form="{{ card }}"
-            ng-submit="addCard()" novalidate>
-            <fieldset class="name-line">
-                <div class="part name">
-                    <!-- Put type-ahead on name field to prevent duplicate entry. -->
-                    <label>Name</label>
-                    <input type="text" ng-model="card.name" required ng-change="getTypeahead(card.name)"/>
-                </div>
-                <div class="part cost">
-                    <label>Cost</label>
-                    <div mana-selector ng-model="card.manaCost"></div>
-                </div>
-            </fieldset>
-            <fieldset class="type-line">
-                <div class="part type">
-                    <label>Type</label>
-                    <select name="type" ng-model="card.type">
-                        <option ng-repeat="(type, subtype) in cardTypes">{{! type }}</option>
-                    </select>
-                </div>
-                <div class="part subtype">
-                    <label>Sub-Type</label>
-                    <input ng-if="!cardTypes[card.type]" type="text" ng-model="card.subtype" required/>
-                    <select ng-if="cardTypes[card.type]" ng-model="card.subtype"
-                        ng-options="subtype for subtype in cardTypes[card.type]"></select>
-                </div>
-                <div class="part expansion">
-                    <label>Expansion</label>
-                    <select name="expansion" ng-model="card.expansion" required>
-                        <!-- TODO: Convert to ng-options -->
-                        <option ng-repeat="(code, expansion) in expansions" value="{{! code }}">
-                        {{! expansion.name }}
-                        </option>
-                    </select>
-                </div>
-            </fieldset>
-            <fieldset class="text-box">
-                <textarea name="description" ng-model="card.description"
-                    rows="4" placeholder="Description..."></textarea>
-                <textarea name="flavorText" ng-model="card.flavorText"
-                    rows="4" placeholder="Flavor text..."></textarea>
-                <div class="part keywords" ng-if="isCreatureType(card.type)">
-                    <label>Keywords</label>
-                    <select name="keywords" ng-model="card.keywords"></select>
-                </div>
-            </fieldset>
-            <fieldset ng-if="isCreatureType(card.type)">
-                <div class="part stats">
-                    <label>Power &amp; Toughness</label>
-                    <input type="number" min="0" ng-model="card.power"/>
-                    /
-                    <input type="number" max="20" ng-model="card.toughness"/>
-                </div>
-            </fieldset>
-            <fieldset class="collection-info">
-                <div class="part collector-number">
-                    <label>Collector #</label>
-                    <input type="number" ng-model="card.collectorNumber" min="0" max="{{! cardsInSet }}"/>
-                    /
-                    {{! cardsInSet() }}
-                </div>
-                <div class="part rarity">
-                    <label>Rarity</label>
-                    <select ng-model="card.rarity">
-                        <option ng-repeat="rarity in ['common', 'uncommon', 'rare', 'mythicRare']">{{! rarity }}</option>
-                    </select>
-                </div>
-            </fieldset>
-            <fieldset class="control">
-                <div class="part add-to-collection">
-                    <input type="checkbox" name="addToCollection" ng-model="addToCollection"/>
-                    <label>Add to my collection</label>
-                </div>
-                <div class="part submit">
-                    <input type="submit" ng-if="!card.sanitized_name" value="Add Card"/>
-                    <input type="submit" ng-if="card.sanitized_name" value="Update Card"/>
-                </div>
-            </fieldset>
-        </form>
-        <a href="/cards">Back to list</a>
-        <script src="/static/js/angular.min.js"></script>
-        <script src="/static/js/manadex.js"></script>
-        <script src="/static/js/mana-selector/mana-selector.js"></script>
-    </body>
-</html>
+{% extends "../base.html" %}
+
+{% block content %}
+<a href="/cards">Back to list</a>
+<form name="cardForm" class="card-form" card-form="{{ card }}"
+    ng-submit="addCard()" novalidate>
+    <fieldset class="name-line">
+        <div class="part name">
+            <!-- Put type-ahead on name field to prevent duplicate entry. -->
+            <label>Name</label>
+            <input type="text" ng-model="card.name" required/>
+        </div>
+        <div class="part cost">
+            <label>Cost</label>
+            <div mana-selector ng-model="card.manaCost"></div>
+        </div>
+    </fieldset>
+    <fieldset class="type-line">
+        <div class="part type">
+            <label>Type</label>
+            <select name="type" ng-model="card.type">
+                <option ng-repeat="(type, subtype) in cardTypes">{{! type }}</option>
+            </select>
+        </div>
+        <div class="part subtype">
+            <label>Sub-Type</label>
+            <input ng-if="!cardTypes[card.type]" type="text" ng-model="card.subtype" required/>
+            <select ng-if="cardTypes[card.type]" ng-model="card.subtype"
+                ng-options="subtype for subtype in cardTypes[card.type]"></select>
+        </div>
+        <div class="part expansion">
+            <label>Expansion</label>
+            <select name="expansion" ng-model="card.expansion" required>
+                <!-- TODO: Convert to ng-options -->
+                <option ng-repeat="(code, expansion) in expansions" value="{{! code }}">
+                {{! expansion.name }}
+                </option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset ng-if="card.type == 'planeswalker'" class="text-box">
+        <div class="planeswalker-ability" ng-repeat="ability in card.planeswalkerAbilities">
+            <input type="number" min="-20" max="20" ng-model="ability.cost"/>
+            <textarea rows="4" ng-model="ability.rules"></textarea>
+        </div>
+    </fieldset>
+    <fieldset ng-if="card.type != 'planeswalker'" class="text-box">
+        <textarea name="description" ng-model="card.description"
+            rows="4" placeholder="Description..."></textarea>
+        <textarea name="flavorText" ng-model="card.flavorText"
+            rows="4" placeholder="Flavor text..."></textarea>
+        <div class="part keywords" ng-if="isCreatureType(card.type)">
+            <label>Keywords</label>
+            <select name="keywords" ng-model="card.keywords"></select>
+        </div>
+    </fieldset>
+    <fieldset ng-if="isCreatureType(card.type)">
+        <div class="part stats">
+            <label>Power &amp; Toughness</label>
+            <input type="number" min="0" ng-model="card.power"/>
+            /
+            <input type="number" max="20" ng-model="card.toughness"/>
+        </div>
+    </fieldset>
+    <fieldset ng-if="card.type == 'planeswalker'">
+        <div class="part stats">
+            <label>Loyalty</label>
+            <input type="number" max="20" ng-model="card.loyalty"/>
+        </div>
+    </fieldset>
+    <fieldset class="collection-info">
+        <div class="part collector-number">
+            <label>Collector #</label>
+            <input type="number" ng-model="card.collectorNumber" min="0" max="{{! cardsInSet }}"/>
+            /
+            {{! cardsInSet() }}
+        </div>
+        <div class="part rarity">
+            <label>Rarity</label>
+            <select ng-model="card.rarity">
+                <option ng-repeat="rarity in ['common', 'uncommon', 'rare', 'mythicRare']">{{! rarity }}</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset class="control">
+        <div class="part add-to-collection">
+            <input type="checkbox" name="addToCollection" ng-model="addToCollection"/>
+            <label>Add to my collection</label>
+        </div>
+        <div class="part submit">
+            <input type="submit" ng-if="!card.sanitized_name" value="Add Card"/>
+            <input type="submit" ng-if="card.sanitized_name" value="Update Card"/>
+        </div>
+    </fieldset>
+</form>
+{% end %}
+
+{% block scripts %}
+<script src="/static/js/angular.min.js"></script>
+<script src="/static/js/manadex.js"></script>
+<script src="/static/js/mana-selector/mana-selector.js"></script>
+<script src="/static/js/type-ahead/type-ahead.js"></script>
+{% end %}

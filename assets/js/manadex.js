@@ -1,4 +1,4 @@
-angular.module('ManaDex', ['ManaSelectorModule'])
+angular.module('ManaDex', ['ManaSelectorModule', 'TypeAheadModule'])
     .controller('CardList', ['$scope', 'CardService', '$document', function ($scope, CardService, $document) {
         $scope.removeItem = function (id) {
             var element = document.getElementById(id);
@@ -23,11 +23,23 @@ angular.module('ManaDex', ['ManaSelectorModule'])
                 $scope.card = {
                     power: 0,
                     toughness: 0,
+                    loyalty: 0,
                     expansion: null,
                     type: 'creature',
                     rarity: 'common',
-                    collectorNumber: 0
+                    collectorNumber: 0,
+                    planeswalkerAbilities: [{
+                        cost: 1,
+                        rules: '',
+                    }, {
+                        cost: 0,
+                        rules: ''
+                    }, {
+                        cost: -1,
+                        rules: ''
+                    }]
                 };
+
 
                 $scope.cardsInSet = 0;
                 $scope.cardTypes = {
@@ -124,15 +136,20 @@ angular.module('ManaDex', ['ManaSelectorModule'])
     }])
     .factory('PartLookupService', ['$http', function ($http) {
         var expansions = {
-            ORI: {
-                name: 'Magic Origins',
-                code: 'ORI',
-                cardsInSet: 272
-            },
             BFZ: {
                 name: 'Battle for Zendikar',
                 code: 'BFZ',
                 cardsInSet: 274
+            },
+            OGW: {
+                name: 'Oath of the Gatewatch',
+                code: 'OGW',
+                cardsInSet: 184
+            },
+            ORI: {
+                name: 'Magic Origins',
+                code: 'ORI',
+                cardsInSet: 272
             },
             FRF: {
                 name: 'Fate Reforged',
