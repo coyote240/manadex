@@ -38,7 +38,13 @@
             </select>
         </div>
     </fieldset>
-    <fieldset class="text-box">
+    <fieldset ng-if="card.type == 'planeswalker'" class="text-box">
+        <div class="planeswalker-ability" ng-repeat="ability in card.planeswalkerAbilities">
+            <input type="number" min="-20" max="20" ng-model="ability.cost"/>
+            <textarea rows="4" ng-model="ability.rules"></textarea>
+        </div>
+    </fieldset>
+    <fieldset ng-if="card.type != 'planeswalker'" class="text-box">
         <textarea name="description" ng-model="card.description"
             rows="4" placeholder="Description..."></textarea>
         <textarea name="flavorText" ng-model="card.flavorText"
@@ -54,6 +60,12 @@
             <input type="number" min="0" ng-model="card.power"/>
             /
             <input type="number" max="20" ng-model="card.toughness"/>
+        </div>
+    </fieldset>
+    <fieldset ng-if="card.type == 'planeswalker'">
+        <div class="part stats">
+            <label>Loyalty</label>
+            <input type="number" max="20" ng-model="card.loyalty"/>
         </div>
     </fieldset>
     <fieldset class="collection-info">
