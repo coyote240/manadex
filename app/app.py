@@ -66,7 +66,7 @@ class Application(tornado.web.Application):
 
     def init_signal_handlers(self):
         signal.signal(signal.SIGINT, self.interrupt_handler)
-        # check for windows
+        # check for windows signal not existing
         if getattr(signal, 'SIGQUIT', None) is not None:
             signal.signal(signal.SIGQUIT, self.interrupt_handler)
         #else:
