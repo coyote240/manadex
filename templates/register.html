@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="register" method="post">
+    <fieldset>
+        <div class="part">
+            <label>User Name</label>
+            <input type="text" name="uid" placeholder="user name"/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="part">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="password"/>
+        </div>
+        <div class="part">
+            <label>Repeat Password</label>
+            <input type="password" name="password-confirm" placeholder="repeat password"/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <input type="submit" value="Register"/>
+    </fieldset>
+</form>
+{% end %}
+
+{% block scripts %}
+{% end %}

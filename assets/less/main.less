@@ -2,10 +2,22 @@ body {
     font-family: sans-serif;
 }
 
+.clearfix {
+    &:before,
+    &:after {
+        content: ' ';
+        display: block;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
 header {
     position: relative;
     border-bottom: 3px solid black;
     margin: 0px 0px 15px;
+    .clearfix();
 
     h1 {
         display: inline-block;
@@ -27,6 +39,16 @@ header {
             li {
                 display: inline;
             }
+        }
+    }
+
+    .login {
+        display: inline-block;
+        float: right;
+
+        .register-link {
+            float: right;
+            font-size: 80%;
         }
     }
 }
@@ -107,12 +129,11 @@ table.card-list {
     }
 }
 
-form.card-form {
+form {
 
-    border: 5px solid black;
-    border-radius: 5px;
-    width: 650px;
-    background-color: #A4A4A4;
+    fieldset {
+        border: none;
+    }
 
     label {
         display: block;
@@ -121,133 +142,145 @@ form.card-form {
         font-weight: bold;
     }
 
-    fieldset {
-        border: none;
-        &.name-line,
-        &.type-line {
-            border: 1px solid #CCC;
-            border-radius: 15px;
-            margin: 5px;
-            background-color: #F2F2F2;
-        }
-        &.text-box {
-            border: 1px solid #CCC;
-            margin: 5px;
-            background-color: #FAFAFA;
-        }
-        &.collection-info,
-        &.control {
-            background-color: black;
-            color: white;
-            margin: 0;
-        }
-    }
-
     input,
     textarea {
         border: 1px solid #CCC;
         border-radius: 3px;
     }
 
-    textarea {
-        display: block;
-        width: 100%;
-    }
-
-    .cost {
-        input[type="number"] {
-            width: 30px;
-        }
-        input.with-x {
-            width: 30px;
-        }
-    }
-
-    .planeswalker-ability {
-        position: relative;
-        border: 1px solid #CCC;
-        border-radius: 3px;
-        padding: 5px 3px 0px 30px;
-        margin: 0 0 3px;
-        background-color: white;
-
-        input[type="number"] {
-            width: 30px;
-            position: absolute;
-            top: 30%;
-            left: -10px;
-            border: 2px solid black;
-        }
-
-        textarea {
-            border: none;
-            background-color: transparent;
-        }
-    }
-
-    .keywords {
-        margin: 5px;
-        label {
-            display: inline;
-        }
-    }
-
-    .stats {
-        padding: 10px;
-        margin-top: -35px;
-        border: 1px solid #CCC;
-        border-radius: 15px;
-        background-color: #F2F2F2;
-
-        input[type="number"] {
-            width: 30px;
-            border: none;
-            text-align: right;
-        }
-    }
-
-    .collector-number {
-        input[type="number"] {
-            width: 30px;
-            border: none;
-            text-align: right;
-        }
-    }
-
-    .add-to-collection {
-        label {
-            display: inline-block;
-        }
-    }
-
     .part {
         display: inline-block;
-        &.cost {
-            float: right;
-            label {
-                text-align: right;
-            }
-        }
-        &.expansion {
-            float: right;
-            label {
-                text-align: right;
-            }
-        }
-        &.stats {
-            float: right;
-        }
-        &.rarity {
-            float: right;
-        }
-        &.submit {
-            float: right;
-        }
     }
 
-    &.ng-submitted.ng-invalid {
-        input.ng-invalid {
-            border: 1px solid red;
+    &.card-form {
+
+        border: 5px solid black;
+        border-radius: 5px;
+        width: 650px;
+        background-color: #A4A4A4;
+
+        fieldset {
+            &.name-line,
+            &.type-line {
+                border: 1px solid #CCC;
+                border-radius: 15px;
+                margin: 5px;
+                background-color: #F2F2F2;
+            }
+            &.text-box {
+                border: 1px solid #CCC;
+                margin: 5px;
+                background-color: #FAFAFA;
+            }
+            &.collection-info,
+            &.control {
+                background-color: black;
+                color: white;
+                margin: 0;
+            }
+        }
+
+
+        textarea {
+            display: block;
+            width: 100%;
+        }
+
+        .cost {
+            input[type="number"] {
+                width: 30px;
+            }
+            input.with-x {
+                width: 30px;
+            }
+        }
+
+        .planeswalker-ability {
+            position: relative;
+            border: 1px solid #CCC;
+            border-radius: 3px;
+            padding: 5px 3px 0px 30px;
+            margin: 0 0 3px;
+            background-color: white;
+
+            input[type="number"] {
+                width: 30px;
+                position: absolute;
+                top: 30%;
+                left: -10px;
+                border: 2px solid black;
+            }
+
+            textarea {
+                border: none;
+                background-color: transparent;
+            }
+        }
+
+        .keywords {
+            margin: 5px;
+            label {
+                display: inline;
+            }
+        }
+
+        .stats {
+            padding: 10px;
+            margin-top: -35px;
+            border: 1px solid #CCC;
+            border-radius: 15px;
+            background-color: #F2F2F2;
+
+            input[type="number"] {
+                width: 30px;
+                border: none;
+                text-align: right;
+            }
+        }
+
+        .collector-number {
+            input[type="number"] {
+                width: 30px;
+                border: none;
+                text-align: right;
+            }
+        }
+
+        .add-to-collection {
+            label {
+                display: inline-block;
+            }
+        }
+
+        .part {
+            display: inline-block;
+            &.cost {
+                float: right;
+                label {
+                    text-align: right;
+                }
+            }
+            &.expansion {
+                float: right;
+                label {
+                    text-align: right;
+                }
+            }
+            &.stats {
+                float: right;
+            }
+            &.rarity {
+                float: right;
+            }
+            &.submit {
+                float: right;
+            }
+        }
+
+        &.ng-submitted.ng-invalid {
+            input.ng-invalid {
+                border: 1px solid red;
+            }
         }
     }
 }

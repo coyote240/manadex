@@ -1,0 +1,23 @@
+<header>
+    <h1><a href="/">ManaDex</a></h1>
+    {% if current_user is not None %}
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/cards">Cards</a></li>
+            <li><a href="/decks">Decks</a></li>
+        </ul>
+    </nav>
+    {% else %}
+    <div class="login">
+        <form action="auth" method="post">
+            <input type="text" name="uid" placeholder="user name"/>
+            <input type="password" name="password" placeholder="password"/>
+            <input type="submit" value="login"/>
+        </form>
+        <div class="register-link">
+            Not a user?  <a href="/register">Register now.</a>
+        </div>
+    </div>
+    {% end %}
+</header>

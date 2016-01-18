@@ -2,6 +2,7 @@ import re
 import json
 import logging
 
+import tornado.web
 from tornado import gen
 
 import handlers
@@ -22,6 +23,7 @@ class CardHandler(handlers.BaseHandler):
     def prepare(self):
         self.collection = self.settings['db_ref']['cards']
 
+    @tornado.web.authenticated
     @gen.coroutine
     def get(self, id=None):
         future = self.collection.find()
@@ -35,6 +37,7 @@ class CardFormHandler(handlers.BaseHandler):
     def prepare(self):
         self.collection = self.settings['db_ref']['cards']
 
+    @tornado.web.authenticated
     @gen.coroutine
     def get(self, name=None):
         card = None
@@ -56,6 +59,7 @@ class CardAPIHandler(handlers.BaseHandler):
         self.collection = self.settings['db_ref']['cards']
         logging.warning(self.request.body)
 
+    @tornado.web.authenticated
     @gen.coroutine
     def get(self):
         query = self.get_argument('q')
@@ -65,6 +69,7 @@ class CardAPIHandler(handlers.BaseHandler):
         found = yield cursor.to_list(length=None)
         self.write(self.encode_json(found))
 
+    @tornado.web.authenticated
     @gen.coroutine
     def post(self):
         self.card = json.loads(self.request.body)
@@ -82,6 +87,7 @@ class CardAPIHandler(handlers.BaseHandler):
         id = yield future
         self.write(str(id))
 
+    @tornado.web.authenticated
     @gen.coroutine
     def put(self):
         self.card = json.loads(self.request.body)
@@ -90,6 +96,7 @@ class CardAPIHandler(handlers.BaseHandler):
              'expansion': self.card.get('expansion')}, self.card)
         self.write(result)
 
+    @tornado.web.authenticated
     @gen.coroutine
     def delete(self):
         result = yield self.collection.remove(
