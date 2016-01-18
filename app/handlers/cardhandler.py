@@ -1,9 +1,12 @@
 import re
 import json
 import logging
+import datetime
 
 import tornado.web
 from tornado import gen
+
+from bson import json_util
 
 import handlers
 
@@ -18,14 +21,28 @@ def sanitize_name(name):
     return name.lower()
 
 
-class CardHandler(handlers.BaseHandler):
+class BaseCardHandler(handlers.BaseHandler):
 
     def prepare(self):
         self.collection = self.settings['db_ref']['cards']
 
+
+class CardHandler(BaseCardHandler):
+
     @tornado.web.authenticated
     @gen.coroutine
-    def get(self, id=None):
+    def get(self, name=None):
+        if name:
+            card = yield self.collection.find_one(
+                {'sanitized_name': name}, {'_id': 0})
+            if card is None:
+                self.send_error(status_code=404, reason="Card not found.")
+                return
+            else:
+                self.render('cards/view.html',
+                            card=card)
+                return
+
         future = self.collection.find()
         cards = yield future.to_list(None)
         self.render('cards/index.html',
@@ -48,7 +65,7 @@ class CardFormHandler(handlers.BaseHandler):
                 self.redirect('/cards')
                 return
 
-        card_json = self.encode_json(card)
+        card_json = json.dumps(card, default=json_util.default)
         self.render('cards/form.html',
                     card=card_json)
 
@@ -73,6 +90,8 @@ class CardAPIHandler(handlers.BaseHandler):
     @gen.coroutine
     def post(self):
         self.card = json.loads(self.request.body)
+        self.card['lastModified'] = datetime.datetime.utcnow()
+        self.card['lastModifiedBy'] = self.current_user
         self.card['sanitized_name'] = sanitize_name(self.card.get('name'))
 
         existing = yield self.collection.find_one(
@@ -91,6 +110,9 @@ class CardAPIHandler(handlers.BaseHandler):
     @gen.coroutine
     def put(self):
         self.card = json.loads(self.request.body)
+        self.card['lastModified'] = datetime.datetime.utcnow()
+        self.card['lastModifiedBy'] = self.current_user
+
         result = yield self.collection.update(
             {'sanitized_name': self.card.get('sanitized_name'),
              'expansion': self.card.get('expansion')}, self.card)

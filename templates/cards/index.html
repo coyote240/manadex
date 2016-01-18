@@ -1,49 +1,9 @@
 {% extends "../base.html" %}
 
 {% block content %}
-<section ng-controller="CardList">
-    <a href="/cards/new">Create Card</a>
-    <table class="card-list">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Rarity</th>
-                <th>Mana Cost</th>
-                <th>Power/<br/>Toughness</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for card in cards %}
-            <tr id="{{ card.get('sanitized_name') }}">
-                <td>
-                    <a href="/cards/edit/{{ card.get('sanitized_name') }}">{{ card.get('name') }}</a>
-                </td>
-                <td class="type">
-                    {{ card.get('type') }}
-                    {% if 'subtype' in card %}
-                    - {{ card.get('subtype') }}
-                    {% end %}
-                </td>
-                <td>{{ card.get('rarity') }}</td>
-                <td class="mana-cost">
-                    {% for item in card.get('manaCost', []) %}
-                        {% if item['color'] == 'generic' %}
-                        <span class="mana {{ item['color'] }}">{{ item['value'] }}</span>
-                        {% else %}
-                            {% for i in range(0, item['value']) %}
-                            <span class="mana {{ item['color'] }}">&nbsp;</span>
-                            {% end %}
-                        {% end %}
-                    {% end %}
-                </td>
-                <td class="power-toughness">
-                    {{ card.get('power') }}/{{ card.get('toughness') }}
-                </td>
-            </tr>
-        {% end %}
-        </tbody>
-    </table>
+<a href="/cards/new">Add a Card</a>
+<section>
+    {% module CardList(cards) %}
 </section>
 {% end %}
 

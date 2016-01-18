@@ -1,0 +1,22 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<a href="/decks">Back to list</a>
+<form name="deckForm" class="deck-form" novalidate>
+    <fieldset>
+        <div class="part name">
+            <label>Name</label>
+            <input type="text" required/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="part description">
+            <label>Description</label>
+            <textarea rows="4"></textarea>
+        </div>
+    </fieldset>
+</form>
+{% end %}
+
+{% block scripts %}
+{% end %}

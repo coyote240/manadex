@@ -1,0 +1,13 @@
+<table class="card-list">
+    <thead>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Rarity</th>
+        <th>Mana Cost</th>
+    </thead>
+    <tbody>
+    {% for card in cards %}
+    {% module CardListItem(card) %}
+    {% end %}
+    </tbody>
+</table>

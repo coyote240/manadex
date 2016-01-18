@@ -107,6 +107,13 @@ a {
     }
 }
 
+.attribution {
+    font-size: 75%;
+    color: #A4A4A4;
+    font-style: italic;
+    padding: 3px;
+}
+
 table.card-list {
     width: 100%;
 
@@ -125,6 +132,83 @@ table.card-list {
         }
         &.power-toughness {
             text-align: right;
+        }
+    }
+}
+
+.card-form,
+.card-view {
+    border: 5px solid black;
+    border-radius: 5px;
+    width: 650px;
+    background-color: #A4A4A4;
+
+    .part {
+        display: inline-block;
+        &.cost,
+        &.expansion,
+        &.stats,
+        &.rarity {
+            float: right;
+        }
+    }
+
+    .name-line,
+    .type-line,
+    .text-box {
+        border: 1px solid #CCC;
+        border-radius: 15px;
+        margin: 5px;
+        background-color: #F2F2F2;
+    }
+
+    .text-box {
+        background-color: #FAFAFA;
+    }
+
+    .collection-info {
+        background-color: black;
+        color: white;
+        margin: 0;
+        padding: 7px 0;
+    }
+}
+
+.card-view {
+    width: 350px;
+    .name-line,
+    .type-line,
+    .text-box {
+        border-radius: 5px;
+    }
+    .name-line {
+        padding: 10px;
+    }
+    .type-line {
+        padding: 10px;
+        .type {
+            text-transform: capitalize;
+        }
+    }
+    .text-box {
+        .description,
+        .flavor-text {
+            margin: 10px;
+        }
+
+        .flavor-text {
+            font-style: italic;
+        }
+    }
+    .stats-line {
+        .clearfix();
+        .stats {
+            padding: 5px 8px;
+            margin-top: -15px;
+            margin-right: 3px;
+            border: 1px solid #CCC;
+            border-radius: 10px;
+            background-color: #F2F2F2;
         }
     }
 }
@@ -148,25 +232,9 @@ form {
         border-radius: 3px;
     }
 
-    .part {
-        display: inline-block;
-    }
-
     &.card-form {
 
-        border: 5px solid black;
-        border-radius: 5px;
-        width: 650px;
-        background-color: #A4A4A4;
-
         fieldset {
-            &.name-line,
-            &.type-line {
-                border: 1px solid #CCC;
-                border-radius: 15px;
-                margin: 5px;
-                background-color: #F2F2F2;
-            }
             &.text-box {
                 border: 1px solid #CCC;
                 margin: 5px;
@@ -253,24 +321,15 @@ form {
         }
 
         .part {
-            display: inline-block;
             &.cost {
-                float: right;
                 label {
                     text-align: right;
                 }
             }
             &.expansion {
-                float: right;
                 label {
                     text-align: right;
                 }
-            }
-            &.stats {
-                float: right;
-            }
-            &.rarity {
-                float: right;
             }
             &.submit {
                 float: right;

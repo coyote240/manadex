@@ -65,8 +65,13 @@ class Application(tornado.web.Application):
             (r'/logout', handlers.AuthHandler, {'action': 'logout'}),
             (r'/register', handlers.RegistrationHandler),
             (r'/cards/new', handlers.CardFormHandler),
-            (r'/cards/edit/([a-zA-Z0-9-]*)', handlers.CardFormHandler),
-            (r'/cards(/?[a-zA-Z0-9]*)', handlers.CardHandler),
+            (r'/cards', handlers.CardHandler),
+            (r'/cards/([a-zA-Z0-9-]*)', handlers.CardHandler),
+            (r'/cards/([a-zA-Z0-9-]*)/edit', handlers.CardFormHandler),
+            (r'/decks/new', handlers.DeckFormHandler),
+            (r'/decks', handlers.DeckHandler),
+            (r'/decks/([a-zA-Z0-9-]*)', handlers.DeckHandler),
+            (r'/decks/([a-zA-Z0-9-]*)/edit', handlers.DeckFormHandler),
             (r'/api/cards', handlers.CardAPIHandler)]
 
     def init_signal_handlers(self):

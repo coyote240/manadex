@@ -1,0 +1,17 @@
+<tr>
+    <td>
+        <a href="/cards/{{ card.get('sanitized_name') }}">
+            {{ card.get('name') }}
+        </a>
+    </td>
+    <td class="type">
+        {{ card.get('type') }}
+        {% if 'subtype' in card %}
+        - {{ card.get('subtype') }}
+        {% end %}
+    </td>
+    <td>{{ card.get('rarity') }}</td>
+    <td class="mana-cost">
+        {% module ManaCost(card.get('manaCost')) %}
+    </td>
+</tr>

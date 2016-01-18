@@ -1,0 +1,66 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<a href="/cards">Back to list</a>
+<section class="card-view">
+    <div class="name-line">
+        <div class="part name">
+            {{ card.get('name') }}
+        </div>
+        <div class="part cost">
+            {% module ManaCost(card.get('manaCost')) %}
+        </div>
+    </div>
+    <div class="type-line">
+        <div class="part type">
+            {{ card.get('type') }}
+            {% if 'subtype' in card %}
+            - {{ card.get('subtype') }}
+            {% end %}
+        </div>
+        <div class="part expansion">
+            {{ card.get('expansion') }}
+        </div>
+    </div>
+    <div class="text-box">
+        {% if card.get('type') == 'planeswalker' %}
+            {% for ability in card.get('planeswalkerAbilities', []) %}
+            <div class="planeswalker-ability">
+                <div class="cost">{{ ability.get('cost') }}</div>
+                <div class="rules">{{ ability.get('rules') }}</div>
+            </div>
+            {% end %}
+        {% else %}
+        <div class="description">
+            {{ card.get('description') }}
+        </div>
+        <blockquote class="flavor-text">
+            {{ card.get('flavorText') }}
+        </div>
+        {% end %}
+    </div>
+    <div class="stats-line">
+        <div class="part stats">
+            {% if card.get('type') == 'planeswalker' %}
+                {{ card.get('loyalty', 0) }}
+            {% else %}
+                {{ card.get('power', 0) }}/{{ card.get('toughness', 0) }}
+            {% end %}
+        </div>
+    </div>
+    <div class="collection-info">
+        <div class="part collector-number">
+            {{ card.get('collectorNumber', '0') }}/x
+        </div>
+        <div class="part rarity">
+            {{ card.get('rarity', 'common') }}
+        </div>
+    </div>
+</section>
+<div class="attribution">
+    Last modified by {{ card.get('lastModifiedBy') }} on {{ card.get('lastModified') }}
+</div>
+{% end %}
+
+{% block scripts %}
+{% end %}

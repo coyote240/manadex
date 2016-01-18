@@ -93,6 +93,7 @@
         </div>
     </fieldset>
 </form>
+<div class="attribution" ng-if="card.lastModified">Last modified by {{! card.lastModifiedBy }} on {{! modifiedDate() }}</div>
 {% end %}
 
 {% block scripts %}

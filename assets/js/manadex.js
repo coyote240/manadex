@@ -69,6 +69,10 @@ angular.module('ManaDex', ['ManaSelectorModule', 'TypeAheadModule'])
                     }
                 };
 
+                $scope.modifiedDate = function () {
+                    return new Date($scope.card.lastModified.$date).toString();
+                };
+
                 $scope.addCard = function () {
                     if($scope.cardForm.$invalid) {
                         return false;
