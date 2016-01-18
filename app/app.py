@@ -12,6 +12,7 @@ from tornado.httpserver import HTTPServer
 from tornado.options import define, options
 
 import handlers
+import modules
 
 
 class Application(tornado.web.Application):
@@ -48,10 +49,11 @@ class Application(tornado.web.Application):
             'db_ref': db_ref,
             'static_path': options.static_path,
             'template_path': options.template_path,
+            'ui_modules': modules,
             'static_handler_class': handlers.BaseStaticHandler,
             'default_handler_class': handlers.NotFoundHandler,
             'xsrf_cookies': options.xsrf_cookies,
-            'login_url': '/auth',
+            'login_url': '/',
             'cookie_secret': options.cookie_secret}
 
         return settings
@@ -59,6 +61,9 @@ class Application(tornado.web.Application):
     def init_handlers(self):
         self.handlers = [
             (r'/', handlers.IndexHandler),
+            (r'/auth', handlers.AuthHandler),
+            (r'/logout', handlers.AuthHandler, {'action': 'logout'}),
+            (r'/register', handlers.RegistrationHandler),
             (r'/cards/new', handlers.CardFormHandler),
             (r'/cards/edit/([a-zA-Z0-9-]*)', handlers.CardFormHandler),
             (r'/cards(/?[a-zA-Z0-9]*)', handlers.CardHandler),

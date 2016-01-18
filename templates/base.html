@@ -6,16 +6,7 @@
         <link rel="stylesheet" type="text/css" href="/static/css/app.css"/>
     </head>
     <body ng-app="ManaDex">
-        <header>
-            <h1>ManaDex</h1>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/cards">Cards</a></li>
-                    <li><a href="/decks">Decks</a></li>
-                </ul>
-            </nav>
-        </header>
+        {% module Header() %}
 
         {% block content %}
         {% end %}
