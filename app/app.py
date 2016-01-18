@@ -76,11 +76,8 @@ class Application(tornado.web.Application):
 
     def init_signal_handlers(self):
         signal.signal(signal.SIGINT, self.interrupt_handler)
-        # check for windows signal not existing
-        if getattr(signal, 'SIGQUIT', None):
+        if hasattr(signal, 'SIGQUIT'):
             signal.signal(signal.SIGQUIT, self.interrupt_handler)
-        #else:
-        #    signal.signal(signal.SIGTERM, self.interrupt_handler)
 
     def interrupt_handler(self, signum, frame):
         logging.info('Shutting down server...')

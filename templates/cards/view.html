@@ -31,12 +31,16 @@
             </div>
             {% end %}
         {% else %}
-        <div class="description">
-            {{ card.get('description') }}
-        </div>
-        <blockquote class="flavor-text">
-            {{ card.get('flavorText') }}
-        </div>
+            {% if card.get('description') is not None %}
+            <div class="description">
+                {{ card.get('description') }}
+            </div>
+            {% end %}
+            {% if card.get('flavorText') is not None %}
+            <blockquote class="flavor-text">
+                {{ card.get('flavorText') }}
+            </div>
+            {% end %}
         {% end %}
     </div>
     <div class="stats-line">
