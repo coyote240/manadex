@@ -24,6 +24,7 @@ def sanitize_name(name):
 class BaseCardHandler(handlers.BaseHandler):
 
     def prepare(self):
+        self.ngAppModule = 'ManaDex'
         self.collection = self.settings['db_ref']['cards']
 
 
@@ -40,19 +41,18 @@ class CardHandler(BaseCardHandler):
                 return
             else:
                 self.render('cards/view.html',
+                            ngAppModule=self.ngAppModule,
                             card=card)
                 return
 
         future = self.collection.find()
         cards = yield future.to_list(None)
         self.render('cards/index.html',
+                    ngAppModule=self.ngAppModule,
                     cards=cards)
 
 
-class CardFormHandler(handlers.BaseHandler):
-
-    def prepare(self):
-        self.collection = self.settings['db_ref']['cards']
+class CardFormHandler(BaseCardHandler):
 
     @tornado.web.authenticated
     @gen.coroutine
@@ -67,14 +67,11 @@ class CardFormHandler(handlers.BaseHandler):
 
         card_json = json.dumps(card, default=json_util.default)
         self.render('cards/form.html',
+                    ngAppModule=self.ngAppModule,
                     card=card_json)
 
 
-class CardAPIHandler(handlers.BaseHandler):
-
-    def prepare(self):
-        self.collection = self.settings['db_ref']['cards']
-        logging.warning(self.request.body)
+class CardAPIHandler(BaseCardHandler):
 
     @tornado.web.authenticated
     @gen.coroutine
