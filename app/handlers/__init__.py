@@ -5,8 +5,9 @@ from errorhandler import NotFoundHandler
 from indexhandler import IndexHandler
 from cardhandler import CardHandler, CardFormHandler, CardAPIHandler
 from deckhandler import DeckHandler, DeckFormHandler
+from collectionhandler import CollectionHandler
 
 __all__ = ['BaseHandler', 'BaseStaticHandler', 'JSONEncoder', 'AuthHandler',
            'RegistrationHandler', 'NotFoundHandler', 'IndexHandler',
            'CardHandler', 'CardFormHandler', 'CardAPIHandler',
-           'DeckHandler', 'DeckFormHandler']
+           'DeckHandler', 'DeckFormHandler', 'CollectionHandler']

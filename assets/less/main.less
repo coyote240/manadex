@@ -116,14 +116,21 @@ a {
 
 table.card-list {
     width: 100%;
+    border-collapse: collapse;
 
     th {
         text-align: left;
         vertical-align: bottom;
+        &.mana-cost {
+            text-align: center;
+        }
     }
 
     td {
-        border: 1px solid #EEEEEE;
+        border-color: #EEEEEE;
+        border-style: solid;
+        border-width: 1px 0px;
+
         &.mana-cost {
             text-align: center;
         }
@@ -132,6 +139,16 @@ table.card-list {
         }
         &.power-toughness {
             text-align: right;
+        }
+        &.actions {
+            color: #CCCCCC;
+            .add {
+                &.owned {
+                    color: #FFD700;
+                }
+            }
+            .trash {
+            }
         }
     }
 }
@@ -198,6 +215,31 @@ table.card-list {
 
         .flavor-text {
             font-style: italic;
+        }
+        .planeswalker-ability {
+            position: relative;
+            min-height: 30px;
+            padding: 10px;
+
+            &:nth-child(even) {
+                background-color: #AAAAAA;
+            }
+
+            .cost {
+                position: absolute;
+                top: 25%;
+                left: -9px;
+                border: 3px solid white;
+                background-color: black;
+                width: 20px;
+                text-align: center;
+                color: white;
+                box-shadow: 2px 2px rgba(204, 204, 204, 0.5);
+            }
+            .rules {
+                padding: 3px 0 0 22px;
+                font-size: 85%;
+            }
         }
     }
     .stats-line {

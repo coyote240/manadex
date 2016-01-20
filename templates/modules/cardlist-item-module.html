@@ -14,4 +14,8 @@
     <td class="mana-cost">
         {% module ManaCost(card.get('manaCost')) %}
     </td>
+    <td class="actions">
+        <a class="add" href="javascript:void(0);" ng-click="addToCollection('{{ card.get('sanitized_name') }}', '{{ card.get('expansion') }}')">&#9733;</a>
+        <span class="trash">&#128465;</span>
+    </td>
 </tr>
