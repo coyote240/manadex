@@ -7,6 +7,7 @@ import handlers
 class DeckHandler(handlers.BaseHandler):
 
     def prepare(self):
+        self.ngAppModule = 'ManaDex'
         self.collection = self.settings['db_ref']['decks']
 
     @gen.coroutine
@@ -14,12 +15,14 @@ class DeckHandler(handlers.BaseHandler):
         future = self.collection.find()
         decks = yield future.to_list(None)
         self.render('decks/index.html',
+                    ngAppModule=self.ngAppModule,
                     decks=decks)
 
 
 class DeckFormHandler(handlers.BaseHandler):
 
     def prepare(self):
+        self.ngAppModule = 'ManaDex'
         self.collection = self.settings['db_ref']['decks']
 
     @tornado.web.authenticated
@@ -35,4 +38,5 @@ class DeckFormHandler(handlers.BaseHandler):
 
         deck_json = self.encode_json(deck)
         self.render('decks/form.html',
+                    ngAppModule=self.ngAppModule,
                     deck=deck_json)

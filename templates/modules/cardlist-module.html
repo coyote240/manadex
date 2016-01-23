@@ -1,3 +1,10 @@
+<form class="card-list-filter">
+    <label class="mana" ng-class="color"
+        ng-repeat-start="color in ['white', 'blue', 'red', 'green', 'black']">
+        &nbsp;
+    </label>
+    <input type="checkbox" value="{{! color }}" ng-checked="true" ng-repeat-end/>
+</form>
 <table class="card-list">
     <thead>
         <th>Name</th>
@@ -11,3 +18,11 @@
     {% end %}
     </tbody>
 </table>
+<div class="pagination">
+    {% if start > 0 %}
+    <a href="?start={{ start - limit }}&limit={{ limit }}">&lt;prev</a>
+    {% end %}
+    {% if len(cards) >= limit %}
+    <a href="?start={{ start + limit }}&limit={{ limit }}">next&gt;</a>
+    {% end %}
+</div>

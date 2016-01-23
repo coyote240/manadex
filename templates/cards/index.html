@@ -3,7 +3,7 @@
 {% block content %}
 <a href="/cards/new">Add a Card</a>
 <section ng-app="ManaDex" ng-controller="CardList">
-    {% module CardList(cards) %}
+    {% module CardList(cards, start, limit) %}
 </section>
 {% end %}
 

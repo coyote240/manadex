@@ -33,6 +33,12 @@ class CardHandler(BaseCardHandler):
     @tornado.web.authenticated
     @gen.coroutine
     def get(self, name=None):
+        start = self.get_argument('start', default=0)
+        start = int(start)
+        limit = self.get_argument('limit', default=20)
+        limit = int(limit)
+        #sort = self.get_argument('sort', default=None)
+
         if name:
             card = yield self.collection.find_one(
                 {'sanitized_name': name}, {'_id': 0})
@@ -45,11 +51,11 @@ class CardHandler(BaseCardHandler):
                             card=card)
                 return
 
-        future = self.collection.find()
+        future = self.collection.find().limit(limit).skip(start)
         cards = yield future.to_list(None)
         self.render('cards/index.html',
                     ngAppModule=self.ngAppModule,
-                    cards=cards)
+                    cards=cards, start=start, limit=limit)
 
 
 class CardFormHandler(BaseCardHandler):
