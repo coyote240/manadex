@@ -1,5 +1,13 @@
+.sans-serif-font {
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+.serif-font {
+    font-family: ‘Palatino Linotype’, ‘Book Antiqua’, Palatino, serif;
+}
+
 body {
-    font-family: sans-serif;
+    .sans-serif-font();
 }
 
 .clearfix {
@@ -62,13 +70,14 @@ a {
 }
 
 .mana {
+    .serif-font();
+
     color: transparent;
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 15px 15px;
     vertical-align: middle;
     font-size: 90%;
-    font-family: serif;
     width: 15px;
     height: 15px;
 
@@ -281,9 +290,10 @@ form {
 
     label {
         display: block;
-        font-family: sans-serif;
         font-size: 75%;
         font-weight: bold;
+
+        .sans-serif-font();
     }
 
     input,
@@ -411,8 +421,11 @@ form {
         cursor: pointer;
         border: 2px solid #CCCCCC;
         padding: 5px;
-        margin: 2px;
         background-color: white;
+
+        .card-cost {
+            float: right;
+        }
     }
 
     fieldset {
@@ -426,6 +439,62 @@ form {
             right: 0;
             bottom: 0;
             width: 25%;
+        }
+    }
+}
+
+.card-token {
+    .serif-font();
+
+    position: relative;
+    margin: 0 0 5px;
+
+    .card-name {
+        font-size: 125%;
+        font-weight: bold;
+    }
+
+    .card-type {
+        text-transform: capitalize;
+        display: block;
+    }
+
+    .card-cost {
+        position: absolute;
+        top: 7px;
+        right: 5px;
+    }
+}
+
+.card-list {
+    .card-token {
+        width: 500px;
+    }
+}
+
+.deck-list {
+    padding: 5px;
+
+    .deck-info {
+        .clearfix();
+        margin-bottom: 10px;
+    }
+
+    .color-identity {
+        float: right;
+    }
+
+    .deck-count {
+        float: left;
+    }
+
+    .card-token {
+        max-width: 100%;
+
+        .quantity {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
         }
     }
 }

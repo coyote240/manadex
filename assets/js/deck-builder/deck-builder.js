@@ -1,19 +1,4 @@
 angular.module('DeckBuilderModule', ['CardListModule'])
-/*
-.directive('deckBuilder', function () {
-    return {
-        scope: false,
-        restrict: 'A',
-        controller: ['$scope', function ($scope) {
-            $scope.deck = [];
-
-            this.addCard = function (card) {
-                $scope.deck.push(card);
-            };
-        }]
-    };
-})
-*/
 .directive('draggable', function () {
     return {
         restrict: 'A',
@@ -43,9 +28,6 @@ angular.module('DeckBuilderModule', ['CardListModule'])
                 var data = event.dataTransfer.getData('card');
                 var card = JSON.parse(data);
 
-
-
-                //scope.deck[card.sanitized_name] = card;
                 scope.addCard(card);
                 scope.$apply();
             });
@@ -53,6 +35,35 @@ angular.module('DeckBuilderModule', ['CardListModule'])
         controller: ['$scope', function ($scope) {
             $scope.deck = {};
             $scope.count = 0;
+
+            $scope.$watchCollection('deck', function (newVal) {
+                $scope.colors = $scope.colorIdentity(newVal);
+            });
+
+            $scope.colorIdentity = function (deck) {
+                var tmp = {},
+                    identity = [];
+
+                Object.keys(deck).forEach(function (name) {
+                    var card = deck[name];
+                    card.manaCost.forEach(function (mana) {
+                        if(mana.color !== 'generic') {
+                            if(mana.value > 0) {
+                                tmp[mana.color] = 1;
+                            }
+                        }
+                    });
+                });
+
+                Object.keys(tmp).forEach(function (name) {
+                    identity.push({
+                        color: name,
+                        value: tmp[name]
+                    });
+                });
+
+                return identity;
+            };
 
             $scope.addCard = function (card) {
                 var existing = $scope.deck[card.sanitized_name];

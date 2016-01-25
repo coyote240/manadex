@@ -28,6 +28,9 @@ class DeckFormHandler(handlers.BaseHandler):
     @tornado.web.authenticated
     @gen.coroutine
     def get(self, name=None):
+        '''
+        Get a deck by name, or all decks if no name is specified.
+        '''
         deck = None
         if name is not None:
             deck = yield self.collection.find_one(
@@ -40,3 +43,19 @@ class DeckFormHandler(handlers.BaseHandler):
         self.render('decks/form.html',
                     ngAppModule=self.ngAppModule,
                     deck=deck_json)
+
+    @tornado.web.authenticated
+    @gen.coroutine
+    def post(self, name):
+        '''
+        Create a new deck.
+        '''
+        pass
+
+    @tornado.web.authenticated
+    @gen.coroutine
+    def put(self):
+        '''
+        Add a card to a deck, or update features.
+        '''
+        pass
