@@ -7,19 +7,37 @@
         to <a href="/decks/new">create one now.</a>
     </p>
 </section>
-<section>
+<section ng-controller="UserHome">
     <h2>My Collection</h2>
-    <p>You don't seem to have any cards in your collection.  Perhaps you'd like
-        to <a href="/collection/new">add some now.</a>
+    <p>
+        You don't seem to have any cards in your collection.
+        Perhaps you'd like to <a href="/collection/new">add some now.</a>
     </p>
+    <table class="card-list" card-list="{{ json_encode(mycards) }}">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Rarity</th>
+                <th class="mana-cost">Mana Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="card in cards">
+                <td>{{! card.name }}</td>
+                <td>{{! card.type }}</td>
+                <td>{{! card.rarity }}</td>
+                <td class="mana-cost" mana-cost="card.manaCost"></td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 {% end %}
 
 {% block scripts %}
 <script src="/static/js/angular.min.js"></script>
-<script src="/static/js/manadex.js"></script>
-<script src="/static/js/mana-selector/mana-selector.js"></script>
-<script src="/static/js/type-ahead/type-ahead.js"></script>
 <script src="/static/js/services/card-service.js"></script>
+<script src="/static/js/services/collection-service.js"></script>
 <script src="/static/js/card-list/card-list.js"></script>
+<script src="/static/js/user-home.js"></script>
 {% end %}

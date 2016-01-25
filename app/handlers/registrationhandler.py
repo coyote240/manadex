@@ -41,6 +41,7 @@ class RegistrationHandler(handlers.BaseHandler):
         hashed_password = hash_password(password)
         future = self.collection.insert({'uid': uid,
                                          'password': hashed_password,
-                                         'collection': []})
+                                         'collection': [],
+                                         'wishlist': []})
         id = yield future
         self.write(str(id))

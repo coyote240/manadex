@@ -2,21 +2,41 @@
 
 {% block content %}
 <a href="/decks">Back to list</a>
-<form name="deckForm" class="deck-form" novalidate>
-    <fieldset>
-        <div class="part name">
-            <label>Name</label>
-            <input type="text" required/>
-        </div>
-    </fieldset>
-    <fieldset>
-        <div class="part description">
-            <label>Description</label>
-            <textarea rows="4"></textarea>
-        </div>
-    </fieldset>
-</form>
+<section>
+    <form name="deckForm" class="deck-form" novalidate>
+        <fieldset>
+            <div class="part name">
+                <label>Name</label>
+                <input type="text" required/>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="part description">
+                <label>Description</label>
+                <textarea rows="4"></textarea>
+            </div>
+        </fieldset>
+        <fieldset class="card-list" card-list>
+            <div class="card-token" ng-repeat="card in cards" draggable="true">
+                {{! card.name }}
+            </div>
+        </fieldset>
+        <fieldset class="deck-list" deck-list>
+            <div class="deck-count" ng-bind="count"></div>
+            <div class="card-token" ng-repeat="(key, card) in deck" draggable="true">
+                {{! card.name }}
+                x
+                {{! card.quantity }}
+            </div>
+        </fieldset>
+    </form>
+</section>
 {% end %}
 
 {% block scripts %}
+<script src="/static/js/angular.min.js"></script>
+<script src="/static/js/services/card-service.js"></script>
+<script src="/static/js/services/collection-service.js"></script>
+<script src="/static/js/card-list/card-list.js"></script>
+<script src="/static/js/deck-builder/deck-builder.js"></script>
 {% end %}

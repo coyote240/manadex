@@ -62,6 +62,7 @@ a {
 }
 
 .mana {
+    color: transparent;
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 15px 15px;
@@ -72,6 +73,7 @@ a {
     height: 15px;
 
     &.generic {
+        color: inherit;
         background-color: #CCCCCC;
         border-width: none;
         border-radius: 50%;
@@ -402,3 +404,28 @@ form {
     }
 }
 
+.deck-form {
+    position: relative;
+
+    .card-token {
+        cursor: pointer;
+        border: 2px solid #CCCCCC;
+        padding: 5px;
+        margin: 2px;
+        background-color: white;
+    }
+
+    fieldset {
+        &.card-list {
+            width: 60%;
+        }
+        &.deck-list {
+            border: 1px solid #CCC;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 25%;
+        }
+    }
+}

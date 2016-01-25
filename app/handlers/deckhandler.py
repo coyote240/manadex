@@ -22,7 +22,7 @@ class DeckHandler(handlers.BaseHandler):
 class DeckFormHandler(handlers.BaseHandler):
 
     def prepare(self):
-        self.ngAppModule = 'ManaDex'
+        self.ngAppModule = 'DeckBuilderModule'
         self.collection = self.settings['db_ref']['decks']
 
     @tornado.web.authenticated
