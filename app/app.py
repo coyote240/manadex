@@ -75,7 +75,8 @@ class Application(tornado.web.Application):
             (r'/collection', handlers.CollectionHandler),
             (r'/collection/([A-Z]{3})/([a-zA-Z0-9-]*)',
                 handlers.CollectionHandler),
-            (r'/api/cards', handlers.CardAPIHandler)]
+            (r'/api/cards', handlers.CardAPIHandler),
+            (r'/api/decks', handlers.DeckAPIHandler)]
 
     def init_signal_handlers(self):
         signal.signal(signal.SIGINT, self.interrupt_handler)

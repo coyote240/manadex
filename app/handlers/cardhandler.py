@@ -1,4 +1,3 @@
-import re
 import json
 import logging
 import datetime
@@ -9,16 +8,6 @@ from tornado import gen
 from bson import json_util
 
 import handlers
-
-
-gen_delims = r'[:\/\?#\[\]@\s]+'
-sub_delims = r'[!\$&\'\(\)\*\+,;=]+'
-
-
-def sanitize_name(name):
-    name = re.sub(gen_delims, '-', name)
-    name = re.sub(sub_delims, '', name)
-    return name.lower()
 
 
 class BaseCardHandler(handlers.BaseHandler):
@@ -95,7 +84,8 @@ class CardAPIHandler(BaseCardHandler):
         self.card = json.loads(self.request.body)
         self.card['lastModified'] = datetime.datetime.utcnow()
         self.card['lastModifiedBy'] = self.current_user
-        self.card['sanitized_name'] = sanitize_name(self.card.get('name'))
+        self.card['sanitized_name'] = handlers.sanitize_name(
+            self.card.get('name'))
 
         existing = yield self.collection.find_one(
             {'sanitized_name': self.card.get('sanitized_name'),

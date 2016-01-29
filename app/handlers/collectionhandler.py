@@ -1,5 +1,4 @@
 import json
-import logging
 
 import tornado.web
 from tornado import gen
@@ -30,8 +29,6 @@ class CollectionHandler(BaseCollectionHandler):
         if card_refs is None:
             self.send_error(status_code=404, reason='Collection not found.')
             return
-
-        logging.warning(card_refs.get('collection'))
 
         card_collection = self.settings['db_ref']['cards']
         future = card_collection.find(

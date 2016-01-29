@@ -1,9 +1,60 @@
 angular.module('DeckBuilderModule', ['CardListModule'])
+.controller('DeckBuilderController', ['$scope', function ($scope) {
+    $scope.deck = {};
+    $scope.deck.name = 'Custom Deck';
+
+    $scope.updateDeck = function () {
+    };
+}])
+.factory('DeckBuilderService', ['$http', function ($http) {
+    return {
+        createOrUpdateDeck: function (deck) {
+            var promise = deck.sanitized_name ? this.updateDeck(deck)
+                                             : this.createDeck(deck);
+            return promise;
+        },
+
+        createDeck: function (deck) {
+            var cards = Object.keys(deck.cards).map(function (key) {
+                var card = deck.cards[key];
+                return {
+                    name: card.sanitized_name,
+                    quantity: card.quantity
+                };
+            });
+
+            return $http({
+                method: 'POST',
+                url: '/api/decks',
+                data: {
+                    name: deck.name,
+                    sanitized_name: deck.sanitized_name,
+                    description: deck.description,
+                    cards: cards
+                }
+            }).then(function (response) {
+                console.log('success', response);
+                return response;
+            }, function (response) {
+                console.log('error', response);
+                return response;
+            });
+        },
+
+        updateDeck: function (deck, card) {
+            return {
+                then: function () {
+                    console.log('updating');
+                }
+            };
+        }
+    };
+}])
 .directive('draggable', function () {
     return {
         restrict: 'A',
         scope: false,
-        link: function (scope, element, attrs) {
+        link: function (scope, element) {
             element.on('dragstart', function (event) {
                 var cardJson = JSON.stringify(scope.card);
                 event.dataTransfer.setData('card', cardJson);
@@ -15,8 +66,7 @@ angular.module('DeckBuilderModule', ['CardListModule'])
 .directive('deckList', function () {
     return {
         restrict: 'A',
-        scope: true, 
-        link: function (scope, element, attrs, ctrl) {
+        link: function (scope, element) {
 
             element.on('dragover', function (event) {
                 event.preventDefault();
@@ -32,11 +82,11 @@ angular.module('DeckBuilderModule', ['CardListModule'])
                 scope.$apply();
             });
         },
-        controller: ['$scope', function ($scope) {
-            $scope.deck = {};
+        controller: ['$scope', 'DeckBuilderService', function ($scope, DeckBuilderService) {
+            $scope.deck.cards = {};
             $scope.count = 0;
 
-            $scope.$watchCollection('deck', function (newVal) {
+            $scope.$watchCollection('deck.cards', function (newVal) {
                 $scope.colors = $scope.colorIdentity(newVal);
             });
 
@@ -66,7 +116,7 @@ angular.module('DeckBuilderModule', ['CardListModule'])
             };
 
             $scope.addCard = function (card) {
-                var existing = $scope.deck[card.sanitized_name];
+                var existing = $scope.deck.cards[card.sanitized_name];
 
                 if(existing) {
                     if(existing.quantity < 4) {
@@ -77,7 +127,13 @@ angular.module('DeckBuilderModule', ['CardListModule'])
                 }
                 $scope.count++;
                 card.quantity = 1;
-                $scope.deck[card.sanitized_name] = card;
+                $scope.deck.cards[card.sanitized_name] = card;
+
+                DeckBuilderService.createOrUpdateDeck($scope.deck)
+                    .then(function (response) {
+                        console.log(response);
+                        $scope.deck.sanitized_name = response.data.sanitized_name;
+                    });
             };
         }]
     };
