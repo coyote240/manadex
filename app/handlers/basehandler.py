@@ -1,5 +1,7 @@
 import json
 import httplib
+import logging
+
 import tornado.web
 
 from bson.objectid import ObjectId
@@ -27,6 +29,15 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def encode_json(self, record):
         return JSONEncoder().encode(record)
+
+    def info(self, message):
+        logging.info(message)
+
+    def warn(self, message):
+        logging.warning(message)
+
+    def error(self, message):
+        logging.error(message)
 
 
 class BaseStaticHandler(tornado.web.StaticFileHandler):

@@ -3,6 +3,11 @@
 {% block content %}
 <section>
     <a href="/decks/new">Create a Deck</a>
+    <ul>
+        {% for deck in decks %}
+        <li><a href="/decks/{{ deck.get('sanitized_name') }}">{{ deck.get('name') }}</a></li>
+        {% end %}
+    </ul>
 </section>
 {% end %}
 

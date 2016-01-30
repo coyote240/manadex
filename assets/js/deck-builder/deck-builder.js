@@ -1,7 +1,12 @@
 angular.module('DeckBuilderModule', ['CardListModule'])
 .controller('DeckBuilderController', ['$scope', function ($scope) {
     $scope.deck = {};
-    $scope.deck.name = 'Custom Deck';
+
+    var dereg = $scope.$watch('deckForm', function () {
+        console.log($scope);
+        $scope.deck.name = 'Custom Deck ' + $scope.count;
+        dereg();
+    });
 
     $scope.updateDeck = function () {
     };
@@ -18,7 +23,7 @@ angular.module('DeckBuilderModule', ['CardListModule'])
             var cards = Object.keys(deck.cards).map(function (key) {
                 var card = deck.cards[key];
                 return {
-                    name: card.sanitized_name,
+                    sanitized_name: card.sanitized_name,
                     quantity: card.quantity
                 };
             });
@@ -42,11 +47,30 @@ angular.module('DeckBuilderModule', ['CardListModule'])
         },
 
         updateDeck: function (deck, card) {
-            return {
-                then: function () {
-                    console.log('updating');
+            var cards = Object.keys(deck.cards).map(function (key) {
+                var card = deck.cards[key];
+                return {
+                    sanitized_name: card.sanitized_name,
+                    quantity: card.quantity
+                };
+            });
+
+            return $http({
+                method: 'PUT',
+                url: '/api/decks',
+                data: {
+                    name: deck.name,
+                    sanitized_name: deck.sanitized_name,
+                    description: deck.description,
+                    cards: cards
                 }
-            };
+            }).then(function (response) {
+                console.log('success', response);
+                return response;
+            }, function (response) {
+                console.log('error', response);
+                return response;
+            });
         }
     };
 }])
@@ -118,20 +142,20 @@ angular.module('DeckBuilderModule', ['CardListModule'])
             $scope.addCard = function (card) {
                 var existing = $scope.deck.cards[card.sanitized_name];
 
-                if(existing) {
-                    if(existing.quantity < 4) {
-                        existing.quantity += 1;
-                        $scope.count++;
-                    }
+                if(existing && existing.quantity >= 4) {
                     return;
                 }
+
+                if(existing) {
+                    existing.quantity += 1;
+                } else {
+                    card.quantity = 1;
+                    $scope.deck.cards[card.sanitized_name] = card;
+                }
                 $scope.count++;
-                card.quantity = 1;
-                $scope.deck.cards[card.sanitized_name] = card;
 
                 DeckBuilderService.createOrUpdateDeck($scope.deck)
                     .then(function (response) {
-                        console.log(response);
                         $scope.deck.sanitized_name = response.data.sanitized_name;
                     });
             };

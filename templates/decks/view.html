@@ -1,0 +1,12 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<section class="deck-view">
+    {{ deck.get('name') }}
+    <ul>
+        {% for card in cards %}
+        <li>{{ card.get('name') }}</li>
+        {% end %}
+    </ul>
+</section>
+{% end %}

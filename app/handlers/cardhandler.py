@@ -16,6 +16,12 @@ class BaseCardHandler(handlers.BaseHandler):
         self.ngAppModule = 'ManaDex'
         self.collection = self.settings['db_ref']['cards']
 
+    @gen.coroutine
+    def get_card(self, name):
+        card = yield self.collection.find_one(
+            {'sanitized_name': name}, {'_id': 0})
+        raise gen.Return(card)
+
 
 class CardHandler(BaseCardHandler):
 
@@ -29,8 +35,7 @@ class CardHandler(BaseCardHandler):
         #sort = self.get_argument('sort', default=None)
 
         if name:
-            card = yield self.collection.find_one(
-                {'sanitized_name': name}, {'_id': 0})
+            card = yield self.get_card(name)
             if card is None:
                 self.send_error(status_code=404, reason="Card not found.")
                 return
@@ -54,10 +59,9 @@ class CardFormHandler(BaseCardHandler):
     def get(self, name=None):
         card = None
         if name is not None:
-            card = yield self.collection.find_one(
-                {'sanitized_name': name}, {'_id': 0})
+            card = yield self.get_card(name)
             if card is None:
-                self.redirect('/cards')
+                self.send_error(status_code=404, reason="Card not found.")
                 return
 
         card_json = json.dumps(card, default=json_util.default)
