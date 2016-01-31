@@ -112,6 +112,12 @@ angular.module('DeckBuilderModule', ['CardListModule'])
 
             $scope.$watchCollection('deck.cards', function (newVal) {
                 $scope.colors = $scope.colorIdentity(newVal);
+
+                var names = Object.keys($scope.deck.cards);
+                $scope.count = names.reduce(function (prev, curr) {
+                    var card = $scope.deck.cards[curr];
+                    return prev + card.quantity;
+                }, 0);
             });
 
             $scope.colorIdentity = function (deck) {

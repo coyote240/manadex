@@ -28,7 +28,6 @@ angular.module('CardListModule', [
             };
 
             $scope.addToCollection = function (cardName, expansion) {
-                console.log('adding', cardName, expansion);
                 CardService.addToCollection(cardName, expansion)
                     .then(function (response) {
                     });
