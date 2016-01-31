@@ -3,7 +3,7 @@
 {% block content %}
 <section>
     <form name="deckForm" class="deck-form" method="post"
-        ng-controller="DeckBuilderController" novalidate>
+        deck-builder="{{ deck }}" novalidate>
         <fieldset>
             <div class="part name">
                 <label>Name</label>

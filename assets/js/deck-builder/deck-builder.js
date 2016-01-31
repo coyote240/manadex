@@ -1,16 +1,16 @@
 angular.module('DeckBuilderModule', ['CardListModule'])
-.controller('DeckBuilderController', ['$scope', function ($scope) {
-    $scope.deck = {};
-
-    var dereg = $scope.$watch('deckForm', function () {
-        console.log($scope);
-        $scope.deck.name = 'Custom Deck ' + $scope.count;
-        dereg();
-    });
-
-    $scope.updateDeck = function () {
+.directive('deckBuilder', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var deck = JSON.parse(attrs.deckBuilder, '{}');
+            angular.extend(scope.deck, deck);
+        },
+        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+            $scope.deck = {};
+        }]
     };
-}])
+})
 .factory('DeckBuilderService', ['$http', function ($http) {
     return {
         createOrUpdateDeck: function (deck) {

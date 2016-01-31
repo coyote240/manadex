@@ -2,7 +2,11 @@
 
 {% block content %}
 <section class="deck-view">
-    {{ deck.get('name') }}
+    <h2>{{ deck.get('name') }}</h2>
+    <a href="/decks/{{ deck.get('sanitized_name') }}/edit">[edit]</a><a href="">[delete]</a>
+    {% if deck.get('description') %}
+    <p>{{ deck.get('description') }}</h2>
+    {% end %}
     <ul>
         {% for card in cards %}
         <li>{{ card.get('name') }}</li>

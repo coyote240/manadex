@@ -4,6 +4,8 @@ import datetime
 import tornado.web
 from tornado import gen
 
+from bson import json_util
+
 import handlers
 
 
@@ -73,7 +75,6 @@ class DeckHandler(BaseDeckHandler):
                 return
 
         decks = yield self.get_decks()
-        self.info(decks)
         self.render('decks/index.html',
                     ngAppModule=self.ngAppModule,
                     decks=decks)
@@ -94,13 +95,22 @@ class DeckFormHandler(BaseDeckHandler):
         deck = None
         if name is not None:
             deck = yield self.get_deck(name)
+
             if deck is None:
                 self.send_error(status_code=404, reason='Deck not found.')
                 return
 
+            cards = yield self.get_cards(deck)
+            card_dict = {card['sanitized_name']: card for card in cards}
+            for card in deck['cards']:
+                name = card.get('sanitized_name')
+                quantity = card.get('quantity')
+                card_dict[name]['quantity'] = quantity
+            deck['cards'] = card_dict
+
         decks = yield self.get_decks()
 
-        deck_json = self.encode_json(deck)
+        deck_json = json.dumps(deck, default=json_util.default)
         self.render('decks/form.html',
                     ngAppModule=self.ngAppModule,
                     deck=deck_json,
@@ -135,8 +145,12 @@ class DeckAPIHandler(BaseDeckHandler):
         # this is gross, fix this
         cards = zip(
             [card.get('_id') for card in card_refs],
+            [card.get('sanitized_name') for card in deck.get('cards')],
             [card.get('quantity') for card in deck.get('cards')])
-        cards = [{'id': _id, 'quantity': quantity} for _id, quantity in cards]
+        cards = [{
+            'id': _id,
+            'sanitized_name': sanitized_name,
+            'quantity': quantity} for _id, sanitized_name, quantity in cards]
         deck['cards'] = cards
 
         future = self.collection.insert(deck)
@@ -160,8 +174,12 @@ class DeckAPIHandler(BaseDeckHandler):
 
         cards = zip(
             [card.get('_id') for card in card_refs],
+            [card.get('sanitized_name') for card in deck.get('cards')],
             [card.get('quantity') for card in deck.get('cards')])
-        cards = [{'id': _id, 'quantity': quantity} for _id, quantity in cards]
+        cards = [{
+            'id': _id,
+            'sanitized_name': sanitized_name,
+            'quantity': quantity} for _id, sanitized_name, quantity in cards]
         deck['cards'] = cards
 
         result = yield self.collection.update(
