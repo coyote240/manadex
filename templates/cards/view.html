@@ -2,13 +2,16 @@
 
 {% block content %}
 <a href="/cards">Back to list</a>
+<a href="/cards/{{ card.get('sanitized_name') }}/edit">[edit]</a>
 <section class="card-view">
     <div class="name-line">
         <div class="part name">
             {{ card.get('name') }}
         </div>
         <div class="part cost">
+            {% if card.get('manaCost') %}
             {% module ManaCost(card.get('manaCost')) %}
+            {% end %}
         </div>
     </div>
     <div class="type-line">

@@ -1,5 +1,4 @@
 import json
-import logging
 import datetime
 
 import tornado.web
@@ -8,6 +7,7 @@ from tornado import gen
 from bson import json_util
 
 import handlers
+from manadex.card import Card
 
 
 class BaseCardHandler(handlers.BaseHandler):
@@ -85,39 +85,45 @@ class CardAPIHandler(BaseCardHandler):
     @tornado.web.authenticated
     @gen.coroutine
     def post(self):
-        self.card = json.loads(self.request.body)
-        self.card['lastModified'] = datetime.datetime.utcnow()
-        self.card['lastModifiedBy'] = self.current_user
-        self.card['sanitized_name'] = handlers.sanitize_name(
-            self.card.get('name'))
+        card_dict = json.loads(self.request.body)
+
+        card = Card.factory(card_dict)
+        card.created = datetime.datetime.utcnow()
+        card.created_by = self.current_user
+        card.last_modified = datetime.datetime.utcnow()
+        card.last_modified_by = self.current_user
 
         existing = yield self.collection.find_one(
-            {'sanitized_name': self.card.get('sanitized_name'),
-             'expansion': self.card.get('expansion')})
-        logging.warning(existing)
+            {'sanitized_name': card.sanitized_name,
+             'expansion': card.expansion})
+
         if existing is not None:
             self.send_error(status_code=409, reason='Card already exists')
             return
 
-        future = self.collection.insert(self.card)
+        future = self.collection.insert(card.to_dict())
         id = yield future
         self.write(str(id))
 
     @tornado.web.authenticated
     @gen.coroutine
     def put(self):
-        self.card = json.loads(self.request.body)
-        self.card['lastModified'] = datetime.datetime.utcnow()
-        self.card['lastModifiedBy'] = self.current_user
+        card_dict = json.loads(self.request.body)
+
+        card = Card.factory(card_dict)
+        card.last_modified = datetime.datetime.utcnow()
+        card.last_modified_by = self.current_user
 
         result = yield self.collection.update(
-            {'sanitized_name': self.card.get('sanitized_name'),
-             'expansion': self.card.get('expansion')}, self.card)
+            {'sanitized_name': card.sanitized_name,
+             'expansion': card.expansion},
+            {'$set': card.to_dict()})
         self.write(result)
 
     @tornado.web.authenticated
     @gen.coroutine
     def delete(self):
+        card = json.loads(self.request.body)
         result = yield self.collection.remove(
-            {'sanitized_name': self.card.get('sanitized_name')})
+            {'sanitized_name': card.get('sanitized_name')})
         self.write(result)
