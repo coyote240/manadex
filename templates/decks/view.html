@@ -7,10 +7,6 @@
     {% if deck.get('description') %}
     <p>{{ deck.get('description') }}</h2>
     {% end %}
-    <ul>
-        {% for card in cards %}
-        <li>{{ card.get('name') }}</li>
-        {% end %}
-    </ul>
+    {% module DeckList(cards) %}
 </section>
 {% end %}

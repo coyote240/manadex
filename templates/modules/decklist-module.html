@@ -1,0 +1,22 @@
+<section class="deck-display">
+    <h4>Creatures ({{ len(creatures) }})</h4>
+    <ul>
+    {% for creature in creatures %}
+    <li>{{ creature.get('name') }}</li>
+    {% end %}
+    </ul>
+
+    <h4>Sorceries ({{ len(sorceries) }})</h4>
+    <ul>
+    {% for sorcery in sorceries %}
+    <li>{{ sorcery.get('name') }}</li>
+    {% end %}
+    </ul>
+
+    <h4>Instants ({{ len(instants) }})</h4>
+    <ul>
+    {% for instant in instants %}
+    <li>{{ instant.get('name') }}</li>
+    {% end %}
+    </ul>
+</section>
