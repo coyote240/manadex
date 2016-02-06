@@ -12,7 +12,9 @@
     </td>
     <td>{{ card.get('rarity') }}</td>
     <td class="mana-cost">
+        {% if card.get('manaCost') %}
         {% module ManaCost(card.get('manaCost')) %}
+        {% end %}
     </td>
     <td class="actions">
         <a class="add" href="javascript:void(0);" ng-click="addToCollection('{{ card.get('sanitized_name') }}', '{{ card.get('expansion') }}')">&#9733;</a>

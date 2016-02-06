@@ -39,7 +39,7 @@
         </div>
     </fieldset>
     <fieldset ng-if="card.type == 'planeswalker'" class="text-box">
-        <div class="planeswalker-ability" ng-repeat="ability in card.planeswalkerAbilities">
+        <div class="planeswalker-ability" ng-repeat="ability in card.abilities">
             <input type="number" min="-20" max="20" ng-model="ability.cost"/>
             <textarea rows="4" ng-model="ability.rules"></textarea>
         </div>

@@ -32,7 +32,7 @@ angular.module('ManaDex', [
                 type: 'creature',
                 rarity: 'common',
                 collectorNumber: 0,
-                planeswalkerAbilities: [{
+                abilities: [{
                     cost: 1,
                     rules: '',
                 }, {

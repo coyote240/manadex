@@ -1,4 +1,4 @@
 <span class="mana"
     ng-class="item.color"
-    ng-repeat="item in mana"
+    ng-repeat="item in values() track by $index"
     ng-bind="item.value"></span>
