@@ -20,7 +20,7 @@
             <div class="card-token" ng-repeat="card in cards" draggable="true">
                 <span class="card-name">{{! card.name }}</span>
                 <span class="card-type">{{! card.type }} - {{! card.subtype }}</span>
-                <span class="card-cost" mana-cost="card.manaCost"></span>
+                <span ng-if="card.manaCost" class="card-cost" mana-cost="card.manaCost"></span>
             </div>
         </fieldset>
         <fieldset class="deck-list" deck-list ng-model="deck.cards">
@@ -32,7 +32,7 @@
                 <span class="card-name">{{! card.name }}</span>
                 <span class="card-type">{{! card.type }} - {{! card.subtype }}</span>
                 <span class="quantity">x{{! card.quantity }}</span>
-                <span class="card-cost" mana-cost="card.manaCost"></span>
+                <span ng-if="card.manaCost" class="card-cost" mana-cost="card.manaCost"></span>
             </div>
         </fieldset>
     </form>

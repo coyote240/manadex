@@ -48,15 +48,16 @@ angular.module('ManaDex', [
             $scope.cardsInSet = 0;
             $scope.cardTypes = {
                 'creature': null,
-                'legendary creature': null,
                 'artifact creature': null,
                 'enchantment': ['aura', 'curse', 'shrine'],
                 'sorcery': ['arcane', 'trap'],
                 'instant': ['arcane', 'trap'],
                 'artifact': ['contraption', 'equipment', 'fortification'],
                 'planeswalker': null,
-                'land': null
+                'land': ['plains', 'island', 'swamp', 'mountain', 'forest'] 
             };
+            $scope.supertypes = ['basic', 'elite', 'legendary', 'ongoing',
+                                 'snow', 'world'];
 
             $scope.expansions = PartLookupService.getExpansions();
 

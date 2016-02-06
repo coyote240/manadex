@@ -10,12 +10,17 @@
             <label>Name</label>
             <input type="text" ng-model="card.name" required/>
         </div>
-        <div class="part cost">
+        <div class="part cost" ng-if="card.type != 'land'">
             <label>Cost</label>
             <div mana-selector ng-model="card.manaCost"></div>
         </div>
     </fieldset>
     <fieldset class="type-line">
+        <div class="part supertype">
+            <label>Super-Type</label>
+            <select ng-model="card.supertype"
+                ng-options="supertype for supertype in supertypes"></select>
+        </div>
         <div class="part type">
             <label>Type</label>
             <select name="type" ng-model="card.type">
@@ -24,7 +29,7 @@
         </div>
         <div class="part subtype">
             <label>Sub-Type</label>
-            <input ng-if="!cardTypes[card.type]" type="text" ng-model="card.subtype" required/>
+            <input ng-if="!cardTypes[card.type]" type="text" ng-model="card.subtype"/>
             <select ng-if="cardTypes[card.type]" ng-model="card.subtype"
                 ng-options="subtype for subtype in cardTypes[card.type]"></select>
         </div>
