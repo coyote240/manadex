@@ -126,13 +126,16 @@ angular.module('DeckBuilderModule', ['CardListModule'])
 
                 Object.keys(deck).forEach(function (name) {
                     var card = deck[name];
-                    card.manaCost.forEach(function (mana) {
-                        if(mana.color !== 'generic') {
-                            if(mana.value > 0) {
-                                tmp[mana.color] = 1;
+
+                    if(card.manaCost) {
+                        card.manaCost.forEach(function (mana) {
+                            if(mana.color !== 'generic') {
+                                if(mana.value > 0) {
+                                    tmp[mana.color] = 1;
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 });
 
                 Object.keys(tmp).forEach(function (name) {
@@ -149,7 +152,9 @@ angular.module('DeckBuilderModule', ['CardListModule'])
                 var existing = $scope.deck.cards[card.sanitized_name];
 
                 if(existing && existing.quantity >= 4) {
-                    return;
+                    if(card.supertype !== 'basic') {
+                        return;
+                    }
                 }
 
                 if(existing) {

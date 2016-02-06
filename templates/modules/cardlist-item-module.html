@@ -5,6 +5,9 @@
         </a>
     </td>
     <td class="type">
+        {% if 'supertype' in card %}
+        {{ card.get('supertype') }}
+        {% end %}
         {{ card.get('type') }}
         {% if 'subtype' in card %}
         - {{ card.get('subtype') }}

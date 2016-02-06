@@ -52,6 +52,7 @@ class Card(dict):
 
     def __init__(self, card_dict):
         self.name = card_dict.get('name')
+        self.supertype = card_dict.get('supertype')
         self.type = card_dict.get('type')
         self.subtype = card_dict.get('subtype')
         self.expansion = card_dict.get('expansion')
@@ -96,6 +97,7 @@ class Card(dict):
     def to_dict(self):
         return SpareDict({
             'name': self.name,
+            'supertype': self.supertype,
             'type': self.type,
             'subtype': self.subtype,
             'sanitized_name': self.sanitized_name,
