@@ -131,6 +131,7 @@ class Castable(Card):
 
             if color not in Castable._colors:
                 raise Exception('Unknown mana color.')
+
             cost.append(mana)
 
         if len(cost) > 0:
@@ -140,6 +141,18 @@ class Castable(Card):
 
     @property
     def cmc(self):
+        '''
+        Converted Mana Cost
+        '''
+        return reduce(
+            lambda x, y: x + y,
+            [mana['value']
+                for mana in self.mana_cost if isinstance(mana['value'], int)])
+
+    @staticmethod
+    def _cost(mana):
+        '''
+        '''
         pass
 
     def to_dict(self):
@@ -148,11 +161,3 @@ class Castable(Card):
             'manaCost': self.mana_cost
         })
         return card_dict
-
-
-class Permanent(Card):
-    pass
-
-
-class Spell(Card):
-    pass

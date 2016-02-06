@@ -27,7 +27,7 @@
     </div>
     <div class="text-box">
         {% if card.get('type') == 'planeswalker' %}
-            {% for ability in card.get('planeswalkerAbilities', []) %}
+            {% for ability in card.get('abilities', []) %}
             <div class="planeswalker-ability">
                 <div class="cost">{{ ability.get('cost') }}</div>
                 <div class="rules">{{ ability.get('rules') }}</div>
