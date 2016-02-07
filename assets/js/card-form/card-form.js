@@ -1,5 +1,5 @@
 angular.module('CardFormModule',
-    ['ManaSelectorModule', 'TypeAheadModule', 'CardServiceModule'])
+    ['ManaSelectorModule', 'TypeAheadModule', 'CardServiceModule', 'PickListModule'])
 .directive('cardForm', ['CardService', 'PartLookupService', '$window', 
 function (CardService, PartLookupService, $window) {
     return {
@@ -26,7 +26,8 @@ function (CardService, PartLookupService, $window) {
                 }, {
                     cost: -1,
                     rules: ''
-                }]
+                }],
+                keywords: []
             };
 
 
@@ -45,6 +46,7 @@ function (CardService, PartLookupService, $window) {
                                  'snow', 'world'];
 
             $scope.expansions = PartLookupService.getExpansions();
+            $scope.evergreen = PartLookupService.getEvergreenKeywords();
 
             $scope.isCreatureType = function (type) {
                 return /creature/i.test(type);

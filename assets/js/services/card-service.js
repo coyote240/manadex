@@ -87,6 +87,15 @@ angular.module('CardServiceModule', [])
             cardsInSet: 185
         }
     };
+
+    var keywords = [
+        'activate', 'attach', 'cast', 'counter', 'deathtouch', 'defender',
+        'destroy', 'discard', 'double strike', 'enchant', 'equip', 'exchange',
+        'exile', 'fight', 'first strike', 'flash', 'flying', 'haste',
+        'hexproof', 'indestructible', 'lifelink', 'menace', 'play', 'prowess',
+        'reach', 'regenerate', 'reveal', 'sacrifice', 'scry', 'search',
+        'shuffle', 'tap/untap', 'trample', 'vigilance'];
+
     return {
         /*
          *  Needs planning, typeahead search on name field
@@ -127,6 +136,7 @@ angular.module('CardServiceModule', [])
          *  http://mtgsalvation.gamepedia.com/Evergreen
          */
         getEvergreenKeywords: function () {
+            return keywords;
         }
     };
 }]);

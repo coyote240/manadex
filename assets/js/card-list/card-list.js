@@ -69,4 +69,19 @@ angular.module('CardListModule', [
             };
         }]
     };
+})
+.filter('typeLine', function () {
+    return function (card) {
+        var out = [];
+
+        if(card.supertype) {
+            out.push(card.supertype);
+        }
+        out.push(card.type);
+        if(card.subtype) {
+            out.push('-');
+            out.push(card.subtype);
+        }
+        return out.join(' ');
+    };
 });

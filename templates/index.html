@@ -25,7 +25,7 @@
         <tbody>
             <tr ng-repeat="card in cards">
                 <td>{{! card.name }}</td>
-                <td>{{! card.type }}</td>
+                <td class="type">{{! card | typeLine }}</td>
                 <td>{{! card.rarity }}</td>
                 <td class="mana-cost" mana-cost="card.manaCost"></td>
             </tr>

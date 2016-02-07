@@ -125,6 +125,34 @@ a {
     padding: 3px;
 }
 
+.pick-list {
+    display: inline-block;
+    background-color: #FFF;
+    border-radius: 3px;
+    border: 1px solid #CCC;
+    padding: 3px;
+    font-size: 80%;
+
+    .item {
+        display: inline-block;
+        padding: 0px 2px;
+        margin: 0 2px;
+        background-color: #A4A4A4;
+        color: #FFF;
+        border-radius: 3px;
+
+        a {
+            color: #EEE;
+            text-decoration: none;
+
+            &.close::after {
+                cursor: pointer;
+                content: '\2716';
+            }
+        }
+    }
+}
+
 table.card-list {
     width: 100%;
     border-collapse: collapse;

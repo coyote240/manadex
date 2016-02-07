@@ -1,0 +1,9 @@
+<div class="pick-list" ng-show="selectedItems.length">
+    <span class="item" ng-repeat="item in selectedItems">
+        {{ item }}
+        <a class="close" ng-click="remove($index)"></a>
+    </span>
+</div>
+<select ng-model="selected">
+    <option ng-repeat="item in availableItems">{{ item }}</option>
+</select>

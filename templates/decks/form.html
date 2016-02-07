@@ -19,7 +19,7 @@
         <fieldset class="card-list" card-list>
             <div class="card-token" ng-repeat="card in cards" draggable="true">
                 <span class="card-name">{{! card.name }}</span>
-                <span class="card-type">{{! card.type }} - {{! card.subtype }}</span>
+                <span class="card-type">{{! card | typeLine }}</span>
                 <span ng-if="card.manaCost" class="card-cost" mana-cost="card.manaCost"></span>
             </div>
         </fieldset>
@@ -30,7 +30,7 @@
             </div>
             <div class="card-token" ng-repeat="(key, card) in deck.cards" draggable="true">
                 <span class="card-name">{{! card.name }}</span>
-                <span class="card-type">{{! card.type }} - {{! card.subtype }}</span>
+                <span class="card-type">{{! card | typeLine }}</span>
                 <span class="quantity">x{{! card.quantity }}</span>
                 <span ng-if="card.manaCost" class="card-cost" mana-cost="card.manaCost"></span>
             </div>

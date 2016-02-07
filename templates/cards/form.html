@@ -50,14 +50,17 @@
         </div>
     </fieldset>
     <fieldset ng-if="card.type != 'planeswalker'" class="text-box">
+
         <textarea name="description" ng-model="card.description"
             rows="4" placeholder="Description..."></textarea>
         <textarea name="flavorText" ng-model="card.flavorText"
             rows="4" placeholder="Flavor text..."></textarea>
-        <div class="part keywords" ng-if="isCreatureType(card.type)">
+
+        <div class="part keywords">
             <label>Keywords</label>
-            <select name="keywords" ng-model="card.keywords"></select>
+            <div ng-model="card.keywords" pick-list="evergreen"></div>
         </div>
+
     </fieldset>
     <fieldset ng-if="isCreatureType(card.type)">
         <div class="part stats">
@@ -106,6 +109,7 @@
 <script src="/static/js/card-form/card-form.js"></script>
 <script src="/static/js/mana-selector/mana-selector.js"></script>
 <script src="/static/js/type-ahead/type-ahead.js"></script>
+<script src="/static/js/pick-list/pick-list.js"></script>
 <script src="/static/js/services/collection-service.js"></script>
 <script src="/static/js/services/card-service.js"></script>
 <script src="/static/js/services/collection-service.js"></script>
