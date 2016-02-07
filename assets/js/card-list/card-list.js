@@ -51,6 +51,11 @@ angular.module('CardListModule', [
         controller: ['$scope', function ($scope) {
             $scope.values = function () {
                 var values = [];
+
+                if(!$scope.mana) {
+                    return [];
+                }
+
                 $scope.mana.forEach(function (color) {
                     if(color.color === 'generic') {
                         values.push(color);

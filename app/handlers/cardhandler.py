@@ -48,7 +48,7 @@ class CardHandler(BaseCardHandler):
         future = self.collection.find().limit(limit).skip(start)
         cards = yield future.to_list(None)
         self.render('cards/index.html',
-                    ngAppModule=self.ngAppModule,
+                    ngAppModule='CardIndexModule',
                     cards=cards, start=start, limit=limit)
 
 
@@ -66,7 +66,7 @@ class CardFormHandler(BaseCardHandler):
 
         card_json = json.dumps(card, default=json_util.default)
         self.render('cards/form.html',
-                    ngAppModule=self.ngAppModule,
+                    ngAppModule='CardFormModule',
                     card=card_json)
 
 

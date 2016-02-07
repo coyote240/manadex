@@ -1,22 +1,7 @@
-angular.module('ManaDex', [
-    'ManaSelectorModule',
-    'TypeAheadModule',
-    'CardServiceModule',
-    'CardListModule'
-]).filter('rarity', function () {
-    var rarities = {
-        common: 'Common',
-        uncommon: 'Uncommon',
-        rare: 'Rare',
-        mythicRare: 'Mythic Rare'
-    };
-    return function (type) {
-        type = type || 'common';
-        return rarities[type];
-    };
-})
-.directive('cardForm', ['CardService', 'PartLookupService', '$window', function (CardService, PartLookupService, $window) {
-
+angular.module('CardFormModule',
+    ['ManaSelectorModule', 'TypeAheadModule', 'CardServiceModule'])
+.directive('cardForm', ['CardService', 'PartLookupService', '$window', 
+function (CardService, PartLookupService, $window) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -92,72 +77,6 @@ angular.module('ManaDex', [
             $scope.getTypeahead = function (current) {
                 PartLookupService.nameTypeahead(current);
             };
-        }
-    };
-}])
-.factory('PartLookupService', ['$http', function ($http) {
-    var expansions = {
-        BFZ: {
-            name: 'Battle for Zendikar',
-            code: 'BFZ',
-            cardsInSet: 274
-        },
-        OGW: {
-            name: 'Oath of the Gatewatch',
-            code: 'OGW',
-            cardsInSet: 184
-        },
-        ORI: {
-            name: 'Magic Origins',
-            code: 'ORI',
-            cardsInSet: 272
-        },
-        FRF: {
-            name: 'Fate Reforged',
-            code: 'FRF',
-            cardsInSet: 185
-        }
-    };
-    return {
-        /*
-         *  Needs planning, typeahead search on name field
-         */
-        nameTypeahead: function (query) {
-            return $http.get(
-                '/api/cards',
-                { 
-                    params: {
-                        q: query
-                    }
-                }).then(function (response) {
-                    console.log('success', response);
-                    return response;
-                }, function (response) {
-                    console.log('error', response);
-                    return response;
-                });
-        },
-
-        /*
-         *  Typeahead for known subtypes
-         */
-        subtypeTypeahead: function () {
-        },
-
-        /*
-         *  Expansions is a big bit of info with a lot of attributes.
-         *  Will put into DB
-         *  http://mtgsalvation.gamepedia.com/Expansion#List_of_Magic_expansions_and_sets
-         */
-        getExpansions: function () {
-            return expansions;
-        },
-
-        /*
-         *  May go into DB so to store current vs. former
-         *  http://mtgsalvation.gamepedia.com/Evergreen
-         */
-        getEvergreenKeywords: function () {
         }
     };
 }]);
