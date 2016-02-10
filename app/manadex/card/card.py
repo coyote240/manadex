@@ -67,6 +67,14 @@ class Card(dict):
         return None
 
     @property
+    def types(self):
+        return self._types
+
+    @types.setter
+    def types(self, value):
+        self._types = set(value)
+
+    @property
     def name(self):
         return self._name
 

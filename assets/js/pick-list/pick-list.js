@@ -11,6 +11,7 @@ angular.module('PickListModule', [])
         controller: ['$scope', function ($scope) {
             $scope.$watch('selected', function (val) {
                 $scope.add(val);
+                $scope.selected = null;
             });
 
             $scope.add = function (item) {

@@ -5,7 +5,7 @@ class Creature(card.Castable):
 
     @classmethod
     def match(cls, card_dict):
-        return card_dict.get('type') in ['creature', 'legendary creature']
+        return card_dict.get('type') == 'creature'
 
     def __init__(self, card_dict):
         super(Creature, self).__init__(card_dict)
