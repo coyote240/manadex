@@ -19,7 +19,8 @@ class RegistrationHandler(handlers.BaseHandler):
         self.collection = self.settings['db_ref']['users']
 
     def get(self):
-        self.render('register.html')
+        self.render('register.html',
+                    ngAppModule='ManaDex')
 
     @gen.coroutine
     def post(self):
