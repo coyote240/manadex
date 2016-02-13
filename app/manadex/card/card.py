@@ -56,7 +56,9 @@ class Card(dict):
         self.type = card_dict.get('type')
         self.subtype = card_dict.get('subtype')
         self.expansion = card_dict.get('expansion')
+        self.description = card_dict.get('description')
         self.rarity = card_dict.get('rarity')
+        self.collector_number = card_dict.get('collectorNumber')
         self.keywords = card_dict.get('keywords')
 
         self.created = None
@@ -103,7 +105,9 @@ class Card(dict):
             'subtype': self.subtype,
             'sanitized_name': self.sanitized_name,
             'expansion': self.expansion,
+            'description': self.description,
             'rarity': self.rarity,
+            'collectorNumber': self.collector_number,
             'keywords': self.keywords,
             'lastModified': self.last_modified,
             'lastModifiedBy': self.last_modified_by,

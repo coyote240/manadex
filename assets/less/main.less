@@ -69,9 +69,7 @@ a {
     }
 }
 
-.mana {
-    .serif-font();
-
+.symbol {
     color: transparent;
     display: inline-block;
     background-repeat: no-repeat;
@@ -80,6 +78,17 @@ a {
     font-size: 90%;
     width: 15px;
     height: 15px;
+}
+
+.tapped {
+    .symbol();
+
+    background-image: url('/static/img/To_Tap.png');
+}
+
+.mana {
+    .serif-font();
+    .symbol();
 
     &.generic {
         color: inherit;

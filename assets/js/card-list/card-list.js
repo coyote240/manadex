@@ -84,4 +84,15 @@ angular.module('CardListModule', [
         }
         return out.join(' ');
     };
+})
+.filter('rarity', function () {
+    var rarities = {
+        common: 'Common',
+        uncommon: 'Uncommon',
+        rare: 'Rare',
+        mythicRare: 'Mythic Rare'
+    };
+    return function (rarity) {
+        return rarities[rarity] || 'Unknown';
+    };
 });
