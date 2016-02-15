@@ -16,7 +16,10 @@
     </div>
     <div class="type-line">
         <div class="part type">
-            {{ card.get('type') }}
+            {% if 'supertype' in card %}
+            {{ card.get('supertype') }} -
+            {% end %}
+            {{ ' '.join(card.get('types')) }}
             {% if 'subtype' in card %}
             - {{ card.get('subtype') }}
             {% end %}

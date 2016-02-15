@@ -1,8 +1,6 @@
-import card
+from card import Card, CardType
 
 
-class Land(card.Card):
-
-    @classmethod
-    def match(cls, card_dict):
-        return card_dict.get('type') == 'land'
+@CardType('land')
+class Land(Card):
+    pass

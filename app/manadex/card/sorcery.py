@@ -1,8 +1,6 @@
-import card
+from card import Castable, CardType
 
 
-class Sorcery(card.Castable):
-
-    @classmethod
-    def match(cls, card_dict):
-        return card_dict.get('type') == 'sorcery'
+@CardType('sorcery')
+class Sorcery(Castable):
+    pass

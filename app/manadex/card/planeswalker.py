@@ -1,11 +1,8 @@
-import card
+from card import Castable, CardType
 
 
-class Planeswalker(card.Castable):
-
-    @classmethod
-    def match(cls, card_dict):
-        return card_dict.get('type') == 'planeswalker'
+@CardType('planeswalker')
+class Planeswalker(Castable):
 
     def __init__(self, card_dict):
         super(Planeswalker, self).__init__(card_dict)
