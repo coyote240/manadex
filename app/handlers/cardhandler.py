@@ -1,3 +1,4 @@
+import re
 import json
 import datetime
 
@@ -25,6 +26,28 @@ class BaseCardHandler(handlers.BaseHandler):
 
 class CardHandler(BaseCardHandler):
 
+    symbols = {
+        'T': '<span class="tapped"></span>',
+        'W': '<span class="mana white"></span>',
+        'U': '<span class="mana blue"></span>',
+        'B': '<span class="mana blue"></span>',
+        'R': '<span class="mana blue"></span>',
+        'G': '<span class="mana blue"></span>'
+    }
+
+    def replace_token(self, match):
+        value = match.group(1)
+        replacement = CardHandler.symbols.get(value)
+
+        if replacement is None:
+            return '<span class="mana generic">{0}</span>'.format(value)
+        return replacement
+
+    def rules_display(self, rules):
+        rules = re.sub(r'\{([A-Z0-9]+)\}', self.replace_token, rules)
+        rules = re.sub(r'\n+', '<br/>', rules)
+        return rules
+
     @tornado.web.authenticated
     @gen.coroutine
     def get(self, name=None):
@@ -42,6 +65,7 @@ class CardHandler(BaseCardHandler):
             else:
                 self.render('cards/view.html',
                             ngAppModule=self.ngAppModule,
+                            rules_display=self.rules_display,
                             card=card)
                 return
 

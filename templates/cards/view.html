@@ -36,7 +36,7 @@
         {% else %}
             {% if card.get('description') is not None %}
             <div class="description">
-                {{ card.get('description') }}
+                {% raw rules_display(card.get('description')) %}
             </div>
             {% end %}
             {% if card.get('flavorText') is not None %}
