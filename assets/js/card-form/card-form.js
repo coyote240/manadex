@@ -14,7 +14,7 @@ function (CardService, PartLookupService, $window) {
                 toughness: 0,
                 loyalty: 0,
                 expansion: null,
-                type: 'creature',
+                types: [],
                 rarity: 'common',
                 collectorNumber: 0,
                 abilities: [{
@@ -32,6 +32,7 @@ function (CardService, PartLookupService, $window) {
 
 
             $scope.cardsInSet = 0;
+            /*
             $scope.cardTypes = {
                 'creature': null,
                 'artifact creature': null,
@@ -42,15 +43,14 @@ function (CardService, PartLookupService, $window) {
                 'planeswalker': null,
                 'land': ['plains', 'island', 'swamp', 'mountain', 'forest'] 
             };
+            */
+            $scope.cardTypes = ['creature', 'artifact', 'enchantment',
+                                'sorcery', 'instant', 'planeswalker', 'land'];
             $scope.supertypes = ['basic', 'elite', 'legendary', 'ongoing',
                                  'snow', 'world'];
 
             $scope.expansions = PartLookupService.getExpansions();
             $scope.evergreen = PartLookupService.getEvergreenKeywords();
-
-            $scope.isCreatureType = function (type) {
-                return /creature/i.test(type);
-            };
 
             $scope.cardsInSet = function () {
                 var expansion = $scope.expansions[$scope.card.expansion];

@@ -77,7 +77,7 @@ angular.module('CardListModule', [
         if(card.supertype) {
             out.push(card.supertype);
         }
-        out.push(card.type);
+        out.push(card.types.join(' '));
         if(card.subtype) {
             out.push('-');
             out.push(card.subtype);

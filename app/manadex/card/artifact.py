@@ -1,15 +1,18 @@
-import card
+from card import Castable, CardType
+from creature import Creature
+from enchantment import Enchantment
 
 
-class Artifact(card.Castable):
-
-    @classmethod
-    def match(cls, card_dict):
-        return card_dict.get('type') in ['artifact', 'legendary artifact']
+@CardType('artifact')
+class Artifact(Castable):
+    pass
 
 
-class ArtifactCreature(Artifact):
+@CardType('artifact', 'creature')
+class ArtifactCreature(Creature, Artifact):
+    pass
 
-    @classmethod
-    def match(cls, card_dict):
-        return card_dict.get('type') == 'artifact creature'
+
+@CardType('artifact', 'enchantment')
+class ArtifactEnchantment(Enchantment, Artifact):
+    pass

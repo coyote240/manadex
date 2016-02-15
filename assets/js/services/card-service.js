@@ -85,6 +85,11 @@ angular.module('CardServiceModule', [])
             name: 'Fate Reforged',
             code: 'FRF',
             cardsInSet: 185
+        },
+        JOU: {
+            name: 'Journey Into Nyx',
+            code: 'JOU',
+            cardsInSet: 165
         }
     };
 

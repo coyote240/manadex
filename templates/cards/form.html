@@ -22,10 +22,11 @@
                 ng-options="supertype for supertype in supertypes"></select>
         </div>
         <div class="part type">
-            <label>Type <a href="">+</a></label>
-            <select name="type" ng-model="card.type">
+            <label>Type</label>
+            <div ng-model="card.types" pick-list="cardTypes"></div>
+            <!--select name="type" ng-model="card.type">
                 <option ng-repeat="(type, subtype) in cardTypes">{{! type }}</option>
-            </select>
+            </select-->
         </div>
         <div class="part subtype">
             <label>Sub-Type</label>
@@ -62,7 +63,7 @@
         </div>
 
     </fieldset>
-    <fieldset ng-if="isCreatureType(card.type)">
+    <fieldset ng-if="card.types.includes('creature')">
         <div class="part stats">
             <label>Power &amp; Toughness</label>
             <input type="number" min="0" ng-model="card.power"/>

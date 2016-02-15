@@ -1,1 +1,1 @@
-angular.module('CardIndexModule', []);
+angular.module('CardIndexModule', ['CardListModule']);

@@ -1,11 +1,8 @@
-import card
+from card import Castable, CardType
 
 
-class Creature(card.Castable):
-
-    @classmethod
-    def match(cls, card_dict):
-        return card_dict.get('type') in ['creature', 'legendary creature']
+@CardType('creature')
+class Creature(Castable):
 
     def __init__(self, card_dict):
         super(Creature, self).__init__(card_dict)

@@ -8,7 +8,7 @@
         {% if 'supertype' in card %}
         {{ card.get('supertype') }}
         {% end %}
-        {{ card.get('type') }}
+        {{ ' '.join(card.get('types')) }}
         {% if 'subtype' in card %}
         - {{ card.get('subtype') }}
         {% end %}

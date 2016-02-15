@@ -1,4 +1,5 @@
 import re
+import logging
 
 
 gen_delims = r'[:\/\?#\[\]@\s]+'
@@ -9,6 +10,10 @@ def sanitize_name(name):
     name = re.sub(gen_delims, '-', name)
     name = re.sub(sub_delims, '', name)
     return name.lower()
+
+
+def warn(msg):
+    logging.warning(msg)
 
 
 class SpareDict(dict):
@@ -43,20 +48,32 @@ class MetaCard(type):
     @classmethod
     def factory(meta, card_dict):
         for card_type in meta.card_types:
+            warn(card_type)
             if card_type.match(card_dict):
                 return card_type(card_dict)
 
 
+class CardType(object):
+    def __init__(self, *args):
+        self.types = args
+
+    def __call__(self, cls):
+        cls.type_tokens = self.types
+        return cls
+
+
 class Card(dict):
     __metaclass__ = MetaCard
+    type_tokens = ()
 
     def __init__(self, card_dict):
         self.name = card_dict.get('name')
         self.supertype = card_dict.get('supertype')
-        self.type = card_dict.get('type')
+        self.types = card_dict.get('types')
         self.subtype = card_dict.get('subtype')
         self.expansion = card_dict.get('expansion')
         self.description = card_dict.get('description')
+        self.flavor_text = card_dict.get('flavorText')
         self.rarity = card_dict.get('rarity')
         self.collector_number = card_dict.get('collectorNumber')
         self.keywords = card_dict.get('keywords')
@@ -65,8 +82,17 @@ class Card(dict):
         self.created_by = None
 
     @classmethod
-    def match(self, _):
-        return None
+    def match(cls, card_dict):
+        types = tuple(card_dict.get('types'))
+        return set(cls.type_tokens) >= set(types)
+
+    @property
+    def types(self):
+        return self._types
+
+    @types.setter
+    def types(self, value):
+        self._types = value
 
     @property
     def name(self):
@@ -101,11 +127,12 @@ class Card(dict):
         return SpareDict({
             'name': self.name,
             'supertype': self.supertype,
-            'type': self.type,
+            'types': self.types,
             'subtype': self.subtype,
             'sanitized_name': self.sanitized_name,
             'expansion': self.expansion,
             'description': self.description,
+            'flavorText': self.flavor_text,
             'rarity': self.rarity,
             'collectorNumber': self.collector_number,
             'keywords': self.keywords,

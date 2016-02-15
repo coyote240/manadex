@@ -1,8 +1,12 @@
-import card
+from card import Castable, CardType
+from creature import Creature
 
 
-class Enchantment(card.Castable):
+@CardType('enchantment')
+class Enchantment(Castable):
+    pass
 
-    @classmethod
-    def match(cls, card_dict):
-        return card_dict.get('type') == 'enchantment'
+
+@CardType('enchantment', 'creature')
+class EnchantmentCreature(Creature, Enchantment):
+    pass
