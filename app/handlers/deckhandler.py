@@ -109,8 +109,8 @@ class DeckFormHandler(BaseDeckHandler):
             deck['cards'] = card_dict
 
         decks = yield self.get_decks()
-
         deck_json = json.dumps(deck, default=json_util.default)
+
         self.render('decks/form.html',
                     ngAppModule=self.ngAppModule,
                     deck=deck_json,

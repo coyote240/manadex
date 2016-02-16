@@ -8,6 +8,7 @@ from indexhandler import IndexHandler
 from cardhandler import CardHandler, CardFormHandler, CardAPIHandler
 from deckhandler import DeckHandler, DeckFormHandler, DeckAPIHandler
 from collectionhandler import CollectionHandler
+from expansionhandler import ExpansionHandler
 
 
 gen_delims = r'[:\/\?#\[\]@\s]+'
@@ -24,4 +25,4 @@ __all__ = ['BaseHandler', 'BaseStaticHandler', 'JSONEncoder', 'AuthHandler',
            'RegistrationHandler', 'NotFoundHandler', 'IndexHandler',
            'CardHandler', 'CardFormHandler', 'CardAPIHandler',
            'DeckHandler', 'DeckFormHandler', 'CollectionHandler',
-           'DeckAPIHandler']
+           'DeckAPIHandler', 'ExpansionHandler']

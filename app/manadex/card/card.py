@@ -48,7 +48,6 @@ class MetaCard(type):
     @classmethod
     def factory(meta, card_dict):
         for card_type in meta.card_types:
-            warn(card_type)
             if card_type.match(card_dict):
                 return card_type(card_dict)
 

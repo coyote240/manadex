@@ -100,10 +100,13 @@ class CardAPIHandler(BaseCardHandler):
     @gen.coroutine
     def get(self):
         query = self.get_argument('q')
+
         cursor = self.collection.find(
             {'name': {'$regex': r'^{0}'.format(query), '$options': 'i'}},
             {'_id': 0})
         found = yield cursor.to_list(length=None)
+
+        self.set_header('Content-type', 'application/json')
         self.write(self.encode_json(found))
 
     @tornado.web.authenticated

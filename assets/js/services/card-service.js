@@ -65,33 +65,6 @@ angular.module('CardServiceModule', [])
     };
 }])
 .factory('PartLookupService', ['$http', function ($http) {
-    var expansions = {
-        BFZ: {
-            name: 'Battle for Zendikar',
-            code: 'BFZ',
-            cardsInSet: 274
-        },
-        OGW: {
-            name: 'Oath of the Gatewatch',
-            code: 'OGW',
-            cardsInSet: 184
-        },
-        ORI: {
-            name: 'Magic Origins',
-            code: 'ORI',
-            cardsInSet: 272
-        },
-        FRF: {
-            name: 'Fate Reforged',
-            code: 'FRF',
-            cardsInSet: 185
-        },
-        JOU: {
-            name: 'Journey Into Nyx',
-            code: 'JOU',
-            cardsInSet: 165
-        }
-    };
 
     var keywords = [
         'activate', 'attach', 'cast', 'counter', 'deathtouch', 'defender',
@@ -133,7 +106,10 @@ angular.module('CardServiceModule', [])
          *  http://mtgsalvation.gamepedia.com/Expansion#List_of_Magic_expansions_and_sets
          */
         getExpansions: function () {
-            return expansions;
+            return $http({
+                method: 'GET',
+                url: '/api/cards/expansions'
+            });
         },
 
         /*

@@ -36,11 +36,9 @@
         </div>
         <div class="part expansion">
             <label>Expansion</label>
-            <select name="expansion" ng-model="card.expansion" required>
-                <!-- TODO: Convert to ng-options -->
-                <option ng-repeat="(code, expansion) in expansions" value="{{! code }}">
-                {{! expansion.name }}
-                </option>
+            <select name="expansion" required
+                ng-model="card.expansion"
+                ng-options="exp.code as exp.name for exp in expansions track by exp.code">
             </select>
         </div>
     </fieldset>

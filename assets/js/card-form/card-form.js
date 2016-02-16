@@ -32,24 +32,17 @@ function (CardService, PartLookupService, $window) {
 
 
             $scope.cardsInSet = 0;
-            /*
-            $scope.cardTypes = {
-                'creature': null,
-                'artifact creature': null,
-                'enchantment': ['aura', 'curse', 'shrine'],
-                'sorcery': ['arcane', 'trap'],
-                'instant': ['arcane', 'trap'],
-                'artifact': ['contraption', 'equipment', 'fortification'],
-                'planeswalker': null,
-                'land': ['plains', 'island', 'swamp', 'mountain', 'forest'] 
-            };
-            */
             $scope.cardTypes = ['creature', 'artifact', 'enchantment',
                                 'sorcery', 'instant', 'planeswalker', 'land'];
             $scope.supertypes = ['basic', 'elite', 'legendary', 'ongoing',
                                  'snow', 'world'];
 
-            $scope.expansions = PartLookupService.getExpansions();
+            $scope.expansions = {};
+            PartLookupService.getExpansions()
+                .then(function success (response) {
+                    $scope.expansions = response.data;
+                });
+
             $scope.evergreen = PartLookupService.getEvergreenKeywords();
 
             $scope.cardsInSet = function () {
