@@ -23,6 +23,14 @@ class BaseCardHandler(handlers.BaseHandler):
             {'sanitized_name': name}, {'_id': 0})
         raise gen.Return(card)
 
+    @gen.coroutine
+    def add_to_collection(self, card_id):
+        user_collection = self.settings['db_ref']['users']
+        result = yield user_collection.update(
+            {'uid': self.current_user},
+            {'$addToSet': {'collection': card_id}})
+        raise gen.Return(result)
+
 
 class CardHandler(BaseCardHandler):
 
@@ -30,9 +38,9 @@ class CardHandler(BaseCardHandler):
         'T': '<span class="tapped"></span>',
         'W': '<span class="mana white"></span>',
         'U': '<span class="mana blue"></span>',
-        'B': '<span class="mana blue"></span>',
-        'R': '<span class="mana blue"></span>',
-        'G': '<span class="mana blue"></span>'
+        'B': '<span class="mana black"></span>',
+        'R': '<span class="mana red"></span>',
+        'G': '<span class="mana green"></span>'
     }
 
     def replace_token(self, match):
@@ -130,6 +138,10 @@ class CardAPIHandler(BaseCardHandler):
 
         future = self.collection.insert(card.to_dict())
         id = yield future
+
+        if card_dict.get('inMyCollection'):
+            self.add_to_collection(id)
+
         self.write(str(id))
 
     @tornado.web.authenticated
@@ -141,10 +153,25 @@ class CardAPIHandler(BaseCardHandler):
         card.last_modified = datetime.datetime.utcnow()
         card.last_modified_by = self.current_user
 
+        existing = yield self.collection.find_one(
+            {'sanitized_name': card.sanitized_name,
+             'expansion': card.expansion},
+            {'_id': 1})
+
+        if existing is None:
+            self.send_error(status_code=404,
+                            reason='Card does not exist')
+            return
+
         result = yield self.collection.update(
             {'sanitized_name': card.sanitized_name,
              'expansion': card.expansion},
             {'$set': card.to_dict()})
+
+        if card_dict.get('inMyCollection'):
+            id = existing.get('_id')
+            self.add_to_collection(id)
+
         self.write(result)
 
     @tornado.web.authenticated

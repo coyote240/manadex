@@ -27,7 +27,8 @@ function (CardService, PartLookupService, $window) {
                     cost: -1,
                     rules: ''
                 }],
-                keywords: []
+                keywords: [],
+                inMyCollection: true
             };
 
 
@@ -38,20 +39,21 @@ function (CardService, PartLookupService, $window) {
                                  'snow', 'world'];
 
             $scope.expansions = {};
+            var expansionsLookup = {};
+
             PartLookupService.getExpansions()
                 .then(function success (response) {
                     $scope.expansions = response.data;
+                    $scope.expansions.forEach(function (set) {
+                        expansionsLookup[set.code] = set;
+                    });
                 });
 
             $scope.evergreen = PartLookupService.getEvergreenKeywords();
 
-            $scope.cardsInSet = function () {
-                var expansion = $scope.expansions[$scope.card.expansion];
-                if(expansion) {
-                    return expansion.cardsInSet;
-                } else {
-                    return 0;
-                }
+            $scope.selectExpansion = function (code) {
+                var set = expansionsLookup[code];
+                $scope.cardsInSet = set ? set.size : 0;
             };
 
             $scope.modifiedDate = function () {

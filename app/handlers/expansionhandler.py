@@ -18,7 +18,7 @@ class ExpansionHandler(handlers.BaseHandler):
     @gen.coroutine
     def get(self):
         future = self.collection.find(
-            {}, {'_id': 0, 'code': 1, 'name': 1}
+            {}, {'_id': 0, 'code': 1, 'name': 1, 'size': 1}
         ).sort('released', pymongo.DESCENDING)
 
         sets = yield future.to_list(None)

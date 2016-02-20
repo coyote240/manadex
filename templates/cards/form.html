@@ -38,6 +38,7 @@
             <label>Expansion</label>
             <select name="expansion" required
                 ng-model="card.expansion"
+                ng-change="selectExpansion(card.expansion)"
                 ng-options="exp.code as exp.name for exp in expansions track by exp.code">
             </select>
         </div>
@@ -52,6 +53,15 @@
 
         <textarea name="description" ng-model="card.description"
             rows="4" placeholder="Description..."></textarea>
+        <p class="subtext">
+            {T} = <span class="tapped"></span>
+            {W} = <span class="mana white"></span>
+            {U} = <span class="mana blue"></span>
+            {R} = <span class="mana red"></span>
+            {G} = <span class="mana green"></span>
+            {B} = <span class="mana black"></span>
+            {X} = <span class="mana generic">X</span>
+        </p>
         <textarea name="flavorText" ng-model="card.flavorText"
             rows="4" placeholder="Flavor text..."></textarea>
 
@@ -80,7 +90,7 @@
             <label>Collector #</label>
             <input type="number" ng-model="card.collectorNumber" min="0" max="{{! cardsInSet }}"/>
             /
-            {{! cardsInSet() }}
+            {{! cardsInSet }}
         </div>
         <div class="part rarity">
             <label>Rarity</label>
@@ -91,7 +101,7 @@
     </fieldset>
     <fieldset class="control">
         <div class="part add-to-collection">
-            <input type="checkbox" name="addToCollection" ng-model="addToCollection"/>
+            <input type="checkbox" ng-model="card.inMyCollection"/>
             <label>Add to my collection</label>
         </div>
         <div class="part submit">
