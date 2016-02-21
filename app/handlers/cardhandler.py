@@ -112,11 +112,12 @@ class CardAPIHandler(BaseCardHandler):
 
         cursor = self.collection.find(
             {'name': {'$regex': r'^{0}'.format(query), '$options': 'i'}},
-            {'_id': 0})
+            {'_id': 0, 'name': 1})
         found = yield cursor.to_list(length=None)
+        self.warn(found)
 
         self.set_header('Content-type', 'application/json')
-        self.write(self.encode_json(found))
+        self.write({'results': found})
 
     @tornado.web.authenticated
     @gen.coroutine

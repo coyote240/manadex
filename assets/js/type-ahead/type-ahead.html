@@ -1,8 +1,10 @@
 <div class="type-ahead">
-    <ng-transclude></ng-transclude>
-    <div class="type-ahead-results">
+    <input type="text" ng-model="name"/>
+    <div class="type-ahead-results" ng-show="results.length">
         <ul>
-            <li ng-repeat="result in results">{{ result.name }}</li>
+            <li ng-repeat="result in results" ng-class="{'hilite': result.selected}">
+                <a href="javascript:void(0);">{{ result.name }}</a>
+            </li>
         </ul>
     </div>
 </div>

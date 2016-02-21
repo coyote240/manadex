@@ -8,7 +8,8 @@
         <div class="part name">
             <!-- Put type-ahead on name field to prevent duplicate entry. -->
             <label>Name</label>
-            <input type="text" ng-model="card.name" required/>
+            <type-ahead ng-model="card.name" required></type-ahead>
+            <!--input type="text" ng-model="card.name" required type-ahead/-->
         </div>
         <div class="part cost" ng-if="card.type != 'land'">
             <label>Cost</label>

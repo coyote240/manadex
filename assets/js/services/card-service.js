@@ -79,19 +79,11 @@ angular.module('CardServiceModule', [])
          *  Needs planning, typeahead search on name field
          */
         nameTypeahead: function (query) {
-            return $http.get(
-                '/api/cards',
-                { 
-                    params: {
-                        q: query
-                    }
-                }).then(function (response) {
-                    console.log('success', response);
-                    return response;
-                }, function (response) {
-                    console.log('error', response);
-                    return response;
-                });
+            return $http.get('/api/cards', { 
+                params: {
+                    q: query
+                }
+            });
         },
 
         /*
