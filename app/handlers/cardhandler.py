@@ -40,7 +40,8 @@ class CardHandler(BaseCardHandler):
         'U': '<span class="mana blue"></span>',
         'B': '<span class="mana black"></span>',
         'R': '<span class="mana red"></span>',
-        'G': '<span class="mana green"></span>'
+        'G': '<span class="mana green"></span>',
+        'C': '<span class="mana colorless"></span>'
     }
 
     def replace_token(self, match):
