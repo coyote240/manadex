@@ -2,7 +2,8 @@ angular.module('TypeAheadModule', ['CardServiceModule'])
 .directive('typeAhead', ['PartLookupService', function (PartLookupService) {
     return {
         scope: {
-            name: '=ngModel'
+            name: '=ngModel',
+            field: '@'
         },
         restrict: 'E',
         require: 'ngModel',
@@ -16,7 +17,7 @@ angular.module('TypeAheadModule', ['CardServiceModule'])
                     scope.results = [];
                     return;
                 }
-                PartLookupService.nameTypeahead(newVal).then(function (response) {
+                PartLookupService.lookup(newVal, scope.field).then(function (response) {
                     scope.results = response.data.results;
                     selectedIndex = 0;
                     scope.results[selectedIndex].selected = true;

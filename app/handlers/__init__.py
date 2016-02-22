@@ -5,7 +5,8 @@ from authhandler import AuthHandler
 from registrationhandler import RegistrationHandler
 from errorhandler import NotFoundHandler
 from indexhandler import IndexHandler
-from cardhandler import CardHandler, CardFormHandler, CardAPIHandler
+from cardhandler import (CardHandler, CardFormHandler, CardAPIHandler,
+                         CardLookupHandler)
 from deckhandler import DeckHandler, DeckFormHandler, DeckAPIHandler
 from collectionhandler import CollectionHandler
 from expansionhandler import ExpansionHandler
@@ -24,5 +25,5 @@ def sanitize_name(name):
 __all__ = ['BaseHandler', 'BaseStaticHandler', 'JSONEncoder', 'AuthHandler',
            'RegistrationHandler', 'NotFoundHandler', 'IndexHandler',
            'CardHandler', 'CardFormHandler', 'CardAPIHandler',
-           'DeckHandler', 'DeckFormHandler', 'CollectionHandler',
-           'DeckAPIHandler', 'ExpansionHandler']
+           'CardLookupHandler', 'DeckHandler', 'DeckFormHandler',
+           'CollectionHandler', 'DeckAPIHandler', 'ExpansionHandler']

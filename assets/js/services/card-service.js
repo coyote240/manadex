@@ -3,6 +3,13 @@ angular.module('CardServiceModule', [])
     var addToCollectionUrl = $interpolate('/collection/{{ expansion }}/{{ cardName }}');
 
     return {
+        getCard: function (name) {
+            return $http({
+                method: 'GET',
+                url: ''
+            });
+        },
+
         createOrUpdateCard: function (card) {
             var promise = card.sanitized_name ? this.updateCard(card) : this.createCard(card);
             return promise;
@@ -75,21 +82,14 @@ angular.module('CardServiceModule', [])
         'shuffle', 'tap/untap', 'trample', 'vigilance'];
 
     return {
-        /*
-         *  Needs planning, typeahead search on name field
-         */
-        nameTypeahead: function (query) {
-            return $http.get('/api/cards', { 
+        lookup: function (query, field) {
+            field = field || 'name';
+            return $http.get('/api/cards/find', { 
                 params: {
-                    q: query
+                    field: field,
+                    value: query
                 }
             });
-        },
-
-        /*
-         *  Typeahead for known subtypes
-         */
-        subtypeTypeahead: function () {
         },
 
         /*
