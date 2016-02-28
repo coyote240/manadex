@@ -3,24 +3,29 @@ angular.module('TypeAheadModule', ['CardServiceModule'])
     return {
         scope: {
             name: '=ngModel',
-            field: '@'
+            field: '@',
+            selectAction: '&onSelect'
         },
         restrict: 'E',
         require: 'ngModel',
         transclude: true,
         templateUrl: '/static/js/type-ahead/type-ahead.html',
-        link: function (scope, element) {
+        link: function (scope, element, attrs) {
             var selectedIndex = 0;
 
-            scope.$watch('name', function (newVal) {
-                if(!newVal) {
+            scope.$watch('name', function (newVal, oldVal) {
+                if(!newVal || newVal == oldVal) {
                     scope.results = [];
                     return;
                 }
                 PartLookupService.lookup(newVal, scope.field).then(function (response) {
                     scope.results = response.data.results;
                     selectedIndex = 0;
-                    scope.results[selectedIndex].selected = true;
+
+                    var selected = scope.results[selectedIndex];
+                    if(selected) {
+                        selected.selected = true;
+                    }
                 });
             });
 
@@ -36,11 +41,17 @@ angular.module('TypeAheadModule', ['CardServiceModule'])
                     scope.hiliteRow(selectedIndex);
                 } else if (key === 'Enter') {
                     // Fill-out form
+                    var result = scope.results[selectedIndex];
+                    if(result) {
+                        scope.name = result[scope.field];
+                        scope.selectAction({
+                            result: result
+                        });
+                        scope.reset();
+                    }
                 } else if (key === 'Escape') {
                     scope.reset();
                 }
-
-
             });
 
             var input = element.find('input');

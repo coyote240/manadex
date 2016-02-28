@@ -113,15 +113,31 @@ class CardLookupHandler(BaseCardHandler):
 
         cursor = self.collection.find(
             {field: {'$regex': r'^{0}'.format(value), '$options': 'i'}},
-            {'_id': 0, field: 1})
+            {'_id': 0, field: 1, 'sanitized_name': 1})
         found = yield cursor.to_list(length=None)
-        results = [{'value': item.get(field)} for item in found]
+        results = [{
+            field: item.get(field),
+            'sanitized_name': item.get('sanitized_name')} for item in found]
 
         self.set_header('Content-type', 'application/json')
         self.write({'results': results})
 
 
 class CardAPIHandler(BaseCardHandler):
+
+    @tornado.web.authenticated
+    @gen.coroutine
+    def get(self, name=None):
+        card = None
+        if name is not None:
+            card = yield self.get_card(name)
+            if card is None:
+                self.send_error(status_code=404, reason="Card not found.")
+                return
+
+        card_json = json.dumps(card, default=json_util.default)
+        self.set_header('Content-type', 'application/json')
+        self.write(card_json)
 
     @tornado.web.authenticated
     @gen.coroutine

@@ -1,12 +1,14 @@
 angular.module('CardServiceModule', [])
 .factory('CardService', ['$http', '$interpolate', function ($http, $interpolate) {
     var addToCollectionUrl = $interpolate('/collection/{{ expansion }}/{{ cardName }}');
+    var getCardUrl = $interpolate('/api/cards/{{ name }}');
 
     return {
         getCard: function (name) {
+            var url = getCardUrl({name: name});
             return $http({
                 method: 'GET',
-                url: ''
+                url: url
             });
         },
 
@@ -59,7 +61,7 @@ angular.module('CardServiceModule', [])
             var url = addToCollectionUrl({
                     cardName: name,
                     expansion: expansion});
-            console.log('at service', url);
+
             return $http({
                 method: 'POST',
                 url: url

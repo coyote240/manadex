@@ -3,7 +3,7 @@
     <div class="type-ahead-results" ng-show="results.length">
         <ul>
             <li ng-repeat="result in results" ng-class="{'hilite': result.selected}">
-                <a href="javascript:void(0);">{{ result.value }}</a>
+                <a href="javascript:void(0);">{{ result[field] }}</a>
             </li>
         </ul>
     </div>

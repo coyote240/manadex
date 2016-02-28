@@ -7,7 +7,7 @@
     <fieldset class="name-line">
         <div class="part name">
             <label>Name</label>
-            <type-ahead ng-model="card.name" field="name" required></type-ahead>
+            <type-ahead ng-model="card.name" field="name" on-select="loadCard(result)" required></type-ahead>
         </div>
         <div class="part cost" ng-if="card.type != 'land'">
             <label>Cost</label>
@@ -26,10 +26,7 @@
         </div>
         <div class="part subtype">
             <label>Sub-Type</label>
-            <type-ahead ng-model="card.subtype" field="subtype"></type-ahead>
-            <!--input ng-if="!cardTypes[card.type]" type="text" ng-model="card.subtype"/>
-            <select ng-if="cardTypes[card.type]" ng-model="card.subtype"
-                ng-options="subtype for subtype in cardTypes[card.type]"></select-->
+            <type-ahead ng-model="card.subtype" field="subtype" on-select="setSubtype(result)"></type-ahead>
         </div>
         <div class="part expansion">
             <label>Expansion</label>

@@ -22,7 +22,7 @@ with open('Sets.csv', 'rb') as csvfile:
         if m is not None:
             code, secondary_code = m.group(1, 2)
         else:
-            code = row['code']
+            code = row['code'].strip()
             secondary_code = None
 
         doc = {
