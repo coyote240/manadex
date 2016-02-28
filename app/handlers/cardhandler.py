@@ -103,20 +103,41 @@ class CardFormHandler(BaseCardHandler):
                     card=card_json)
 
 
-class CardAPIHandler(BaseCardHandler):
+class CardLookupHandler(BaseCardHandler):
 
     @tornado.web.authenticated
     @gen.coroutine
     def get(self):
-        query = self.get_argument('q')
+        field = self.get_argument('field')
+        value = self.get_argument('value')
 
         cursor = self.collection.find(
-            {'name': {'$regex': r'^{0}'.format(query), '$options': 'i'}},
-            {'_id': 0})
+            {field: {'$regex': r'^{0}'.format(value), '$options': 'i'}},
+            {'_id': 0, field: 1, 'sanitized_name': 1})
         found = yield cursor.to_list(length=None)
+        results = [{
+            field: item.get(field),
+            'sanitized_name': item.get('sanitized_name')} for item in found]
 
         self.set_header('Content-type', 'application/json')
-        self.write(self.encode_json(found))
+        self.write({'results': results})
+
+
+class CardAPIHandler(BaseCardHandler):
+
+    @tornado.web.authenticated
+    @gen.coroutine
+    def get(self, name=None):
+        card = None
+        if name is not None:
+            card = yield self.get_card(name)
+            if card is None:
+                self.send_error(status_code=404, reason="Card not found.")
+                return
+
+        card_json = json.dumps(card, default=json_util.default)
+        self.set_header('Content-type', 'application/json')
+        self.write(card_json)
 
     @tornado.web.authenticated
     @gen.coroutine

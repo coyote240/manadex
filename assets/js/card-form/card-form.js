@@ -74,6 +74,18 @@ function (CardService, PartLookupService, $window) {
             $scope.getTypeahead = function (current) {
                 PartLookupService.nameTypeahead(current);
             };
+
+            $scope.setSubtype = function (subtype) {
+                $scope.card.subtype = subtype;
+            };
+
+            $scope.loadCard = function (selected) {
+                CardService.getCard(selected.sanitized_name).then(function (result) {
+                    if(result.data) {
+                        $scope.card = result.data;
+                    }
+                });
+            };
         }
     };
 }]);

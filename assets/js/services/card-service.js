@@ -1,8 +1,17 @@
 angular.module('CardServiceModule', [])
 .factory('CardService', ['$http', '$interpolate', function ($http, $interpolate) {
     var addToCollectionUrl = $interpolate('/collection/{{ expansion }}/{{ cardName }}');
+    var getCardUrl = $interpolate('/api/cards/{{ name }}');
 
     return {
+        getCard: function (name) {
+            var url = getCardUrl({name: name});
+            return $http({
+                method: 'GET',
+                url: url
+            });
+        },
+
         createOrUpdateCard: function (card) {
             var promise = card.sanitized_name ? this.updateCard(card) : this.createCard(card);
             return promise;
@@ -52,7 +61,7 @@ angular.module('CardServiceModule', [])
             var url = addToCollectionUrl({
                     cardName: name,
                     expansion: expansion});
-            console.log('at service', url);
+
             return $http({
                 method: 'POST',
                 url: url
@@ -75,29 +84,14 @@ angular.module('CardServiceModule', [])
         'shuffle', 'tap/untap', 'trample', 'vigilance'];
 
     return {
-        /*
-         *  Needs planning, typeahead search on name field
-         */
-        nameTypeahead: function (query) {
-            return $http.get(
-                '/api/cards',
-                { 
-                    params: {
-                        q: query
-                    }
-                }).then(function (response) {
-                    console.log('success', response);
-                    return response;
-                }, function (response) {
-                    console.log('error', response);
-                    return response;
-                });
-        },
-
-        /*
-         *  Typeahead for known subtypes
-         */
-        subtypeTypeahead: function () {
+        lookup: function (query, field) {
+            field = field || 'name';
+            return $http.get('/api/cards/find', { 
+                params: {
+                    field: field,
+                    value: query
+                }
+            });
         },
 
         /*
