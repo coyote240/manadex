@@ -29,13 +29,4 @@ angular.module('ManaSelectorModule', [])
                 };
             }]
         };
-    }])
-    .filter('colorsFilter', function (colors, mana) {
-        return function () {
-            return colors.filter(function (current) {
-                return mana.some(function (m) {
-                    return m.color !== current;
-                });
-            });
-        };
-    });
+    }]);
