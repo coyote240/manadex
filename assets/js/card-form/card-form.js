@@ -1,5 +1,6 @@
 angular.module('CardFormModule',
-    ['ManaSelectorModule', 'TypeAheadModule', 'CardServiceModule', 'PickListModule'])
+    ['ManaSelectorModule', 'TypeAheadModule', 'CardServiceModule', 'PickListModule',
+    'NestedSelectModule'])
 .directive('cardForm', ['CardService', 'PartLookupService', '$window', 
 function (CardService, PartLookupService, $window) {
     return {
