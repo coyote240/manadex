@@ -9,6 +9,10 @@ angular.module('NestedSelectModule', [])
         },
         controller: ['$scope', function ($scope) {
             $scope.colors = colors;
+
+            $scope.select = function () {
+                console.log(arguments);
+            };
         }]
     };
 });

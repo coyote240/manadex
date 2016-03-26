@@ -13,15 +13,13 @@
 
         &.select-value {
             margin: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         &:hover {
             text-decoration: none;
-            /*
-            & + div > ul {
-                display: block;
-            }
-            */
         }
     }
 
@@ -29,18 +27,15 @@
         position: relative;
         &:hover {
             background-color: #DDDDDD;
+            & > ul {
+                display: block;
+            }
         }
 
         &.top-level {
             position: absolute;
             top: 100%;
             left: 0;
-        }
-
-        &:hover {
-            & > ul {
-                display: block;
-            }
         }
 
         ul {

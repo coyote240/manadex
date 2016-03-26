@@ -4,11 +4,16 @@
         <ul>
             <li ng-repeat="primary in colors">
                 <div class="select-item">
-                    <a class="select-value">{{ primary }}</a>
+                    <a class="select-value" ng-click="select()">
+                        {{ primary }}
+                        <span class="mana" ng-class="primary"></span>
+                    </a>
                     <ul>
                         <li ng-repeat="secondary in colors">
                             <div class="select-item">
-                                <a class="select-value">{{ primary }}/{{ secondary }}</a>
+                                <a class="select-value" ng-click="select()">
+                                    {{ primary }}/{{ secondary }}
+                                </a>
                             </div>
                         </li>
                     </ul>
