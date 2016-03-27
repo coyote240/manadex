@@ -1,5 +1,9 @@
-<div class="nested-select">
-    <a class="value" >+</a>
+<div class="nested-select" ng-class="{ open: open }">
+    <div class="value">
+        <a class="mana" ng-class="color.color" ng-click="toggle()">
+            {{ color.value }}
+        </a>
+    </div>
     <div class="select-item top-level">
         <ul>
             <li ng-repeat="primary in colors">

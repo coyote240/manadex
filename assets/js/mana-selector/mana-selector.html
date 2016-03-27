@@ -1,6 +1,8 @@
 <a ng-href="#" ng-click="addMana($event)">+</a>
 <div class="part color" ng-repeat="item in mana">
-    <select ng-options="value for value in colors" ng-model="item.color"></select>
+    <!--select ng-options="value for value in colors" ng-model="item.color"></select>
     <input ng-if="item.color != 'generic'" type="number" min="0" max="10" ng-model="item.value"/>
-    <input ng-if="item.color == 'generic'" class="with-x" pattern="[0-9X]+" ng-model="item.value"/>
+    <input ng-if="item.color == 'generic'" class="with-x" pattern="[0-9X]+" ng-model="item.value"/-->
+    <div nested-select ng-model="item"></div>
+    <a class="mana-remove" ng-click="removeMana($event, $index)">&#10006;</a>
 </div>

@@ -11,6 +11,27 @@
         padding: 0;
     }
 
+    .part {
+        &.color {
+            position: relative;
+
+            .mana-remove {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                z-index: 10;
+                display: none;
+            }
+
+            &:hover {
+                .mana-remove {
+                    display: block;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
     .select {
         .value {
             display: inline-block;

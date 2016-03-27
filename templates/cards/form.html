@@ -10,9 +10,8 @@
             <type-ahead ng-model="card.name" field="name" on-select="loadCard(result)" required></type-ahead>
         </div>
         <div class="part cost" ng-if="card.type != 'land'">
-            <label>Cost</label>
-            <!--div mana-selector ng-model="card.manaCost"></div-->
-            <div nested-select ng-model="card.manaCost"></div>
+            <label>Mana Cost</label>
+            <div mana-selector class="mana-selector" ng-model="card.manaCost"></div>
         </div>
     </fieldset>
     <fieldset class="type-line">

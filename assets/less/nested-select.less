@@ -1,14 +1,18 @@
 .nested-select {
     position: relative;
-    &:hover {
+    &.open {
         & > .select-item > ul {
             display: block;
         }
     }
 
+    .value {
+        position: relative;
+        padding: 2px 5px;
+    }
+
     a {
         display: inline-block;
-        min-width: 100px;
         cursor: pointer;
 
         &.select-value {
@@ -36,6 +40,10 @@
             position: absolute;
             top: 100%;
             left: 0;
+        }
+
+        a {
+            min-width: 100px;
         }
 
         ul {

@@ -27,6 +27,12 @@ angular.module('ManaSelectorModule', [])
                         value: 0
                     });
                 };
+
+                $scope.removeMana = function ($event, $index) {
+                    $event.preventDefault();
+
+                    $scope.mana.splice($index, 1);
+                };
             }]
         };
     }]);

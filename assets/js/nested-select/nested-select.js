@@ -4,6 +4,7 @@ angular.module('NestedSelectModule', [])
     return {
         restrict: 'A',
         require: 'ngModel',
+        replace: true,
         scope: {
             color: '=ngModel'
         },
@@ -12,9 +13,15 @@ angular.module('NestedSelectModule', [])
         },
         controller: ['$scope', function ($scope) {
             $scope.colors = colors;
+            $scope.open = false;
+
+            $scope.toggle = function () {
+                $scope.open = !$scope.open;
+            };
 
             $scope.select = function (primary, secondary) {
-                console.log([primary, secondary].join(', '));
+                $scope.open = false;
+                $scope.color = primary;
             };
         }]
     };
