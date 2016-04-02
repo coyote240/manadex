@@ -8,33 +8,16 @@
         <ul>
             <li ng-repeat="primary in colors">
                 <div class="select-item">
-                    <a class="select-value" ng-click="select(primary)">
-                        {{ primary }}
-                        <span class="mana" ng-class="primary">X</span>
+                    <a class="select-value" ng-click="select(primary.label)">
+                        {{ primary.label}}
+                        <span class="mana {{ primary.value | manaClasses }}">X</span>
                     </a>
-                    <ul>
-                        <li ng-repeat="secondary in colors">
+                    <ul ng-if="primary.subtypes">
+                        <li ng-repeat="secondary in primary.subtypes">
                             <div class="select-item">
-                                <a class="select-value" ng-click="select(primary, secondary)">
-                                    {{ primary }}/{{ secondary }}
-                                    <span class="mana" ng-class="primary + ' ' + secondary">X</span>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="select-item">
-                    <a class="select-value" ng-click="select()">
-                        phrexian
-                    </a>
-                    <ul>
-                        <li ng-repeat="secondary in colors">
-                            <div class="select-item">
-                                <a class="select-value" ng-click="select('phrexian', secondary)">
-                                    {{ secondary }}
-                                    <span class="mana phyrexian" ng-class="secondary">0</span>
+                                <a class="select-value" ng-click="select(secondary.label)">
+                                    {{ secondary.label }}
+                                    <span class="mana {{ secondary.value | manaClasses }}">X</span>
                                 </a>
                             </div>
                         </li>

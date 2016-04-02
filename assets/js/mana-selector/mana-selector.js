@@ -1,7 +1,5 @@
 angular.module('ManaSelectorModule', [])
     .directive('manaSelector', [function () {
-        var colors = ['generic', 'white', 'blue', 'black',
-                      'red', 'green', 'colorless'];
         return {
             scope: {
                 mana: '=ngModel'
@@ -16,8 +14,6 @@ angular.module('ManaSelectorModule', [])
                     color: 'generic',
                     value: 0
                 }];
-
-                $scope.colors = colors;
 
                 $scope.addMana = function ($event) {
                     $event.preventDefault();
