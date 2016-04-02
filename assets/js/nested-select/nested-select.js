@@ -51,6 +51,10 @@ angular.module('NestedSelectModule', [])
             ]
         },
         {
+            label: 'colorless',
+            value: '{C}'
+        },
+        {
             label: 'phyrexian',
             value: '',
             subtypes: [

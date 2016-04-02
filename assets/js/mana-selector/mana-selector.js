@@ -1,5 +1,7 @@
 angular.module('ManaSelectorModule', [])
     .directive('manaSelector', [function () {
+        var parsePattern = /({[\dWUBRGCX]+\/*[WUBRGP]*})/g;
+        // '{0}{X}{G/R}'.match(parsePattern);  This really needs tests.
         return {
             scope: {
                 mana: '=ngModel'
