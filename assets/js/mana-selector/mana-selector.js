@@ -21,6 +21,7 @@ angular.module('ManaSelectorModule', [])
             }, true);
         },
         controller: ['$scope', function ($scope) {
+            $scope.mana = $scope.mana || '{0}';
 
             $scope.addMana = function ($event) {
                 $event.preventDefault();

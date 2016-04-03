@@ -152,28 +152,6 @@ class Castable(Card):
         self.mana_cost = card_dict.get('manaCost')
 
     @property
-    def mana_cost(self):
-        return self._mana_cost
-
-    @mana_cost.setter
-    def mana_cost(self, value):
-        cost = []
-
-        for mana in value:
-            color = mana.get('color')
-            value = mana.get('value')
-
-            if color not in Castable._colors:
-                raise Exception('Unknown mana color.')
-
-            cost.append(mana)
-
-        if len(cost) > 0:
-            self._mana_cost = cost
-        else:
-            self._mana_cost = None
-
-    @property
     def cmc(self):
         '''
         Converted Mana Cost
