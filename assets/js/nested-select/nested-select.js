@@ -80,14 +80,17 @@ angular.module('NestedSelectModule', [])
             $scope.colors = colors;
             $scope.open = false;
 
+            $scope.asCost = function (mana) {
+                return mana.replace(/[{}]/g, '');
+            };
+
             $scope.toggle = function () {
                 $scope.open = !$scope.open;
             };
 
             $scope.select = function (value) {
                 $scope.open = false;
-                $scope.color.color = value;
-                $scope.color.value = 1;
+                $scope.color.val = value;
             };
         }]
     };
@@ -100,6 +103,7 @@ angular.module('NestedSelectModule', [])
         R: 'red',
         G: 'green',
         P: 'phyrexian',
+        C: 'colorless',
         2: 'hybrid'
     };
     return function (input) {
@@ -111,6 +115,6 @@ angular.module('NestedSelectModule', [])
         });
         return values.map(function (v) {
             return colorMap[v];
-        }).join(' ');
+        }).join(' ') || 'generic';
     };
 });

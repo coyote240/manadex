@@ -32,7 +32,6 @@ function (CardService, PartLookupService, $window) {
                 inMyCollection: true
             };
 
-
             $scope.cardsInSet = 0;
             $scope.cardTypes = ['creature', 'artifact', 'enchantment',
                                 'sorcery', 'instant', 'planeswalker', 'land'];

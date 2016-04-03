@@ -1,5 +1,5 @@
 <a ng-href="#" ng-click="addMana($event)">+</a>
-<div class="part color" ng-repeat="item in mana">
+<div class="part color" ng-repeat="item in manaValues">
     <div nested-select ng-model="item"></div>
     <a class="mana-remove" ng-click="removeMana($event, $index)">&#10006;</a>
 </div>

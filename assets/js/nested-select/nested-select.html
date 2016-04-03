@@ -1,21 +1,22 @@
 <div class="nested-select" ng-class="{ open: open }">
     <div class="value">
-        <a class="mana" ng-class="color.color" ng-click="toggle()">
-            {{ color.value }}
+        <a alt="{{ color.val }}" 
+            class="mana {{ color.val | manaClasses }}"
+            ng-click="toggle()" ng-bind="asCost(color.val)">
         </a>
     </div>
     <div class="select-item top-level">
         <ul>
             <li ng-repeat="primary in colors">
                 <div class="select-item">
-                    <a class="select-value" ng-click="select(primary.label)">
+                    <a class="select-value" ng-click="select(primary.value)">
                         {{ primary.label}}
                         <span class="mana {{ primary.value | manaClasses }}">X</span>
                     </a>
                     <ul ng-if="primary.subtypes">
                         <li ng-repeat="secondary in primary.subtypes">
                             <div class="select-item">
-                                <a class="select-value" ng-click="select(secondary.label)">
+                                <a class="select-value" ng-click="select(secondary.value)">
                                     {{ secondary.label }}
                                     <span class="mana {{ secondary.value | manaClasses }}">X</span>
                                 </a>
