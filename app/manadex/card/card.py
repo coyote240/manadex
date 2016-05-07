@@ -143,9 +143,6 @@ class Card(dict):
 
 
 class Castable(Card):
-    _colors = [
-        'white', 'blue', 'black', 'red',
-        'green', 'colorless', 'generic']
 
     def __init__(self, card_dict):
         super(Castable, self).__init__(card_dict)
