@@ -1,41 +1,41 @@
 angular.module('ManaSelectorModule', [])
-    .directive('manaSelector', [function () {
-        var colors = ['generic', 'white', 'blue', 'black',
-                      'red', 'green', 'colorless'];
-        return {
-            scope: {
-                mana: '=ngModel'
-            },
-            restrict: 'A',
-            require: 'ngModel',
-            templateUrl: '/static/js/mana-selector/mana-selector.html',
-            link: function () {
-            },
-            controller: ['$scope', function ($scope) {
-                $scope.mana = $scope.mana || [{
-                    color: 'generic',
-                    value: 0
-                }];
-
-                $scope.colors = colors;
-
-                $scope.addMana = function ($event) {
-                    $event.preventDefault();
-
-                    $scope.mana.push({
-                        color: 'generic',
-                        value: 0
-                    });
+.directive('manaSelector', function () {
+    var parsePattern = new RegExp('({[\\dWUBRGCX]+\\/*[WUBRGP]*})', 'g');
+    return {
+        scope: {
+            mana: '=ngModel'
+        },
+        restrict: 'A',
+        require: 'ngModel',
+        templateUrl: '/static/js/mana-selector/mana-selector.html',
+        link: function (scope, element, attrs, ctrl) {
+            scope.manaValues = scope.mana.match(parsePattern).map(function (current) {
+                return {
+                    val: current
                 };
-            }]
-        };
-    }])
-    .filter('colorsFilter', function (colors, mana) {
-        return function () {
-            return colors.filter(function (current) {
-                return mana.some(function (m) {
-                    return m.color !== current;
-                });
             });
-        };
-    });
+            scope.$watch('manaValues', function (newVal) {
+                scope.mana = newVal.map(function (current) {
+                    return current.val;
+                }).join('');
+            }, true);
+        },
+        controller: ['$scope', function ($scope) {
+            $scope.mana = $scope.mana || '{0}';
+
+            $scope.addMana = function ($event) {
+                $event.preventDefault();
+
+                $scope.manaValues.push({
+                    val: '{0}'
+                });
+            };
+
+            $scope.removeMana = function ($event, $index) {
+                $event.preventDefault();
+
+                $scope.manaValues.splice($index, 1);
+            };
+        }]
+    };
+});

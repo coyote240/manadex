@@ -1,0 +1,65 @@
+.nested-select {
+    position: relative;
+    &.open {
+        & > .select-item > ul {
+            display: block;
+        }
+    }
+
+    .value {
+        position: relative;
+        padding: 2px 5px;
+    }
+
+    a {
+        display: inline-block;
+        cursor: pointer;
+
+        &.select-value {
+            margin: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .select-item {
+        position: relative;
+        &:hover {
+            background-color: #DDDDDD;
+            & > ul {
+                display: block;
+            }
+        }
+
+        &.top-level {
+            position: absolute;
+            top: 100%;
+            left: 0;
+        }
+
+        a {
+            min-width: 125px;
+        }
+
+        ul {
+            display: none;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            position: absolute;
+            left: 100%;
+            top: 0;
+        }
+
+        li {
+            border: 1px solid #CCC;
+            background-color: #F2F2F2;
+        }
+    }
+}

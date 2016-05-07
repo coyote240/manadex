@@ -1,11 +1,5 @@
 {% for item in mana %}
-    {% if item['color'] == 'generic' %}
-    <span class="mana {{ item['color'] }}">
-        {{ item['value'] }}
+    <span class="">
+        {{ item }}
     </span>
-    {% else %}
-        {% for i in range(0, item['value']) %}
-        <span class="mana {{ item['color'] }}">&nbsp;</span>
-        {% end %}
-    {% end %}
 {% end %}

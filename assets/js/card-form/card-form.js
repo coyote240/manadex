@@ -1,5 +1,6 @@
 angular.module('CardFormModule',
-    ['ManaSelectorModule', 'TypeAheadModule', 'CardServiceModule', 'PickListModule'])
+    ['ManaSelectorModule', 'TypeAheadModule', 'CardServiceModule', 'PickListModule',
+    'NestedSelectModule'])
 .directive('cardForm', ['CardService', 'PartLookupService', '$window', 
 function (CardService, PartLookupService, $window) {
     return {
@@ -30,7 +31,6 @@ function (CardService, PartLookupService, $window) {
                 keywords: [],
                 inMyCollection: true
             };
-
 
             $scope.cardsInSet = 0;
             $scope.cardTypes = ['creature', 'artifact', 'enchantment',
