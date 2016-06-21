@@ -1,6 +1,5 @@
 #pylint: disable=line-too-long
 port = 8888
-static_path = './assets'
 template_path = './templates'
 db_path = 'mongodb://localhost:27017'
 db_name = 'manadex'

@@ -40,11 +40,6 @@ class BaseHandler(tornado.web.RequestHandler):
         logging.error(message)
 
 
-class BaseStaticHandler(tornado.web.StaticFileHandler):
-    def set_default_headers(self):
-        server_settings(self)
-
-
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
