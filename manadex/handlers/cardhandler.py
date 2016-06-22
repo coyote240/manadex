@@ -8,7 +8,7 @@ from tornado import gen
 from bson import json_util
 
 import handlers
-from manadex.card import Card
+from card import Card
 
 
 class BaseCardHandler(handlers.BaseHandler):
