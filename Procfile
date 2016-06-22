@@ -1,4 +1,4 @@
 web: nginx -p . -c nginx.conf
-app: app/app.py --config=app/config.py
+app: manadex/app.py --config=manadex/config.py
 db: mongod --dbpath data/db
 grunt: grunt watch
