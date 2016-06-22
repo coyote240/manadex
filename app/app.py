@@ -29,7 +29,6 @@ class Application(tornado.web.Application):
     def init_options(self):
         define('port', type=int,
                help='The port on which this app will listen.')
-        define('static_path', help='Location of static assets.')
         define('template_path', help='Location of template files.')
         define('db_name', help='Name of database.')
         define('db_path', help='Path to mongodb instance.')
@@ -47,10 +46,8 @@ class Application(tornado.web.Application):
         settings = {
             'debug': True,
             'db_ref': db_ref,
-            'static_path': options.static_path,
             'template_path': options.template_path,
             'ui_modules': modules,
-            'static_handler_class': handlers.BaseStaticHandler,
             'default_handler_class': handlers.NotFoundHandler,
             'xsrf_cookies': options.xsrf_cookies,
             'login_url': '/',

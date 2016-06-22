@@ -37,6 +37,8 @@ class CollectionHandler(BaseCollectionHandler):
         cards = yield future.to_list(length=None)
 
         cards_json = json.dumps(cards, default=json_util.default)
+
+        self.set_header('Content-type', 'application/json')
         self.write(cards_json)
 
     @tornado.web.authenticated
