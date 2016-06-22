@@ -21,10 +21,10 @@ at a stable schema.
 
     virtualenv manadex
     activate manadex
-    pip install -r requirements.txt
+    python setup.py develop
     honcho start
 
-Then visit http://localhost:8888
+Then visit http://localhost:8080
 
 
 ## Running Manadex in Windows
@@ -32,7 +32,7 @@ Then visit http://localhost:8888
 ** Make sure your python install path is all lowercase (i.e. c:\python27).  See http://stackoverflow.com/questions/8688709/virtualenv-on-windows-7-returns-assertionerror for more info.
 
 #####Modify Procfile to this.
-    web: python app/app.py --config=app/config.py
+    web: python manadex/app.py --config=manadex/config.py
     db: mongod --dbpath c:\mongodb\data
     grunt: grunt watch
 
@@ -42,8 +42,8 @@ If you run mongo as a service, take out the mongo line.
 
 	npm install
 	virtualenv manadex
-	mnadex/Scripts/activate
-	pip install -r requirements.txt
+	manadex/Scripts/activate
+    python setup.py develop
 	honcho start*
 
 *Sometimes less would not run with honcho.  If this happens and your css is not updating, simply manually run a  grunt less.
