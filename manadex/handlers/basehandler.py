@@ -1,10 +1,7 @@
-import json
 import httplib
 import logging
 
 import tornado.web
-
-from bson.objectid import ObjectId
 
 
 def server_settings(handler):
@@ -27,9 +24,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         return self.get_secure_cookie('user')
 
-    def encode_json(self, record):
-        return JSONEncoder().encode(record)
-
     def info(self, message):
         logging.info(message)
 
@@ -38,10 +32,3 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def error(self, message):
         logging.error(message)
-
-
-class JSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        return json.Encoder.default(self, o)

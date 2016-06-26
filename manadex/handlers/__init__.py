@@ -1,6 +1,6 @@
 import re
 
-from basehandler import BaseHandler, JSONEncoder
+from basehandler import BaseHandler
 from authhandler import AuthHandler
 from registrationhandler import RegistrationHandler
 from errorhandler import NotFoundHandler
@@ -22,8 +22,8 @@ def sanitize_name(name):
     return name.lower()
 
 
-__all__ = ['BaseHandler', 'JSONEncoder', 'AuthHandler',
-           'RegistrationHandler', 'NotFoundHandler', 'IndexHandler',
-           'CardHandler', 'CardFormHandler', 'CardAPIHandler',
-           'CardLookupHandler', 'DeckHandler', 'DeckFormHandler',
-           'CollectionHandler', 'DeckAPIHandler', 'ExpansionHandler']
+__all__ = ['BaseHandler', 'AuthHandler', 'RegistrationHandler',
+           'NotFoundHandler', 'IndexHandler', 'CardHandler', 'CardFormHandler',
+           'CardAPIHandler', 'CardLookupHandler', 'DeckHandler',
+           'DeckFormHandler', 'CollectionHandler', 'DeckAPIHandler',
+           'ExpansionHandler']
