@@ -1,21 +1,19 @@
 #!/usr/bin/env python
 
-import signal
-import logging
-
 import motor
 
 import tornado.web
 import tornado.ioloop
 import tornado.autoreload
-from tornado.httpserver import HTTPServer
 from tornado.options import define, options
+
+import tornadobase.application
 
 import handlers
 import modules
 
 
-class Application(tornado.web.Application):
+class Application(tornadobase.application.Application):
 
     def __init__(self):
         self.init_options()
@@ -77,23 +75,6 @@ class Application(tornado.web.Application):
             (r'/api/cards/expansions', handlers.ExpansionHandler),
             (r'/api/cards/([a-zA-Z0-9-]*)', handlers.CardAPIHandler),
             (r'/api/decks', handlers.DeckAPIHandler)]
-
-    def init_signal_handlers(self):
-        signal.signal(signal.SIGINT, self.interrupt_handler)
-        if hasattr(signal, 'SIGQUIT'):
-            signal.signal(signal.SIGQUIT, self.interrupt_handler)
-
-    def interrupt_handler(self, signum, frame):
-        logging.info('Shutting down server...')
-        tornado.ioloop.IOLoop.instance().add_callback_from_signal(
-            lambda: tornado.ioloop.IOLoop.instance().stop())
-
-    def start(self):
-        server = HTTPServer(self)
-        server.listen(options.port)
-
-        logging.info('Starting server...')
-        tornado.ioloop.IOLoop.instance().start()
 
 
 if __name__ == '__main__':

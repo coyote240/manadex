@@ -11,5 +11,8 @@ setup(name='manadex',
           'motor>=0.5',
           'honcho>=0.6'
       ],
+      dependency_links=[
+          'git+git://github.com/coyote240/tornadobase/tarball/master#egg=tornadobase'
+      ],
       test_suite='nose.collector',
       tests_require=['nose'])
